@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header class="main-hd">
+    <h1 class="h-logo"><a href="/eq-res?rs_cate_id=7"></a></h1>
+    <ul>
+        <li th:if="${session.loginId == null}"><a href="/login">
+            로그인
+        </a></li>
+        <li th:if="${session.loginId != null}"><a href="/logout">
+            로그아웃
+        </a></li>
+        <li><a href="/pwCh">
+            비밀번호 변경
+        </a></li>
+    </ul>
+</header>
+</th:block>
+</html>

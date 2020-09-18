@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="none-layout">
+
+<body class="grey">
+<th:block layout:fragment="content">
+    <div class="main-wrap">
+        <div class="main-inner">
+           <div class="loginBox join">
+               <h2 class="logo"><a href="/"></a></h2>
+                <form method="POST" name="defaultJoinform" id="defaultJoinform">
+                    <label for="user_name">이름</label>
+                    <input type="text" placeholder="이름" id="user_name" name="user_name">
+                    <label for="user_id">아이디</label>
+                    <input type="text" placeholder="아이디" id="user_id" name="user_id" class="inputsm" readonly><button type="button" class="numbercheck">사번확인</button>
+                    <label for="password">비밀번호</label>
+                    <input type="password" placeholder="비밀번호" id="password" name="password">
+                    <h6 class="er_pw"></h6>
+                    <label for="password_cf">비밀번호 확인</label>
+                    <input type="password" placeholder="비밀번호 확인" id="password_cf" name="password_cf">
+                    <h6 class="er_pwcf"></h6>
+                    <button type="button" class="joinBtn" id="signUpSubmit">회원가입</button>
+                </form>
+           </div>
+        </div>
+    </div>
+    <div class="modal" id="memnumber">
+       <div class="modal-bg"></div>
+       <div class="modalContent xs">
+           <div class="modalHd">
+               <h3>사번확인</h3>
+               <button class="modalClose cc-btn"></button>
+           </div>
+           <div class="modalBody">
+               <ul class="tableHd">
+                   <li>NO</li>
+                   <li>사번</li>
+               </ul>
+               <div class="tableBody">
+                   <ul th:each="emplist:${emplist}">
+                       <li th:text="${emplist.no}"></li>
+                       <li th:text="${emplist.employee_num}" th:value="${emplist.employee_num}"></li>
+                   </ul>
+               </div>
+           </div>
+       </div>
+   </div>
+    <script src="../assets/plugins/malihuScrollbar/jquery.mCustomScrollbar.js"></script>
+    <script type="text/javascript" th:src="'assets/js/'+${jsFileName}+'.js'"></script>
+</th:block>
+</body>
+</html>

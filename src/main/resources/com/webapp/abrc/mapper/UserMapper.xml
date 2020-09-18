@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.abrc.mapper.UserMapper">
+    <insert id="insertUser" parameterType="hashmap">
+		insert into user(
+			user_name,
+			user_id,
+			password
+		) VALUES (
+			#{user_name},
+			#{user_id},
+			#{password}
+		)
+    </insert>
+
+	<insert id="insertUserHistory" parameterType="com.webapp.abrc.domain.UserVO">
+        insert into user_login_history(
+        user_id,
+        log_type
+        ) values (
+        #{user_id},
+        #{log_type}
+        )
+    </insert>
+
+	<select id="userSelectOne" resultType="hashmap" parameterType="hashmap">
+    	SELECT   *
+		FROM user
+		where user_id = #{user_id}
+    </select>
+
+	<update id="updatePw" parameterType="hashmap">
+		update user set
+			password = #{password}
+		where user_id = #{user_id}
+	</update>
+
+	<select id="getManagerUserListCount" resultType="Integer" parameterType="com.webapp.abrc.domain.SearchVO">
+        SELECT COUNT(*)
+            FROM user A where 1=1
+        <if test="searchKeyword!=null and searchKeyword!='' and searchType!=''">
+            <foreach item="item" index="index" collection="searchTypeArr" separator=" OR " open="AND (" close=")">
+                A.${item} LIKE CONCAT('%', #{searchKeyword},'%' )
+            </foreach>
+        </if>
+        <if test="user_name != null"> <![CDATA[AND A.user_name= #{user_name} ]]></if>
+        <if test="user_id != null"> <![CDATA[AND A.phone= #{user_id} ]]></if>
+    </select>
+
+    <select id="userList" resultType="java.util.Map" parameterType="com.webapp.abrc.domain.SearchVO">
+        <![CDATA[
+        SELECT
+            DATE_FORMAT(reg_date,'%Y-%m-%d') reg_date,
+            A.*,
+            (select Z.user_grant_name from user_grant Z where Z.user_grant_no=A.user_grant) grant_name
+        FROM user A where 1=1
+        ]]>
+        <if test="searchKeyword!=null and searchKeyword!='' and searchType!=''">
+            <foreach item="item" index="index" collection="searchTypeArr" separator=" OR " open="AND (" close=")">
+                A.${item} LIKE CONCAT('%', #{searchKeyword},'%' )
+            </foreach>
+        </if>
+        <if test="user_name != null"> <![CDATA[AND A.user_name= #{user_name} ]]></if>
+        <if test="user_id != null"> <![CDATA[AND A.phone= #{user_id} ]]></if>
+        ORDER BY reg_date DESC
+        <if test="displayRowCount != null and displayRowCount != ''">
+            LIMIT ${rowStart-1}, ${displayRowCount}
+        </if>
+        <if test="displayRowCount == null">
+            LIMIT ${rowStart-1}, 10
+        </if>
+    </select>
+
+    <select id="getUserGrantList" parameterType="com.webapp.abrc.domain.UserVO" resultType="java.util.Map">
+        select * from user_grant
+    </select>
+
+    <update id="grantChange">
+        UPDATE user SET
+		user_grant = #{user_grant}
+		WHERE usr_no = #{usr_no}
+    </update>
+
+    <insert id="empSave" parameterType="hashmap">
+        insert into employee(
+            employee_num
+        ) values (
+            #{employee_num}
+        )
+    </insert>
+
+    <select id="empList" parameterType="hashmap" resultType="java.util.Map">
+        select * from employee
+        ORDER BY no DESC
+    </select>
+
+</mapper>

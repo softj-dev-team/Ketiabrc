@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.abrc.mapper.CategoryMapper">
+    <select id="getCategorys" resultType="hashmap" parameterType="hashmap">
+    	SELECT  DATE_FORMAT(A.reg_date,'%Y-%m-%d') reg_date,
+    		A.*
+		FROM reservation_category A
+		where 1=1
+		<if test="rs_cate_upper_code != null and rs_cate_upper_code != ''">and rs_cate_upper_code = #{rs_cate_upper_code}</if>
+	</select>
+
+	<select id="getCategoryOne" resultType="hashmap" parameterType="hashmap">
+    	SELECT  DATE_FORMAT(A.reg_date,'%Y-%m-%d') reg_date,
+    		A.*
+		FROM reservation_category A
+		where 1=1
+		AND A.rs_cate_id = #{rs_cate_id}
+		<if test="rs_cate_upper_code != null and rs_cate_upper_code != ''">and A.rs_cate_upper_code = #{rs_cate_upper_code}</if>
+	</select>
+
+	<update id="cateUpdate" parameterType="hashmap">
+		update reservation_category A set
+			rs_max_quantity = #{rs_max_quantity}
+		where A.rs_cate_id = #{rs_cate_id}
+	</update>
+</mapper>

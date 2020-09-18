@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+
+<body>
+<th:block layout:fragment="content">
+    <div class="main-wrap">
+        <!-- nav start -->
+        <th:block th:replace="frame/admin_nav"></th:block>
+        <!-- nav end -->
+        <div class="main-inner2">
+            <h3 class="pageTitle"><i class="sq-dot"></i>예약현황</h3>
+            <div class="sc-box">
+                <form action="">
+                    <select name="" id="">
+                        <option value="">이름</option>
+                        <option value="">사번</option>
+                        <option value="">전화번호</option>
+                    </select>
+                    <input type="text">
+                    <button type="button" class="btn-gray">검색</button>
+                </form>
+            </div>
+            <button type="button" class="re-btn-g">선택삭제</button>
+            <div class="bul-tb">
+                <table class="admin-tb">
+                    <colgroup>
+                        <col style="width: 5%;">
+                        <col style="width: 10%;">
+                        <col style="width: 10%;">
+                        <col style="width: 16%;">
+                        <col style="width: 20%;">
+                        <col style="width: 13%;">
+                        <col style="width: 13%;">
+                        <col style="width: 13%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="mem-ck"><label for="mem-ck"></label></th>
+                            <th>이름</th>
+                            <th>사번</th>
+                            <th>전화번호</th>
+                            <th>예약장비</th>
+                            <th>예약날짜</th>
+                            <th>예약시간</th>
+                            <th>관리</th>
+                        </tr>
+                    </thead>
+                    <tbody class="mem-tb">
+                        <tr>
+                            <td><input type="checkbox" id="mem-ck1"><label for="mem-ck1"></label></td>
+                            <td>연구원</td>
+                            <td>000000</td>
+                            <td>000-0000-0000</td>
+                            <td>스펙스밀Small(3층 드라이룸)</td>
+                            <td>2020-08-20</td>
+                            <td>11:30 am</td>
+                            <td><button type="button" class="btn-wgray res-s-btn">예약수정</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="mem-ck2"><label for="mem-ck2"></label></td>
+                            <td>연구원</td>
+                            <td>000000</td>
+                            <td>000-0000-0000</td>
+                            <td>스펙스밀Small(3층 드라이룸)</td>
+                            <td>2020-08-20</td>
+                            <td>11:30 am</td>
+                            <td><button type="button" class="btn-wgray res-s-btn">예약수정</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="mem-ck3"><label for="mem-ck3"></label></td>
+                            <td>연구원</td>
+                            <td>000000</td>
+                            <td>000-0000-0000</td>
+                            <td>스펙스밀Small(3층 드라이룸)</td>
+                            <td>2020-08-20</td>
+                            <td>11:30 am</td>
+                            <td><button type="button" class="btn-wgray res-s-btn">예약수정</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="mem-ck4"><label for="mem-ck4"></label></td>
+                            <td>연구원</td>
+                            <td>000000</td>
+                            <td>000-0000-0000</td>
+                            <td>스펙스밀Small(3층 드라이룸)</td>
+                            <td>2020-08-20</td>
+                            <td>11:30 am</td>
+                            <td><button type="button" class="btn-wgray res-s-btn">예약수정</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="mem-ck5"><label for="mem-ck5"></label></td>
+                            <td>연구원</td>
+                            <td>000000</td>
+                            <td>000-0000-0000</td>
+                            <td>스펙스밀Small(3층 드라이룸)</td>
+                            <td>2020-08-20</td>
+                            <td>11:30 am</td>
+                            <td><button type="button" class="btn-wgray res-s-btn">예약수정</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="mem-ck6"><label for="mem-ck6"></label></td>
+                            <td>연구원</td>
+                            <td>000000</td>
+                            <td>000-0000-0000</td>
+                            <td>스펙스밀Small(3층 드라이룸)</td>
+                            <td>2020-08-20</td>
+                            <td>11:30 am</td>
+                            <td><button type="button" class="btn-wgray res-s-btn">예약수정</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="mem-ck7"><label for="mem-ck7"></label></td>
+                            <td>연구원</td>
+                            <td>000000</td>
+                            <td>000-0000-0000</td>
+                            <td>스펙스밀Small(3층 드라이룸)</td>
+                            <td>2020-08-20</td>
+                            <td>11:30 am</td>
+                            <td><button type="button" class="btn-wgray res-s-btn">예약수정</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="mem-ck8"><label for="mem-ck8"></label></td>
+                            <td>연구원</td>
+                            <td>000000</td>
+                            <td>000-0000-0000</td>
+                            <td>스펙스밀Small(3층 드라이룸)</td>
+                            <td>2020-08-20</td>
+                            <td>11:30 am</td>
+                            <td><button type="button" class="btn-wgray res-s-btn">예약수정</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="mem-ck9"><label for="mem-ck9"></label></td>
+                            <td>연구원</td>
+                            <td>000000</td>
+                            <td>000-0000-0000</td>
+                            <td>스펙스밀Small(3층 드라이룸)</td>
+                            <td>2020-08-20</td>
+                            <td>11:30 am</td>
+                            <td><button type="button" class="btn-wgray res-s-btn">예약수정</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="mem-ck10"><label for="mem-ck10"></label></td>
+                            <td>연구원</td>
+                            <td>000000</td>
+                            <td>000-0000-0000</td>
+                            <td>스펙스밀Small(3층 드라이룸)</td>
+                            <td>2020-08-20</td>
+                            <td>11:30 am</td>
+                            <td><button type="button" class="btn-wgray res-s-btn">예약수정</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ul class="pagination">
+                <li class="page-arrow"><a class="page-link" href="#">≪</a></li>
+                <li class="page-arrow"><a class="page-link" href="#">＜</a></li>
+                <li class="page-item"><a class="page-link active" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-arrow"><a class="page-link" href="#">＞</a></li>
+                <li class="page-arrow"><a class="page-link" href="#">≫</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal" id="res-s">
+        <div class="modal-bg"></div>
+        <div class="modalContent md board-con">
+            <header class="modalHd ">
+                <h3>예약수정</h3>
+                <button class="modalClose"></button>
+            </header>
+            <div class="modalBody">
+                <div class="flexwrap w100" style="height: 450px;">
+                    <div class="eqCate ver2 flex150px">
+                        <ul class="eqCateUl">
+                            <li class="eqCateLi">
+                               <button type="button" class="catearr"></button>
+                                드라이룸
+                                <ul class="catesub">
+                                    <li>
+                                        <a href="">3층 드라이룸</a>
+                                    </li>
+                                    <li>
+                                        <a href="">로비층 드라이룸</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="eqCateLi">
+                               <button type="button" class="catearr"></button>
+                                분석장비
+                                <ul class="catesub">
+                                    <li><a href="">XRD</a></li>
+                                    <li><a href="">Raman(로비드룸)</a></li>
+                                    <li><a href="">FT-IR(로비드룸)</a></li>
+                                    <li><a href="">TG/DTA(L04)</a></li>
+                                    <li><a href="">DSC(L04)</a></li>
+                                    <li><a href="">비표면적측정기(L04)</a></li>
+                                    <li><a href="">GC-MS(L04)</a></li>
+                                    <li><a href="">입자강도측정기(L04)</a></li>
+                                    <li><a href="">분체저항측정기(L04)</a></li>
+                                    <li><a href="">입도분석기(224)</a></li>
+                                </ul>
+                            </li>
+                            <li class="eqCateLi">
+                               <button type="button" class="catearr"></button>
+                                볼밀링기
+                                <ul class="catesub">
+                                    <li><a href="">스펙스밀Large<br>(3층 드라이룸)</a></li>
+                                    <li><a href="">스펙스밀Small<br>(3층 드라이룸)</a></li>
+                                    <li><a href="">공자전밀Large<br>(3층 드라이룸)</a></li>
+                                    <li><a href="">공자전밀Small<br>(3층 드라이룸)</a></li>
+                                    <li><a href="">고에너지밀<br>(3층 드룸입구, 예정)</a></li>
+                                </ul>
+                            </li>
+                            <li class="eqCateLi">
+                               <button type="button" class="catearr"></button>
+                                열처리로
+                                <ul class="catesub">
+                                    <li><a href="">머플퍼니스[위](326)</a></li>
+                                    <li><a href="">머플퍼니스[아래](326)</a></li>
+                                    <li><a href="">박스형수평로[위](224)</a></li>
+                                    <li><a href="">박스형수평로[아래](224)</a></li>
+                                    <li><a href="">수평로1(326)</a></li>
+                                    <li><a href="">수평로2(326)</a></li>
+                                    <li><a href="">수평로3(326)</a></li>
+                                    <li><a href="">수평로4(326)</a></li>
+                                    <li><a href="">수평로5(326)</a></li>
+                                    <li><a href="">수평로6(326)</a></li>
+                                    <li><a href="">수평로7(326)</a></li>
+                                    <li><a href="">수평로8(326)</a></li>
+                                    <li><a href="">수평로9(326)</a></li>
+                                    <li><a href="">수평로10(326)</a></li>
+                                    <li><a href="">수평로11(326)</a></li>
+                                    <li><a href="">수평로12(326)</a></li>
+                                    <li><a href="">수평로13(326)</a></li>
+                                </ul>
+                            </li>
+                            <li class="eqCateLi">
+                               <button type="button" class="catearr"></button>
+                                분석실 장비
+                                <ul class="catesub">
+                                    <li><a href="">TEM(L06)</a></li>
+                                    <li><a href="">Ion Slicer(L05)</a></li>
+                                    <li><a href="">FIB(L05)</a></li>
+                                    <li><a href="">SEM(L05)</a></li>
+                                    <li><a href="">NMR(318)</a></li>
+                                    <li><a href="">ICP-MS(318)</a></li>
+                                    <li><a href="">XPS(로비드룸)</a></li>
+                                    <li><a href="">CP1(L05)</a></li>
+                                    <li><a href="">CP2(L05)</a></li>
+                                </ul>
+                            </li>
+                            <li class="eqCateLi">
+                               <button type="button" class="catearr"></button>
+                                기타장비
+                                <ul class="catesub">
+                                    <li><a href="">회전증발기(326)</a></li>
+                                    <li><a href="">슈랭크라인(328)</a></li>
+                                </ul>
+                            </li>
+                            <li class="eqCateLi">
+                               <button type="button" class="catearr"></button>
+                                구매예정장비
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flexgrow">
+                        <table class="modal-tb">
+                            <colgroup>
+                                <col style="width: 20%;">
+                                <col style="width: 80%;">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td>이름</td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>사번</td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>전화번호</td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>예약장비</td>
+                                    <td><input type="text" id="eqname" name="eqname"></td>
+                                </tr>
+                                <tr>
+                                    <td>예약날짜</td>
+                                    <td>
+                                        <input type="text" class="w150px datepicker" id="" name="eqdate">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>예약시간</td>
+                                    <td><input type="text" class="w150px timepicker"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="flexEnd mo-btn mt10">
+                    <button type="button" class="btn-blue mr10">저장</button>
+                    <button type="button" class="btn-bgrey cc-btn">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/plugins/malihuScrollbar/jquery.mCustomScrollbar.js"></script>
+    <script type="text/javascript">
+    
+    $(function(){
+        $(".datepicker").datepicker({
+             monthNames: ['01','02','03','04','05','06','07','08','09','10','11','12'], // 월의 한글 형식.\
+            monthNamesShort: [ '01','02','03','04','05','06','07','08','09','10','11','12' ],
+            dateFormat : "yy-mm-dd"
+        });
+        $(window).on("load",function(){
+            $(".eqCate.ver2 .eqCateUl").mCustomScrollbar({
+                autoHideScrollbar:true,
+                theme:"dark"
+            });
+        });
+        // 체크박스
+        $('#mem-ck').click(function(){
+            var chk = $(this).is(':checked');//.attr('checked');
+            if(chk) $('.mem-tb input').prop('checked',true);
+            else $('.mem-tb input').prop('checked',false);
+        });
+        $("input:radio[name=authority-rd6]").click(function(){
+ 
+            if($("input[name=authority-rd6]:checked").val() == "T1"){
+                $(".noti-ck-box *").attr("disabled",false);
+
+            }else if($("input[name=authority-rd6]:checked").val() == "T2"){
+                $(".noti-ck-box *").attr("disabled",true);
+            }
+        });
+        $(".cc-btn").click(function(){
+            $(this).parents(".modal").removeClass('on');
+            $('body').css('overflow', 'auto');
+        });
+        $(".res-s-btn").click(function(){
+            $("#res-s").addClass('on');
+        });
+
+        $('.timepicker').timepicker({
+            timeFormat: 'h:mm p',
+            interval: 60,
+            minTime: '10',
+            maxTime: '6:00pm',
+            defaultTime: '',
+            startTime: '10:00',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
+        });
+        $('.catearr').click(function(){
+           $(this).parent('li').toggleClass('on'); 
+        });
+        $('.ver2 .catesub li a').click(function(e){
+            e.preventDefault();
+            $('.ver2 .catesub li a').removeClass('on');
+            $(this).addClass('on');
+            var eq = $(this).text();
+            $(this).parents('.flexwrap').find('#eqname').val(eq);
+        });
+        $('.cancelbtn').click(function(){
+            $(this).parents('#eqpop').removeClass('on')
+        })
+        
+    });
+    </script>
+</th:block>
+</body>
+</html>

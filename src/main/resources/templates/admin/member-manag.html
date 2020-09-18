@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+
+<body>
+<th:block layout:fragment="content">
+    <div class="main-wrap">
+        <!-- nav start -->
+        <th:block th:replace="frame/nav"></th:block>
+        <!-- nav end -->
+        <div class="main-inner2">
+            <h3 class="pageTitle"><i class="sq-dot"></i>회원관리</h3>
+            <div class="sc-box">
+                <form action="" id="userSearchForm" method="get">
+                    <select name="searchType" id="">
+                        <option th:value="user_name">이름</option>
+                        <option th:value="user_id">사번</option>
+<!--                        <option value="">전화번호</option>-->
+<!--                        <option value="">구분</option>-->
+                    </select>
+                    <input type="text" name="searchKeyword" th:value="${param.searchKeyword}">
+                    <button type="submit" class="btn-gray">검색</button>
+                </form>
+                <button class="mem-add-btn btn-dblue">사번등록</button>
+            </div>
+<!--            <button type="button" class="re-btn-g">선택삭제</button>-->
+            <div class="bul-tb">
+                <table class="admin-tb">
+                    <colgroup>
+<!--                        <col style="width: 5%;">-->
+                        <col style="width: 10%;">
+                        <col style="width: 13%;">
+                        <col style="width: 16%;">
+                        <col style="width: 17%;">
+                        <col style="width: 13%;">
+                        <col style="width: 13%;">
+                        <col style="width: 13%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+<!--                            <th><input type="checkbox" id="mem-ck"><label for="mem-ck"></label></th>-->
+                            <th>이름</th>
+                            <th>사번</th>
+<!--                            <th>전화번호</th>-->
+<!--                            <th>이메일</th>-->
+                            <th>등록일</th>
+                            <th>회원등급</th>
+                            <th>관리</th>
+                        </tr>
+                    </thead>
+                    <tbody class="mem-tb">
+                        <tr th:each="list: ${list}">
+<!--                            <td><input type="checkbox" id="mem-ck4"><label for="mem-ck4"></label></td>-->
+                            <td th:text="${list.user_name}"></td>
+                            <td th:text="${list.user_id}"></td>
+<!--                            <td>000-0000-0000</td>-->
+<!--                            <td>member123@gmail.com</td>-->
+                            <td th:text="${list.reg_date}"></td>
+                            <td th:text="${list.grant_name}"></td>
+                            <td><button type="button" class="btn-wgray mem-set-btn" th:onclick="userGrantUp([[${list.usr_no}]])">권한설정</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <form name="form1" id="form1" method="get">
+                <input type="hidden" name="searchKeyword" th:value="${param.searchKeyword}">
+                <input type="hidden" name="searchType" th:value="${param.searchType}">
+                <th:block th:replace="frame/pagination"></th:block>
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="mem-add">
+        <div class="modal-bg"></div>
+        <div class="modalContent xs5 board-con">
+            <header class="modalHd ">
+                <h3>사원등록</h3>
+                <button class="modalClose cc-btn"></button>
+            </header>
+            <div class="modalBody">
+                <table class="modal-tb">
+                    <colgroup>
+                        <col style="width: 20%;">
+                        <col style="width: 80%;">
+                    </colgroup>
+                    <tbody>
+                        <form name="empForm" id="empForm">
+                        <tr>
+                            <td>사번</td>
+                            <td><input type="text" name="employee_num"></td>
+                        </tr>
+                        <!--<tr>
+                            <td>이름</td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>전화번호</td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>이메일</td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>구분</td>
+                            <td>
+                                <select name="" id="">
+                                    <option value="">사원</option>
+                                    <option value="">사원</option>
+                                    <option value="">사원</option>
+                                </select>
+                            </td>
+                        </tr>-->
+                        </form>
+                    </tbody>
+                </table>
+                <div class="flexEnd mo-btn mt10">
+                    <button type="button" class="btn-blue mr10" id="empBtn">저장</button>
+                    <button type="button" class="btn-bgrey cc-btn">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="mem-set">
+        <div class="modal-bg"></div>
+        <div class="modalContent md board-con">
+            <header class="modalHd ">
+                <h3>권한설정</h3>
+                <button class="modalClose cc-btn"></button>
+            </header>
+            <div class="modalBody">
+                <!--<h3>기본설정</h3>
+                    <table class="modal-tb ">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="80%">
+                        </colgroup>
+                        <tbody class="set-td">
+                            <tr>
+                                <td>관리자명</td>
+                                <td><input type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>관리자 ID</td>
+                                <td>
+                                    <input type="text"> <button type="button" class="re-btn-g">중복확인</button>
+                                    <p class="p-err">* 중복된 아이디입니다.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>관리자 PW</td>
+                                <td><input type="password">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>이메일</td>
+                                <td><input type="text"></td>
+                            </tr>
+                        </tbody>
+                    </table>-->
+                    <h3 class="mt20">권한설정</h3>
+                    <table class="modal-tb ">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="80%">
+                        </colgroup>
+                        <tbody class="set-td">
+                            <form name="grantForm" id="grantForm">
+                            <tr>
+                                <td>회원등급</td>
+                                <td>
+                                    <select name="user_grant">
+                                        <th:block th:each="grantList :${userGrantlist}">
+                                        <option th:text="${grantList.user_grant_name}" th:value="${grantList.user_grant_no}">
+                                        </th:block>
+                                    </select>
+                                    <input type="hidden" name="usr_no">
+<!--                                    <button type="button" class="re-btn-g">등급수정</button>-->
+                                </td>
+                            </tr>
+                            </form>
+                        </tbody>
+                    </table>
+                    <!--<table class="modal-tb ">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="80%">
+                        </colgroup>
+                        <tbody class="set-td">
+                            <tr>
+                                <td>선택 권한</td>
+                                <td>
+                                    <input type="radio" name="authority-rd" id="authority-rd-y" checked>
+                                    <label for="authority-rd-y">허용</label>
+                                    <input type="radio" name="authority-rd" id="authority-rd-n">
+                                    <label for="authority-rd-n">허용안함</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>수정 권한</td>
+                                <td>
+                                    <input type="radio" name="authority-rd2" id="authority-rd2-y" checked>
+                                    <label for="authority-rd2-y">허용</label>
+                                    <input type="radio" name="authority-rd2" id="authority-rd2-n">
+                                    <label for="authority-rd2-n">허용안함</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>등록상품 삭제권한</td>
+                                <td>
+                                    <input type="radio" name="authority-rd5" id="authority-rd5-y" checked>
+                                    <label for="authority-rd5-y">허용</label>
+                                    <input type="radio" name="authority-rd5" id="authority-rd5-n">
+                                    <label for="authority-rd5-n">허용안함</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2">게시판 권한설정</td>
+                                <td class="authority">
+                                    <input type="radio" name="authority-rd6" id="authority-rd6-y" checked value="T1">
+                                    <label for="authority-rd6-y">허용</label>
+                                    <input type="radio" name="authority-rd6" id="authority-rd6-n" value="T2">
+                                    <label for="authority-rd6-n">허용안함</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="noti-ck-box">
+                                    <input type="checkbox" name="noticeboard-ck" id="noti-ck1" checked>
+                                    <label for="noti-ck1"><span>읽기</span></label>
+                                    <input type="checkbox" name="noticeboard-ck" id="noti-ck2" checked>
+                                    <label for="noti-ck2"><span>등록</span></label>
+                                    <input type="checkbox" name="noticeboard-ck" id="noti-ck3" checked>
+                                    <label for="noti-ck3"><span>수정</span></label>
+                                    <input type="checkbox" name="noticeboard-ck" id="noti-ck4" checked>
+                                    <label for="noti-ck4"><span>답변</span></label>
+                                    <input type="checkbox" name="noticeboard-ck" id="noti-ck5" checked>
+                                    <label for="noti-ck5"><span>삭제/복원</span></label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>-->
+                <div class="flexEnd mo-btn mt10">
+                    <button type="button" class="btn-blue mr10" id="grantChange">저장</button>
+                    <button type="button" class="btn-bgrey cc-btn">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/js/common.js"></script>
+    <script type="text/javascript" th:src="'assets/js/'+${jsFileName}+'.js'"></script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+
+<body>
+<th:block layout:fragment="content">
+    <div class="main-wrap">
+        <!-- nav start -->
+        <th:block th:replace="frame/nav"></th:block>
+        <!-- nav end -->
+        <form id="boardForm" action="/boardSave" method="post" enctype="multipart/form-data">
+        <div class="main-inner2">
+            <h3 class="pageTitle"><i class="sq-dot"></i>게시글 작성</h3>
+            <div class="t-tb mt20">
+                <table>
+                    <colgroup>
+                        <col style="width: 10%;">
+                        <col style="width: 90%;">
+                    </colgroup>
+                    <tbody th:object="${boardInfo}">
+                        <th:block th:if="${boardInfo != null}">
+                        <tr>
+                            <td>작성자</td>
+                            <td>
+                                <input type="text" name="brdwriter" id="brdwriter" class="input1" th:value="*{brdwriter}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>제목</td>
+                            <td>
+                                <input type="text" name="brdtitle" id="brdtitle" class="input1" th:value="*{brdtitle}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">내용</td>
+                            <td><textarea id="summernote" name="brdmemo" class="brdmemo"><span th:utext="*{brdmemo}"></span></textarea></td>
+                        </tr>
+                        </th:block>
+                        <th:block th:if="${boardInfo == null}">
+                        <tr>
+                            <td>작성자</td>
+                            <td>
+                                <th:block th:if="${session.loginId != null}">
+                                    <input type="text" name="brdwriter" id="brdwriter" class="input1" th:value="${session.loginId}">
+                                </th:block>
+                                <th:block th:if="${session.loginId == null}">
+                                <input type="text" name="brdwriter" id="brdwriter" class="input1">
+                                </th:block>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>제목</td>
+                            <td>
+                                <input type="text" name="brdtitle" id="brdtitle" class="input1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">내용</td>
+                            <td><textarea id="summernote" name="brdmemo" class="brdmemo"></textarea></td>
+                        </tr>
+                        </th:block>
+                        <!--<tr>
+                            <td>비밀번호 입력</td>
+                            <td><input type="password" name="password" id="password" class="input2"></td>
+                        </tr>-->
+                        <tr>
+                            <td>파일첨부</td>
+                            <td>
+                                <div class="fileBox">
+                                    <input type="text" class="fileName" id="fileName" name="fileName" readonly="readonly" placeholder="선택된 파일 없음">
+                                    <label for="uploadBtn" class="btn_file">파일선택</label>
+                                    <input type="file" id="uploadBtn" name="uploadfile" class="uploadBtn">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="hidden" name="bgno" th:value="${bgno}">
+                <th:block th:if="${boardInfo != null}">
+                    <input type="hidden" name="brdno" th:value="${boardInfo.brdno}">
+                </th:block>
+            </div>
+            <div class="btn-box mt20">
+                <a href="#" id="cancle">취소</a>
+                <button type="button" class="btn-blue" onclick="fn_formSubmit(true)">저장</button>
+            </div>
+        </div>
+        </form>
+    </div>
+    <script src="../assets/js/common.js"></script>
+    <script type="text/javascript">
+        //summernote
+        $(document).ready(function (){
+            $('#summernote').summernote({
+                tabsize: 2,
+                height: 250,
+                lang: 'ko-KR' // default: 'en-US'
+            });
+        });
+
+        //게시판 글쓰기
+        function chkInputValue(id, msg){
+            if ( $.trim($(id).val()) == "") {
+                alert(msg+" "+ "입력해주세요.");
+                $(id).focus();
+                return false;
+            }
+            return true;
+        }
+        function fn_formSubmit(login){
+            if ( ! chkInputValue("#brdwriter", "작성자를")) return;
+            if ( ! chkInputValue("#brdtitle", "글 제목을")) return;
+            if ( ! chkInputValue(".brdmemo", "글 내용을")) return;
+            if(!login){
+                if ( ! chkInputValue("#password", "비밀번호를")) return;
+            }
+
+            $("#boardForm").submit();
+
+           /* var formData = $('#boardForm').serialize();
+            postFileCallAjax('/boardSave', formData, function(data){
+                if(data.msg == 'success'){
+                    location.href=data.redirectUrl;
+                } else {
+                    alert("ERROR");
+                }
+
+            });*/
+
+        }
+    </script>
+</th:block>
+</body>
+</html>

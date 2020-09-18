@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://keti.cufgj7gerp2j.ap-northeast-2.rds.amazonaws.com/keti?autoReconnect=true&useSSL=false&serverTimezone=Asia/Seoul
+    driverClassName: org.mariadb.jdbc.Driver
+    username: keti
+    password: '!1qazketi'
+  servlet:
+    multipart:
+      file-size-threshold: 1MB
+      location: /home/ec2-user/uploads/fileupload
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+mybatis:
+  type-aliases-package: com.webapp.abrc.domain
+  mapper-locations:
+    classpaths: com/webapp/abrc/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 30
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 24h
+      cookie:
+        max-age: 24h
+
+#downloadPath: /home/ec2-user/uploads/fileupload//
+fileUploadPath: /home/ec2-user/uploads/fileupload
+downloadPath: D:\localWork\abrc\src\main\resources\uploads

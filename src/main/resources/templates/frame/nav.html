@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<nav class="main-navi">
+    <ul>
+        <th:block th:if="${session.grant == 3}">
+        <li><a href="/member_manager">
+            회원관리
+            </a>
+            <ul class="navsub">
+            </ul>
+        </li>
+        <li><a href="/category">
+            카테고리 관리
+            </a>
+            <ul class="navsub">
+            </ul>
+        </li>
+        </th:block>
+        <li><a href="/bulletin_board?bgno=1">
+            공지사항
+            </a>
+            <ul class="navsub">
+                <li><a href="/bulletin_board?bgno=1">ABRC 공지사항</a></li>
+                <li><a href="/bulletin_board?bgno=2">장비공지사항</a></li>
+            </ul>
+        </li>
+        <li><a href="/bulletin_board?bgno=3">
+            ABRC현황
+            </a>
+            <ul class="navsub">
+                <li><a href="/bulletin_board?bgno=3">장비현황</a></li>
+                <li><a href="/bulletin_board?bgno=4">인력현황</a></li>
+                <li><a href="/bulletin_board?bgno=5">공간현황</a></li>
+                <li><a href="/bulletin_board?bgno=6">업무분담</a></li>
+            </ul>
+        </li>
+        <li class="on"><a href="/eq-res?rs_cate_id=7">
+            장비예약
+            </a>
+            <!--<ul class="navsub">
+                <li><a href="/eq-res?rs_cate_id=1">드라이룸</a></li>
+                <li><a href="/eq-res?rs_cate_id=2">분석장비</a></li>
+                <li><a href="/eq-res?rs_cate_id=3">볼밀링기</a></li>
+                <li><a href="/eq-res?rs_cate_id=4">열처리로</a></li>
+                <li><a href="/eq-res?rs_cate_id=5">분석실 장비</a></li>
+                <li><a href="/eq-res?rs_cate_id=6">기타장비</a></li>
+                <li><a href="/eq-res?rs_cate_id=52">구매예정장비</a></li>
+            </ul>-->
+        </li>
+        <li><a href="https://docs.google.com/spreadsheets/d/1HYDUOPRjWXjVOCtuwEPj3aB8TL-J3VjVUeNov5_6GM8/edit#gid=0" target="_blank">
+            소모품관리
+        </a></li>
+    </ul>
+</nav>
+</html>

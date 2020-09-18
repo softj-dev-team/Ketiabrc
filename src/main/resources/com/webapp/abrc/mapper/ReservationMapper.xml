@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webapp.abrc.mapper.ReservationMapper">
+	<resultMap id="reservationMap" type="hashmap">
+		<id column="rs_no" property="rs_no"/>
+		<result column="user_id" property="user_id"/>
+		<result column="user_name" property="user_name"/>
+		<result column="rs_date" property="rs_date"/>
+		<result column="rs_start_time" property="rs_start_time"/>
+		<result column="rs_end_time" property="rs_end_time"/>
+		<result column="hp" property="hp"/>
+		<result column="rs_cate_id" property="rs_cate_id"/>
+		<result column="rs_memo" property="rs_memo"/>
+		<result column="rs_date" property="rs_date"/>
+
+		<collection column="res_no" property="res_options" select="getOptions"></collection>
+	</resultMap>
+    <insert id="insertResSave" parameterType="hashmap">
+		insert into reservation(
+			user_id,
+			user_name,
+			rs_date,
+			rs_start_time,
+			rs_end_time,
+			hp,
+			rs_cate_id,
+			rs_memo
+		) VALUES (
+			#{user_id},
+			#{user_name},
+			#{rs_date},
+			#{rs_start_time},
+			#{rs_end_time},
+			#{hp},
+			#{rs_cate_id},
+			#{rs_memo}
+		)
+    </insert>
+
+	<select id="getReservationCount" parameterType="hashmap" resultType="int">
+		select ifnull(count(*),0)
+		from reservation A
+		where 1=1
+		<if test="rs_cate_id != null and rs_cate_id != ''">AND rs_cate_id = #{rs_cate_id}</if>
+		<if test="rs_date != null and rs_date != ''">AND rs_date = #{rs_date}</if>
+		<if test="rs_start_time != null and rs_start_time != ''">AND rs_start_time = #{rs_start_time}</if>
+		<if test="rs_end_time != null and rs_end_time != ''">AND rs_end_time = #{rs_end_time}</if>
+	</select>
+
+	<select id="getReservations" resultMap="reservationMap" parameterType="hashmap">
+		SELECT
+			DATE_FORMAT(A.reg_date,'%Y-%m-%d') reg_date,
+			A.*,B.*,
+			if((SELECT rs_cate_name FROM reservation_category WHERE rs_cate_id=B.rs_cate_upper_code) IS NULL, B.rs_cate_name, (SELECT rs_cate_name FROM reservation_category WHERE rs_cate_id=B.rs_cate_upper_code)) AS category1,
+			if((SELECT rs_cate_name FROM reservation_category WHERE rs_cate_id=B.rs_cate_upper_code) IS NULL, NULL, B.rs_cate_name) AS category2
+		from reservation A
+		left JOIN reservation_category B
+		ON A.rs_cate_id = B.rs_cate_id
+		where 1=1
+		<if test="rs_cate_id != null and rs_cate_id != ''">and A.rs_cate_id = #{rs_cate_id}</if>
+		order by A.rs_date desc
+	</select>
+
+	<select id="getReservationDetail" resultMap="reservationMap" parameterType="hashmap">
+		SELECT
+			date_format(A.reg_date,'%Y-%m-%d %H:%i') reg_date,
+			A.*,B.*,
+			if((SELECT rs_cate_name FROM reservation_category WHERE rs_cate_id=B.rs_cate_upper_code) IS NULL, B.rs_cate_id, (SELECT rs_cate_id FROM reservation_category WHERE rs_cate_id=B.rs_cate_upper_code)) AS category1,
+			if((SELECT rs_cate_name FROM reservation_category WHERE rs_cate_id=B.rs_cate_upper_code) IS NULL, NULL, B.rs_cate_id) AS category2
+		from reservation A
+		left JOIN reservation_category B
+		ON A.rs_cate_id = B.rs_cate_id
+		where rs_no=#{rs_no}
+	</select>
+
+	<update id="resUpate" parameterType="hashmap">
+		update reservation set
+			user_name = #{user_name},
+			rs_date = #{rs_date},
+			rs_start_time = #{rs_start_time},
+			rs_end_time = #{rs_end_time},
+			hp = #{hp},
+			rs_cate_id = #{rs_cate_id},
+			rs_memo = #{rs_memo}
+		where user_id = #{user_id} AND rs_no = #{rs_no}
+	</update>
+</mapper>

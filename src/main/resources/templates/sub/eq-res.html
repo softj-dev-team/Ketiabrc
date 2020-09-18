@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+
+<body>
+<th:block layout:fragment="content">
+    <div class="main-wrap">
+        <!-- nav start -->
+        <th:block th:replace="frame/nav"></th:block>
+        <!-- nav end -->
+        <div class="main-inner flexwrap">
+            <div class="eqLeft">
+                <a href="/eq-res2" class="btn-eq2">장비 예약하기</a>
+                <div class="datepicker eqdp">
+                    <form name="form1" id="form1" method="get">
+                        <input type="hidden" name="rs_cate_id" th:value="${categoryOne.rs_cate_id}">
+                        <input type="hidden" name="rs_max_quantity" th:value="${categoryOne.rs_max_quantity}">
+                        <input type="hidden" name="rs_date">
+                    </form>
+                </div>
+                <div class="eqCate">
+                    <ul class="eqCateUl">
+                        <li class="eqCateLi" th:each="category1: ${category1List}">
+                           <button type="button" class="catearr"></button>
+                            <a href="#" th:value="${category1.rs_cate_id}" th:text="${category1.rs_cate_name}"></a>
+                            <ul class="catesub">
+                                <th:block th:each="category2: ${category2List}">
+                                <li class="rs_max_quantity" th:if="${category1.rs_cate_id == category2.rs_cate_upper_code}"  th:value="${category2.rs_cate_id}" th:attr="upper-id=${category2.rs_cate_upper_code}, category-name=${category2.rs_cate_name}, rs-max-quantity=${category2.rs_max_quantity}">
+                                    <a th:href="@{/eq-res(rs_cate_id=${category2.rs_cate_id},rs_max_quantity=${category2.rs_max_quantity})}" th:text="${category2.rs_cate_name}" th:value="${category2.rs_cate_id}"></a>
+                                </li>
+                                </th:block>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="eqRight">
+                <div class="fullcalendar" id="calendar">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="" id="eqpop">
+        <div class="eqpopbody">
+            <div class="flexwrap pd20">
+                <div class="eqCate ver2 flex150px">
+                    <ul class="eqCateUl">
+                        <li class="eqCateLi" th:each="category1: ${category1List}">
+                           <button type="button" class="catearr"></button>
+                            <span th:value="${category1.rs_cate_id}" th:text="${category1.rs_cate_name}"></span>
+                            <ul class="catesub">
+                                <th:block th:each="category2: ${category2List}">
+                                <li th:if="${category1.rs_cate_id == category2.rs_cate_upper_code}"  th:value="${category2.rs_cate_id}" th:attr="upper-id=${category2.rs_cate_upper_code}, category-name=${category2.rs_cate_name}">
+                                    <a href="" class="rs_cate_id" th:text="${category2.rs_cate_name}" th:value="${category2.rs_cate_id}" th:attr="rs-cate-id=${category2.rs_cate_id}"></a>
+                                </li>
+                                </th:block>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="flexgrow eqinput">
+                    <form action="" name="resUpdateForm" id="resUpdateForm">
+                        <th:block th:if="${session.loginId == null}">
+                        <label for="user_name">성함</label>
+                        <input type="text" class="w100px" id="user_name" name="user_name">
+                        </th:block>
+                        <th:block th:if="${session.loginId != null}">
+                        <label for="user_name">성함</label>
+                        <input type="text" class="w100px" id="user_name" name="user_name" th:value="${user.user_name}">
+                        </th:block>
+                        <br>
+                        <label for="hp">연락처</label>
+                        <input type="text" class="w100px" id="hp" name="hp" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+                        <br>
+                        <label for="eqname">예약장비</label>
+                        <input type="text" class="w300px" id="eqname" name="eqname">
+                        <input type="hidden" name="rs_cate_id">
+                        <br>
+                        <label for="eqdate">예약날짜</label>
+                        <input type="text" class="w100px datepicker" id="eqdate" name="rs_date">
+                        <br>
+                        <label for="rs_start_time">예약시간</label>
+                        <select class="w100px sel_time" name="rs_start_time" id="rs_start_time">
+                            <option value="0">선택하세요.</option>
+                            <th:block th:each="i: ${#numbers.sequence(1, 24)}">
+                                <th:block th:if="${i} < 10">
+                                    <option th:value="'0' + ${i} + ':00'" th:text="'0' + ${i} + ':00'" ></option>
+                                    <option th:value="'0' + ${i} + ':00'" th:text="'0' + ${i} + ':30'" ></option>
+                                </th:block>
+                                <th:block th:unless="${i} < 10">
+                                    <option th:value="${i} + ':00'" th:text="${i} + ':00'" ></option>
+                                    <option th:value="${i} + ':00'" th:text="${i} + ':30'" ></option>
+                                </th:block>
+                            </th:block>
+                        </select>
+                        &nbsp;-&nbsp;
+                        <select class="w100px sel_time" name="rs_end_time" id="rs_end_time" >
+                            <option value="0">선택하세요.</option>
+                            <th:block th:each="i: ${#numbers.sequence(1, 24)}">
+                                <th:block th:if="${i} < 10">
+                                    <option th:value="'0' + ${i} + ':00'" th:text="'0' + ${i} + ':00'" ></option>
+                                    <option th:value="'0' + ${i} + ':00'" th:text="'0' + ${i} + ':30'" ></option>
+                                </th:block>
+                                <th:block th:unless="${i} < 10">
+                                    <option th:value="${i} + ':00'" th:text="${i} + ':00'" ></option>
+                                    <option th:value="${i} + ':00'" th:text="${i} + ':30'" ></option>
+                                </th:block>
+                            </th:block>
+                        </select>
+                        <br>
+                        <label for="rs_memo">메모</label><br>
+                        <textarea class="w100" name="rs_memo" id="rs_memo"></textarea>
+                        <input type="hidden" name="rs_no">
+                        <div class="flexEnd">
+                            <button type="button" class="btn-grey mr10 cancelbtn">취소</button>
+                            <button type="button" class="btn-blue" id="resUpdateBtn">수정하기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/plugins/malihuScrollbar/jquery.mCustomScrollbar.js"></script>
+    <script type="text/javascript" th:src="'assets/js/'+${jsFileName}+'.js'"></script>
+    <script th:inline="javascript">
+        $(".datepicker").datepicker({
+            monthNames: ['01','02','03','04','05','06','07','08','09','10','11','12'], // 월의 한글 형식.\
+            monthNamesShort: [ '01','02','03','04','05','06','07','08','09','10','11','12' ],
+            dateFormat : "yy-mm-dd",
+            onSelect: function(dateText, inst) {
+                var date = $(this).val();
+                document.form1.rs_date.value = date;
+                document.form1.submit();
+            }
+        });
+
+        $(window).on("load",function(){
+            $(".eqCate.ver2 .eqCateUl").mCustomScrollbar({
+                autoHideScrollbar:true,
+                theme:"dark"
+            });
+        });
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        var calendar;
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+            dd='0'+dd
+        }
+        if(mm<10) {
+            mm='0'+mm
+        }
+        today = yyyy+'-'+mm+'-'+dd;
+        if(getParameterByName("rs_date") != null && getParameterByName("rs_date") != ''){
+            today = getParameterByName("rs_date");
+        }
+
+        var rs_max_quantity = getParameterByName("rs_max_quantity");
+        var count_row = [];
+
+        var list = [];
+        list = [[${list}]];
+        var event_arr = [];
+
+        for(var i=1; i <= rs_max_quantity; i++){
+            var obj = {
+                id : (String.fromCharCode([96+i])), title : i
+            }
+            count_row.push(obj);
+        }
+
+        for(var z=0; z < list.length; z++){
+            var obj2 = {
+                id: z+1,
+                resourceId: (String.fromCharCode([96+z+1])),
+                title: list[z].user_name,
+                start: list[z].rs_date + 'T' +list[z].rs_start_time,
+                end: list[z].rs_date + 'T' + list[z].rs_end_time,
+                rs_no: list[z].rs_no,
+            }
+            event_arr.push(obj2);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'ko',
+            schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+            defaultView: 'resourceTimeGridDay',
+            defaultDate: today,
+            initialView: 'resourceTimeGridDay',
+            plugins: ['interaction', 'resourceDayGrid', 'resourceTimeGrid', 'dayGrid', 'timeGrid'],
+            header: false,
+            views: {
+                resourceTimeGridDay: {
+                    type: 'resourceTimeGridDay',
+                    buttonText: 'day',
+                    eventLimit: 3 // adjust to 6 only for timeGridWeek/timeGridDay
+                },
+                timeGrid: {
+                    type: 'timeGrid',
+                    buttonText: 'timeGrid',
+                    eventLimit: 3, // adjust to 6 only for timeGridWeek/timeGridDay
+                },
+            },
+            slotLabelFormat: [
+                // { month: 'numeric', year: 'numeric' }, // top level of text
+                {
+                    // day: 'numeric',
+                    // weekday: 'long',// lower level of text
+                    hour: '2-digit',    //numeric 3 2-digit 03
+                    minute: '2-digit',  //numeric 3 2-digit 03
+                    hour12: false,      //true am 6 false 06
+                    // meridiem: 'numeric'
+                }
+            ],
+            // editable: true,//수정기능
+            selectable: true,//선택기능
+            selectHelper: true,
+            eventLimit: true, // allow "more" link when too many events
+            resources:
+                count_row
+            ,
+            events:
+                event_arr
+            ,
+            eventRender: function(arg){
+                arg.el.onclick = (function(){
+                    $('#eqpop').addClass('on');
+                    postCallAjax('/api/getReservationDetail',{rs_no: arg.event.extendedProps.rs_no},function(data){
+                        var detail = data.detail;
+                        $("input[name=rs_no]").val(detail.rs_no);
+                        $("input[name=rs_date]").val(detail.rs_date);
+                        $("input[name=eqname]").val(detail.rs_cate_name);
+                        $("input[name=rs_cate_id]").val(detail.rs_cate_id);
+                        $("input[name=user_name]").val(detail.user_name);
+                        $("input[name=hp]").val(detail.hp);
+                        $("select[name=rs_start_time]").val(detail.rs_start_time);
+                        $("select[name=rs_end_time]").val(detail.rs_end_time);
+                        $("textarea[name=rs_memo]").val(detail.rs_memo);
+                    })
+                })
+            }
+        });
+        calendar.render();
+        });
+        $('.catearr').click(function(){
+           $(this).parent('li').toggleClass('on');
+        });
+        $('.ver2 .catesub li a').click(function(e){
+            e.preventDefault();
+            $('.ver2 .catesub li a').removeClass('on');
+            $(this).addClass('on');
+            var eq = $(this).text();
+            $(this).parents('.flexwrap').find('#eqname').val(eq);
+        });
+        $('.cancelbtn').click(function(){
+            $(this).parents('#eqpop').removeClass('on')
+        })
+    </script>
+</th:block>
+</body>
+</html>

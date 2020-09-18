@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="pagination">
+	<ul class="pagination">
+        <!--<li class="page-arrow"><a class="page-link" href="#">≪</a></li>
+        <li class="page-arrow"><a class="page-link" href="#">＜</a></li>
+        <li class="page-item"><a class="page-link active" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item"><a class="page-link" href="#">5</a></li>
+        <li class="page-item"><a class="page-link" href="#">6</a></li>
+        <li class="page-item"><a class="page-link" href="#">7</a></li>
+        <li class="page-item"><a class="page-link" href="#">8</a></li>
+        <li class="page-item"><a class="page-link" href="#">9</a></li>
+        <li class="page-item"><a class="page-link" href="#">10</a></li>
+        <li class="page-arrow"><a class="page-link" href="#">＞</a></li>
+        <li class="page-arrow"><a class="page-link" href="#">≫</a></li>-->
+    </ul>
+
+    <input type="hidden" name="page" id="page" th:value="${searchVO.page}">
+<script th:inline="javascript">
+    var searchVO = {};
+    $(document).ready(function(searchVO) {
+    searchVO = [[${searchVO}]];
+	var html = '';
+
+	if(searchVO.totPage > 1){
+		if(searchVO.page > 1){
+			html += '<li class="page-item"><a class="page-link" href="javascript:movePage(1)">≪</a></li>' +
+					'<li class="page-item"><a class="page-link" href="javascript:movePage(' + (searchVO.page-1) + ')">＜</a></li>';
+		}
+
+		for(var i=searchVO.pageStart; i<searchVO.pageEnd+1; i++){
+			if(i == searchVO.page){
+				html += '<li class="page-item"><a class="page-link active" href="#">' + i + '</a></li>';
+			}else{
+				html += '<li class="page-item"><a class="page-link" href="javascript:movePage(' + i + ')">' + i + '</a></li>';
+			}
+		}
+
+		if(searchVO.totPage > searchVO.page){
+			html += '<li class="page-item"><a class="page-link" href="javascript:movePage(' + (searchVO.page+1) + ')">＞</a></li>' +
+					'<li class="page-item"><a class="page-link" href="javascript:movePage(' + searchVO.totPage + ')">≫</a></li>';
+		}
+	}
+	$("ul.pagination").html(html);
+});
+
+//페이지클릭
+function movePage(page){
+    document.form1.page.value = page;
+    document.form1.submit();
+}
+</script>
+<!--<script type="text/javascript" src="/assets/js/pagination.js"></script>-->
+</th:block>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+
+<body>
+<th:block layout:fragment="content">
+    <div class="main-wrap">
+        <!-- nav start -->
+        <th:block th:replace="frame/nav"></th:block>
+        <!-- nav end -->
+        <div class="main-inner">
+            <h3 class="pageTitle"><i class="sq-dot"></i>장비 예약 페이지</h3>
+            <div class="flexwrap w100">
+                <div class="eqCate ver3 flex250px mr20">
+                    <ul class="eqCateUl">
+                        <li class="eqCateLi" th:each="category1: ${category1List}">
+                           <button type="button" class="catearr"></button>
+                            <span th:value="${category1.rs_cate_id}" th:text="${category1.rs_cate_name}"></span>
+                            <ul class="catesub">
+                                <th:block th:each="category2: ${category2List}">
+                                <li th:if="${category1.rs_cate_id == category2.rs_cate_upper_code}"  th:value="${category2.rs_cate_id}" th:attr="upper-id=${category2.rs_cate_upper_code}, category-name=${category2.rs_cate_name}">
+                                    <a href="" class="rs_cate_id" th:text="${category2.rs_cate_name}" th:value="${category2.rs_cate_id}" th:attr="rs-cate-id=${category2.rs_cate_id}"></a>
+                                </li>
+                                </th:block>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="flexgrow eqinput">
+                    <form action="" name="resForm" id="resForm">
+                        <th:block th:if="${session.loginId == null}">
+                        <label for="user_name">성함</label>
+                        <input type="text" class="w100px" id="user_name" name="user_name">
+                        </th:block>
+                        <th:block th:if="${session.loginId != null}">
+                        <label for="user_name">성함</label>
+                        <input type="text" class="w100px" id="user_name" name="user_name" th:value="${user.user_name}">
+                        </th:block>
+                        <br>
+                        <label for="hp">연락처</label>
+                        <input type="text" class="w100px" id="hp" name="hp" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+                        <br>
+                        <label for="eqname">예약장비</label>
+                        <input type="text" class="w300px" id="eqname" name="eqname" placeholder="왼쪽 카테고리에서 선택해주세요.">
+                        <input type="hidden" name="rs_cate_id">
+                        <br>
+                        <label for="eqdate">예약날짜</label>
+                        <input type="text" class="w100px datepicker" id="eqdate" name="rs_date">
+                        <br>
+                        <label for="rs_start_time">예약시간</label>
+                        <select class="w100px sel_time" name="rs_start_time" id="rs_start_time">
+                            <option value="0">선택하세요.</option>
+                            <th:block th:each="i: ${#numbers.sequence(1, 24)}">
+                                <th:block th:if="${i} < 10">
+                                    <option th:value="'0' + ${i} + ':00'" th:text="'0' + ${i} + ':00'" ></option>
+                                    <option th:value="'0' + ${i} + ':00'" th:text="'0' + ${i} + ':30'" ></option>
+                                </th:block>
+                                <th:block th:unless="${i} < 10">
+                                    <option th:value="${i} + ':00'" th:text="${i} + ':00'" ></option>
+                                    <option th:value="${i} + ':00'" th:text="${i} + ':30'" ></option>
+                                </th:block>
+                            </th:block>
+                        </select>
+                        &nbsp;-&nbsp;
+                        <select class="w100px sel_time" name="rs_end_time" id="rs_end_time" >
+                            <option value="0">선택하세요.</option>
+                            <th:block th:each="i: ${#numbers.sequence(1, 24)}">
+                                <th:block th:if="${i} < 10">
+                                    <option th:value="'0' + ${i} + ':00'" th:text="'0' + ${i} + ':00'" ></option>
+                                    <option th:value="'0' + ${i} + ':00'" th:text="'0' + ${i} + ':30'" ></option>
+                                </th:block>
+                                <th:block th:unless="${i} < 10">
+                                    <option th:value="${i} + ':00'" th:text="${i} + ':00'" ></option>
+                                    <option th:value="${i} + ':00'" th:text="${i} + ':30'" ></option>
+                                </th:block>
+                            </th:block>
+                        </select>
+                        <br>
+                        <label for="rs_memo">메모</label><br>
+                        <textarea class="w100" name="rs_memo" id="rs_memo"></textarea>
+                        <div class="flexEnd">
+                            <a href="#" id="cancle"><button type="button" class="btn-grey mr10 cancelbtn">취소</button></a>
+                            <button type="button" class="btn-blue" id="resBtn">예약하기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/plugins/malihuScrollbar/jquery.mCustomScrollbar.js"></script>
+    <script type="text/javascript" th:src="'assets/js/'+${jsFileName}+'.js'"></script>
+</th:block>
+</body>
+</html>

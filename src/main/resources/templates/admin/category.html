@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+
+<body>
+<th:block layout:fragment="content">
+    <div class="main-wrap">
+        <!-- nav start -->
+        <th:block th:replace="frame/nav"></th:block>
+        <!-- nav end -->
+        <div class="main-inner">
+            <h3 class="pageTitle"><i class="sq-dot"></i>장비 예약 카테고리</h3>
+            <div class="flexwrap w100">
+                <div class="eqCate ver3 flex250px mr20">
+                    <ul class="eqCateUl">
+                        <li class="eqCateLi" th:each="category1: ${category1List}">
+                           <button type="button" class="catearr"></button>
+                            <span th:value="${category1.rs_cate_id}" th:text="${category1.rs_cate_name}"></span>
+                            <ul class="catesub">
+                                <th:block th:each="category2: ${category2List}">
+                                <li th:if="${category1.rs_cate_id == category2.rs_cate_upper_code}"  th:value="${category2.rs_cate_id}" th:attr="upper-id=${category2.rs_cate_upper_code}, category-name=${category2.rs_cate_name}">
+                                    <a href="" class="rs_cate_id" th:text="${category2.rs_cate_name}" th:value="${category2.rs_cate_id}" th:attr="rs-cate-id=${category2.rs_cate_id}"></a>
+                                </li>
+                                </th:block>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="flexgrow eqinput">
+                    <form action="" name="cateForm" id="cateForm">
+                        <!--<label for="name">카테고리명</label>
+                        <input type="text" class="w150px">
+                        <br>-->
+                        <label for="eqname">카테고리명</label>
+                        <input type="text" class="w300px" id="eqname" name="rs_cate_name" placeholder="왼쪽 카테고리에서 선택해주세요.">
+                        <input type="hidden" name="rs_cate_id">
+                        <br>
+                        <label for="rs_max_quantity">예약인원</label>
+                        <input type="text" class="w150px" id="rs_max_quantity" name="rs_max_quantity">
+                        <br>
+                        <div class="d-hr"></div> 
+                        <div class="flexEnd">
+<!--                            <button type="button" class="btn-grey mr10 cancelbtn">삭제</button>-->
+                            <button type="button" class="btn-blue" id="cateUpdate">수정</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/plugins/malihuScrollbar/jquery.mCustomScrollbar.js"></script>
+    <script type="text/javascript" th:src="'assets/js/'+${jsFileName}+'.js'"></script>
+</th:block>
+</body>
+</html>

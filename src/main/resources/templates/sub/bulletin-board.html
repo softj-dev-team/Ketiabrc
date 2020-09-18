@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+
+<body>
+<th:block layout:fragment="content">
+    <div class="main-wrap">
+        <!-- nav start -->
+        <th:block th:replace="frame/nav"></th:block>
+        <!-- nav end -->
+        <div class="main-inner2">
+            <h3 class="pageTitle"><i class="sq-dot"></i><span th:text="${bgInfo.bgname}"></span></h3>
+            <div class="sc-box">
+                <form action="" id="boardSearchForm" method="get">
+                    <input type="hidden" name="bgno" id="bgno" th:value="${bgInfo.bgno}">
+                    <input type="text" name="searchKeyword" th:value="${param.searchKeyword}">
+                    <input type="hidden" name="searchType" th:value="brdmemo">
+                    <button type="submit" class="btn-gray">검색</button>
+                </form>
+                <a th:href="@{/bulletin_board_t(bgno=${bgInfo.bgno})}">글쓰기</a>
+            </div>
+            <div class="bul-tb">
+                <table class="bulletin-t">
+                    <colgroup>
+                        <col style="width: 10%;">
+                        <col style="width: 60%;">
+                        <col style="width: 10%;">
+                        <col style="width: 10%;">
+                        <col style="width: 10%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>등록일</th>
+                            <th>조회</th>
+                        </tr>
+                    </thead>
+                    <tbody class="boardList">
+                        <tr th:each="listview: ${listview}">
+                            <td th:text="${searchVO.totRow-((searchVO.page-1)*searchVO.displayRowCount + listviewStat.index)}"></td>
+                            <td><a th:href="@{/bulletin_view(brdno=${listview.brdno})}"><span th:text="${listview.brdtitle}"></span></a></td>
+                            <td th:text="${listview.brdwriter}"></td>
+                            <td th:text="${listview.brddate}"></td>
+                            <td th:text="${listview.brdhit}"></td>
+<!--                            <input type="hidden" name="brdno" th:value="${listview.brdno}">-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+                <form name="form1" id="form1" method="get">
+                    <input type="hidden" name="bgno" id="bgno" th:value="${bgInfo.bgno}">
+                    <input type="hidden" name="searchKeyword" th:value="${param.searchKeyword}">
+                    <input type="hidden" name="searchType" th:value="brdmemo">
+                    <th:block th:replace="frame/pagination"></th:block>
+                </form>
+        </div>
+    </div>
+    <script src="../assets/js/common.js"></script>
+    <script type="text/javascript">
+       /*$(".bulletin-t tbody tr").click(function() {
+            $(location).attr('href','/bulletin_view');
+        });*/
+    </script>
+</th:block>
+</body>
+</html>
