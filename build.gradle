@@ -9,6 +9,13 @@ group = 'com.webapp'
 version = 'abrc-1.0-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+apply plugin: 'war'
+bootWar {
+    archiveBaseName = 'abrc'
+	archiveFileName = 'com.webapp.abrc-1.0.0.war'
+	archiveBaseName = '1.0.0'
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor

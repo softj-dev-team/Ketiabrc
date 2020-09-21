@@ -2,6 +2,8 @@ package com.webapp.abrc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.ViewResolver;
@@ -13,15 +15,23 @@ import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
 @SpringBootApplication
-public class AbrcApplication {
+public class ServletInitializer extends SpringBootServletInitializer {
 
     @PostConstruct
     void started() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
     }
 
+//    public static void main(String[] args) {
+//        SpringApplication.run(AbrcApplication.class, args);
+//    }
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application){
+        return application.sources(ServletInitializer.class);
+    }
+
     public static void main(String[] args) {
-        SpringApplication.run(AbrcApplication.class, args);
+        SpringApplication.run(ServletInitializer.class, args);
     }
 
     @Bean
