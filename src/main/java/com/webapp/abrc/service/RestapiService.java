@@ -47,14 +47,14 @@ public class RestapiService {
     public void userSelectOne(Map<String, Object> params, Map<String, Object> result, HttpSession session){
         Map<String, Object> user = userMapper.userSelectOne(params);
 		if(user == null) {
-			result.put("data","idFail");
+			result.put("msg","idFail");
 		}else {
 			if(BCrypt.checkpw((String)params.get("password"), (String)user.get("password"))) {
-				result.put("data","success");
+				result.put("msg","success");
 				session.setAttribute("loginId", user.get("user_id"));
 				session.setAttribute("grant", user.get("user_grant"));
 			}else {
-				result.put("data","pwFail");
+				result.put("msg","pwFail");
 			}
 		}
     }

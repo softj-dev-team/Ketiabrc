@@ -52,12 +52,14 @@ public class RestapiController {
         Map<String, Object> result = new HashMap<String, Object>();
 
         restapiService.userSelectOne(params, result, session);
-        if(session.getAttribute("grant").equals(3)){
-            userVO.setLog_type("adminlogin");
-        } else {
-            userVO.setLog_type("login");
+        if(result.get("msg").equals("success")){
+            if(session.getAttribute("grant").equals(3)){
+                userVO.setLog_type("adminlogin");
+            } else {
+                userVO.setLog_type("login");
+            }
+            restapiService.insertUserHistory(userVO);
         }
-        restapiService.insertUserHistory(userVO);
 
         return result;
     }

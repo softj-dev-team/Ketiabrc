@@ -49,3 +49,30 @@ public class ServletInitializer extends SpringBootServletInitializer {
     }
 
 }
+
+/*public class AbrcApplication {
+
+    @PostConstruct
+    void started() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(AbrcApplication.class, args);
+    }
+
+    @Bean
+    public ViewResolver viewResolver() {
+        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        templateResolver.setTemplateMode("XHTML");
+        templateResolver.setPrefix("templates/");
+        templateResolver.setSuffix(".html");
+        SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.setTemplateResolver(templateResolver);
+
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(engine);
+        return viewResolver;
+    }
+
+}*/

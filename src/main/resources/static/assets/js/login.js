@@ -2,20 +2,12 @@ $(function(){
 	//로그인버튼
 	$("#loginBtn").click(function() {
 		var formData = $("#loginForm").serialize();
-		$.ajax({
-			type:'post',
-			url: '/api/loginProc',
-			data: formData,
-			success: function(data){
-				if(data.data == 'success'){
-					location.href="/eq-res?rs_cate_id=7";
-				}else{
-					alert("회원정보를 확인해주세요.");
-				}
 
-			},
-			error: function(e){
-				alert('ERROR');
+		postCallAjax('/api/loginProc', formData, function(data){
+			if(data.msg == 'success'){
+				location.href="/eq-res?rs_cate_id=7";
+			} else {
+				alert("회원정보를 확인해주세요.");
 			}
 		});
 	})
