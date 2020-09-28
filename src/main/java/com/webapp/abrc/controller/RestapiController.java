@@ -1,5 +1,6 @@
 package com.webapp.abrc.controller;
 
+import com.google.gson.JsonObject;
 import com.webapp.abrc.domain.BoardGroupVO;
 import com.webapp.abrc.domain.BoardVO;
 import com.webapp.abrc.domain.ReservationVO;
@@ -8,18 +9,26 @@ import com.webapp.abrc.mapper.ReservationMapper;
 import com.webapp.abrc.service.BoardGroupService;
 import com.webapp.abrc.service.BoardService;
 import com.webapp.abrc.service.RestapiService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -32,6 +41,8 @@ public class RestapiController {
     BoardService boardService;
     @Autowired
     ReservationMapper reservationMapper;
+    @Value("${downloadEditorPath}")
+	private String downloadEditorPath;
 
     //회원가입 처리
     @RequestMapping("/signupProc")
@@ -159,4 +170,33 @@ public class RestapiController {
         return result;
     }
 
+    //게시판 에디터 이미지 업로드
+    @RequestMapping(value="/uploadSummernoteImageFile", method = RequestMethod.POST, produces = "application/json")
+    public HashMap<String, Object> uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request) throws Exception{
+        HashMap<String, Object> resultMap = new HashMap<String, Object>();
+
+        JsonObject jsonObject = new JsonObject();
+
+        String fileRoot = downloadEditorPath;	//저장될 외부 파일 경로
+        String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+
+        String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+
+        File targetFile = new File(fileRoot + savedFileName);
+        Object siteUrl = request.getRequestURL().toString().replace(request.getRequestURI(),"");
+        try {
+            InputStream fileStream = multipartFile.getInputStream();
+            FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
+            resultMap.put("url", siteUrl+"/editorUploads/"+savedFileName);
+            resultMap.put("responseCode", "success");
+
+        } catch (IOException e) {
+            FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
+            resultMap.put("responseCode", "error");
+            e.printStackTrace();
+        }
+
+        return resultMap;
+    }
 }

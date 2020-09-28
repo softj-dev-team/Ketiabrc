@@ -88,14 +88,21 @@
         </div>
         </form>
     </div>
-    <script src="../assets/js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-lite.min.js"></script>
+    <script th:src="@{/assets/js/summernote-ko-KR.js}"></script>
+    <script th:src="@{/assets/js/common.js}"></script>
     <script type="text/javascript">
         //summernote
         $(document).ready(function (){
             $('#summernote').summernote({
                 tabsize: 2,
                 height: 250,
-                lang: 'ko-KR' // default: 'en-US'
+                lang: 'ko-KR', // default: 'en-US'
+                callbacks: {
+                    onImageUpload : function(files) {
+                        uploadSummernoteImageFile(files[0],this);
+                    }
+                }
             });
         });
 
@@ -108,26 +115,16 @@
             }
             return true;
         }
+
         function fn_formSubmit(login){
             if ( ! chkInputValue("#brdwriter", "작성자를")) return;
             if ( ! chkInputValue("#brdtitle", "글 제목을")) return;
             if ( ! chkInputValue(".brdmemo", "글 내용을")) return;
-            if(!login){
-                if ( ! chkInputValue("#password", "비밀번호를")) return;
-            }
+            // if(!login){
+            //     if ( ! chkInputValue("#password", "비밀번호를")) return;
+            // }
 
             $("#boardForm").submit();
-
-           /* var formData = $('#boardForm').serialize();
-            postFileCallAjax('/boardSave', formData, function(data){
-                if(data.msg == 'success'){
-                    location.href=data.redirectUrl;
-                } else {
-                    alert("ERROR");
-                }
-
-            });*/
-
         }
     </script>
 </th:block>

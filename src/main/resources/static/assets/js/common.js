@@ -67,3 +67,24 @@ function delBoard(brdno){
 	    location.href=data.redirectUrl;
 	});
 }
+
+/**
+ * 이미지 파일 업로드
+ */
+function uploadSummernoteImageFile(file, editor) {
+    data = new FormData();
+    data.append("file", file);
+
+    $.ajax({
+        data : data,
+        type : "POST",
+        url : "/api/uploadSummernoteImageFile",
+        contentType : false,
+        processData : false,
+        success : function(data) {
+            console.log(data);
+            //항상 업로드된 파일의 url이 있어야 한다.
+            $(editor).summernote('insertImage', data.url);
+        }
+    });
+}

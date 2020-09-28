@@ -13,23 +13,13 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
+/*
 @SpringBootApplication
-public class ServletInitializer extends SpringBootServletInitializer {
+public class AbrcApplication extends SpringBootServletInitializer {
 
     @PostConstruct
     void started() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-    }
-
-    //DevTool
-/*    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application){
-        return application.sources(AbrcApplication.class);
-    }*/
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application){
-        return application.sources(ServletInitializer.class);
     }
 
     public static void main(String[] args) {
@@ -50,4 +40,4 @@ public class ServletInitializer extends SpringBootServletInitializer {
         return viewResolver;
     }
 
-}
+}*/
