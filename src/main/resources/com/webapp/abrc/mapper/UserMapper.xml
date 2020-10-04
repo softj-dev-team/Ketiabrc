@@ -6,10 +6,14 @@
     <insert id="insertUser" parameterType="hashmap">
 		insert into user(
 			user_name,
+			email,
+			phone,
 			user_id,
 			password
 		) VALUES (
 			#{user_name},
+			#{email},
+			#{phone},
 			#{user_id},
 			#{password}
 		)
@@ -33,6 +37,8 @@
 
 	<update id="updatePw" parameterType="hashmap">
 		update user set
+		    email = #{email},
+			phone = #{phone},
 			password = #{password}
 		where user_id = #{user_id}
 	</update>

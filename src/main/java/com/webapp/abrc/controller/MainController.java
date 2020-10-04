@@ -117,6 +117,10 @@ public class MainController {
         if(session.getAttribute("loginId") == null) {
 			return "redirect:/login";
 		}
+        params.put("user_id",session.getAttribute("loginId"));
+        Map<String, Object> user = userMapper.userSelectOne(params);
+
+        model.addAttribute("user", user);
         model.addAttribute("jsFileName","pwCh");
         return "sub/pwCh";
     }
@@ -163,6 +167,10 @@ public class MainController {
             return "redirect:" + Referer;
         }
 
+        params.put("user_id",session.getAttribute("loginId"));
+        Map<String, Object> user = userMapper.userSelectOne(params);
+
+        model.addAttribute("user", user);
         model.addAttribute("bgno", bgno);
         model.addAttribute("bgInfo", bgInfo);
 
@@ -211,6 +219,7 @@ public class MainController {
         BoardGroupVO bgInfo = boardGroupService.selectBoardGroupOne4Used(boardInfo.getBgno());
         if (bgInfo == null) {
             return "redirect:" + Referer;
+
         }
 
         model.addAttribute("user", user);
