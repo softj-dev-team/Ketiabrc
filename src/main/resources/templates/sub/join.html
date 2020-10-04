@@ -12,6 +12,11 @@
                 <form method="POST" name="defaultJoinform" id="defaultJoinform">
                     <label for="user_name">이름</label>
                     <input type="text" placeholder="이름" id="user_name" name="user_name">
+                    <label for="email">이메일</label>
+                    <input type="text" placeholder="이메일" id="email" name="email">
+                    <label for="phone">연락처</label>
+                    <input type="text" id="phone" name="phone" placeholder="- 없이 숫자만 입력하세요" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    <h6 class="er_pw"></h6>
                     <label for="user_id">아이디</label>
                     <input type="text" placeholder="아이디" id="user_id" name="user_id" class="inputsm" readonly><button type="button" class="numbercheck">사번확인</button>
                     <label for="password">비밀번호</label>

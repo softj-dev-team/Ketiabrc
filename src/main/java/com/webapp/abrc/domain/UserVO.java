@@ -8,4 +8,6 @@ public class UserVO extends SearchVO{
     private String user_id;
     private String password;
     private String log_type;
+    private String email;
+    private String phone;
 }

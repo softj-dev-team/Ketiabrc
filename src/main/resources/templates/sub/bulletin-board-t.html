@@ -41,13 +41,14 @@
                         <tr>
                             <td>작성자</td>
                             <td>
-                                <th:block th:if="${session.loginId != null}">
-                                    <input type="text" name="brdwriter" id="brdwriter" class="input1" th:value="${session.loginId}">
+                                <th:block th:if="${user != null}">
+                                    <input type="text" name="brdwriter" id="brdwriter" class="input1" th:value="${user.user_name}">
                                 </th:block>
-                                <th:block th:if="${session.loginId == null}">
+                                <th:block th:if="${user == null}">
                                 <input type="text" name="brdwriter" id="brdwriter" class="input1">
                                 </th:block>
                             </td>
+                            <input type="hidden" name="user_id" th:value="${session.loginId}">
                         </tr>
                         <tr>
                             <td>제목</td>
@@ -88,13 +89,22 @@
         </div>
         </form>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-lite.min.js"></script>
-    <script th:src="@{/assets/js/summernote-ko-KR.js}"></script>
     <script th:src="@{/assets/js/common.js}"></script>
     <script type="text/javascript">
         //summernote
         $(document).ready(function (){
             $('#summernote').summernote({
+                toolbar:[
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['fontsize', ['fontsize']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ],
                 tabsize: 2,
                 height: 250,
                 lang: 'ko-KR', // default: 'en-US'

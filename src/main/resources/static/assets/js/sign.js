@@ -47,14 +47,14 @@ $('#signUpSubmit').on("click",function () {
 
 })
 
-var regExp = /^.{1,8}$/;
+var regExp = /^.{1,16}$/;
 $(document).on('input','input[name=password],input[name=password_cf]',function () {
     var password = $('#password').val();
     var password_cf = $('#password_cf').val();
     pwCheck = false;
 
     if(!regExp.test(password)){
-        $(".er_pw").text('최대 8글자까지 입력 가능합니다.');
+        $(".er_pw").text('최대 16글자까지 입력 가능합니다.');
     } else {
         if(password != password_cf){
             $(".er_pw").text('');
