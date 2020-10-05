@@ -22,10 +22,10 @@ $('.uploadBtn').on('change', function(object){
     var files = object.target.files;
     var filesArr =Array.prototype.slice.call(files);
     filesArr.forEach(function (f) {
-        if(!f.type.match("image.*")){
-            alert(getMessageAjax('msg_review_1-8-1'));
+        /*if(!f.type.match("image.*")){
+            alert("이미지 파일만 등록 가능합니다.");
             return false;
-        }
+        }*/
         sel_file = f;
         var reader = new FileReader();
         reader.onload = function (e) {
@@ -34,7 +34,7 @@ $('.uploadBtn').on('change', function(object){
             //     $('.uploadBtn').parent().siblings('img').attr("src",e.target.result);
             //     $('.uploadBtn').siblings('.fileName').val(filename);
             // }else{
-                thisObject.parent().siblings('img').attr("src",e.target.result);
+            //     thisObject.parent().siblings('img').attr("src",e.target.result);
                 thisObject.siblings('.fileName').val(filename);
             // }
 

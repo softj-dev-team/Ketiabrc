@@ -111,7 +111,7 @@ public class MainController {
         return "sub/join";
     }
 
-    //비밀번호 변경
+    //회원정보변경
     @RequestMapping("/pwCh")
     public String pwCh(@RequestParam HashMap<String, Object> params, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
         if(session.getAttribute("loginId") == null) {
