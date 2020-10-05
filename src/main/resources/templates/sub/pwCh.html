@@ -10,13 +10,13 @@
             <form action="" id="pwChform">
             <div class="loginBox join">
                 <h2 class="logo"><a href="/eq-res?rs_cate_id=7"></a></h2>
-                    <th:block th:if="${user != null}">
+                    <th:block th:if="${not #strings.isEmpty(user.email) || not #strings.isEmpty(user.phone)}">
                     <label for="email">이메일</label>
                     <input type="text" placeholder="이메일" id="email" name="email" th:value="${user.email}">
                     <label for="phone">연락처</label>
                     <input type="phone" id="phone" name="phone" placeholder="- 없이 숫자만 입력하세요" oninput="this.value = this.value.replace(/[^0-9]/g, '');" th:value="${user.phone}">
                     </th:block>
-                    <th:block th:if="${user == null}">
+                    <th:block th:if="${#strings.isEmpty(user.email) || not #strings.isEmpty(user.phone)}">
                     <label for="email">이메일</label>
                     <input type="text" placeholder="이메일" id="email" name="email">
                     <label for="phone">연락처</label>

@@ -86,11 +86,13 @@
                             <th:block th:each="i: ${#numbers.sequence(9, 18)}">
                                 <th:block th:if="${i} < 10">
                                     <option th:value="'0' + ${i} + ':00'" th:text="'0' + ${i} + ':00'" ></option>
-                                    <option th:value="'0' + ${i} + ':00'" th:text="'0' + ${i} + ':30'" ></option>
+                                    <option th:value="'0' + ${i} + ':30'" th:text="'0' + ${i} + ':30'" ></option>
                                 </th:block>
                                 <th:block th:unless="${i} < 10">
                                     <option th:value="${i} + ':00'" th:text="${i} + ':00'" ></option>
-                                    <option th:value="${i} + ':00'" th:text="${i} + ':30'" ></option>
+                                    <th:block th:if="${i} != 18">
+                                    <option th:value="${i} + ':30'" th:text="${i} + ':30'" ></option>
+                                    </th:block>
                                 </th:block>
                             </th:block>
                         </select>
@@ -100,11 +102,13 @@
                             <th:block th:each="i: ${#numbers.sequence(9, 18)}">
                                 <th:block th:if="${i} < 10">
                                     <option th:value="'0' + ${i} + ':00'" th:text="'0' + ${i} + ':00'" ></option>
-                                    <option th:value="'0' + ${i} + ':00'" th:text="'0' + ${i} + ':30'" ></option>
+                                    <option th:value="'0' + ${i} + ':30'" th:text="'0' + ${i} + ':30'" ></option>
                                 </th:block>
                                 <th:block th:unless="${i} < 10">
                                     <option th:value="${i} + ':00'" th:text="${i} + ':00'" ></option>
-                                    <option th:value="${i} + ':00'" th:text="${i} + ':30'" ></option>
+                                    <th:block th:if="${i} != 18">
+                                    <option th:value="${i} + ':30'" th:text="${i} + ':30'" ></option>
+                                    </th:block>
                                 </th:block>
                             </th:block>
                         </select>

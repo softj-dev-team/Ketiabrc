@@ -14,12 +14,10 @@ public class BoardVO extends SearchVO {
     private String brdwriter;
     private String brdmemo;
     private String brddate;
-    private String brdhit;
     private String brddeleteflag;
     private String user_id;
-    private String password;
+    private String brdhit;
 
     /* 첨부파일 */
     private List<MultipartFile> uploadfile;
-
 }

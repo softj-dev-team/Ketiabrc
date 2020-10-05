@@ -50,7 +50,7 @@
 
     <select id="selectBoardOne" parameterType="String" resultType="com.webapp.abrc.domain.BoardVO">
         SELECT
-            BGNO, BRDNO, BRDTITLE, BRDWRITER, BRDMEMO, DATE_FORMAT(brddate,'%Y-%m-%d') brddate, user_id, usr_no, brdhit
+            bgno, brdno, brdtitle, BRDWRITER, BRDMEMO, DATE_FORMAT(brddate,'%Y-%m-%d') brddate, user_id, usr_no, brdhit
         FROM TBL_BOARD TB
         WHERE BRDDELETEFLAG='N'
         AND BRDNO=#{brdno}
