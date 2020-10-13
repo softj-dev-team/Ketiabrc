@@ -1,9 +1,7 @@
 package com.webapp.abrc.controller;
 
-import com.webapp.abrc.domain.BoardGroupVO;
-import com.webapp.abrc.domain.BoardVO;
-import com.webapp.abrc.domain.FileVO;
-import com.webapp.abrc.domain.UserVO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.webapp.abrc.domain.*;
 import com.webapp.abrc.mapper.BoardMapper;
 import com.webapp.abrc.mapper.CategoryMapper;
 import com.webapp.abrc.mapper.ReservationMapper;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -215,6 +214,7 @@ public class MainController {
         boardService.updateBoard8Read(brdno);
         BoardVO boardInfo = boardService.selectBoardOne(brdno);
         List<?> listview = boardService.selectBoard8FileList(brdno);
+        List<?> replylist = boardService.selectBoard8ReplyList(brdno);
 
         BoardGroupVO bgInfo = boardGroupService.selectBoardGroupOne4Used(boardInfo.getBgno());
         if (bgInfo == null) {
@@ -225,9 +225,53 @@ public class MainController {
         model.addAttribute("user", user);
         model.addAttribute("boardInfo", boardInfo);
         model.addAttribute("listview", listview);
+        model.addAttribute("replylist", replylist);
         model.addAttribute("bgInfo", bgInfo);
+        model.addAttribute("jsFileName","bulletin-view");
 
         return "sub/bulletin-view";
+    }
+
+    /**
+     * 댓글 저장.
+     */
+    @RequestMapping("/boardReplySave")
+    public String board8ReplySave(@RequestParam HashMap<String, Object> params, HttpServletRequest request, HttpSession session, BoardReplyVO boardReplyInfo, ModelMap model) {
+        params.put("user_id",session.getAttribute("loginId"));
+        //로그인 확인
+        Map<String, Object> user = userMapper.userSelectOne(params);
+
+        boardReplyInfo.setRewriter((String) user.get("user_name"));
+        boardReplyInfo.setUser_id((String) user.get("user_id"));
+        boardService.insertBoardReply(boardReplyInfo);
+
+        if(boardReplyInfo.getRedepth() == null){
+            boardReplyInfo.setRedepth("0");
+        }
+
+        model.addAttribute("replyInfo", boardReplyInfo);
+
+        return "sub/BoardReadAjaxReply";
+    }
+
+    /**
+     * 댓글 삭제.
+     */
+    @RequestMapping(value = "/boardReplyDelete")
+    public void board8ReplyDelete(HttpServletResponse response, BoardReplyVO boardReplyInfo) {
+
+        ObjectMapper mapper = new ObjectMapper();
+        response.setContentType("application/json;charset=UTF-8");
+
+        try {
+            if (!boardService.deleteBoard8Reply(boardReplyInfo.getReno()) ) {
+                response.getWriter().print(mapper.writeValueAsString("Fail"));
+            } else {
+                response.getWriter().print(mapper.writeValueAsString("OK"));
+            }
+        } catch (IOException ex) {
+            System.out.println("오류: 답변 삭제에 문제가 발생했습니다.");
+        }
     }
 
     //회원관리

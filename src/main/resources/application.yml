@@ -7,7 +7,7 @@ spring:
   servlet:
     multipart:
       file-size-threshold: 1MB
-      location: /home/ec2-user/uploads/fileupload
+#      location: /home/ec2-user/uploads/fileupload//
       max-file-size: 100MB
       max-request-size: 100MB
       enabled: true
@@ -38,4 +38,4 @@ fileUploadPath: /home/ec2-user/uploads/fileupload
 
 downloadEditorPath: /home/ec2-user/uploads/editorUploads//
 downloadEditorFile: /home/ec2-user/uploads/editorUploads
-#downloadPath: D:\localWork\abrc\src\main\resources\editorUploads
+#downloadEditorPath: D:\localWork\abrc\src\main\resources\editorUploads

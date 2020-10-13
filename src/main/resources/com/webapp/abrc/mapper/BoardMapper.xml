@@ -107,4 +107,68 @@
          WHERE brdno=#{brdno}
          ORDER BY fileno DESC
     </select>
+
+    <select id="selectBoard8ReplyList" resultType="com.webapp.abrc.domain.BoardReplyVO" parameterType="String">
+        SELECT BRDNO, RENO, REWRITER, user_id, REDELETEFLAG, REMEMO, DATE_FORMAT(REDATE,'%Y-%m-%d %H:%i') REDATE, REPARENT, REDEPTH, REORDER
+          FROM TBL_BOARDREPLY
+         WHERE BRDNO=#{brdno} AND REDELETEFLAG='N'
+         ORDER BY REORDER
+    </select>
+
+    <insert id="insertBoard8Reply" parameterType="com.webapp.abrc.domain.BoardReplyVO" >
+        <selectKey resultType="String" keyProperty="reno" order="BEFORE">
+            SELECT IFNULL(MAX(RENO),0)+1 FROM TBL_BOARDREPLY
+        </selectKey>
+
+        INSERT INTO TBL_BOARDREPLY(BRDNO, RENO, REWRITER, user_id, REDELETEFLAG, REMEMO, REDATE, REORDER, REPARENT, REDEPTH)
+        VALUES (#{brdno}, #{reno}, #{rewriter}, #{user_id}, 'N', #{rememo}, NOW(), #{reorder},
+                   <choose>
+                       <when test="reparent==null">#{reno}, 0</when>
+                       <otherwise>#{reparent}, #{redepth}</otherwise>
+                   </choose>
+               )
+    </insert>
+
+    <select id="selectBoard8ReplyParent" resultType="com.webapp.abrc.domain.BoardReplyVO" parameterType="String">
+        SELECT BRDNO, REDEPTH+1 REDEPTH, REORDER
+          FROM TBL_BOARDREPLY
+         WHERE RENO=#{reparent}
+    </select>
+
+    <update id="updateBoard8ReplyOrder" parameterType="com.webapp.abrc.domain.BoardReplyVO">
+        UPDATE TBL_BOARDREPLY
+           SET REORDER = REORDER + 1
+         WHERE BRDNO=#{brdno} AND REORDER>#{reorder}
+    </update>
+
+    <select id="selectBoard8ReplyMaxOrder" resultType="Integer" parameterType="String">
+        SELECT IFNULL(MAX(REORDER),0)+1
+          FROM TBL_BOARDREPLY
+         WHERE BRDNO=#{brdno}
+    </select>
+
+    <update id="updateBoard8Reply" parameterType="com.webapp.abrc.domain.BoardReplyVO">
+        UPDATE TBL_BOARDREPLY
+           SET REMEMO=#{rememo}
+         WHERE RENO=#{reno}
+    </update>
+
+    <select id="selectBoard8ReplyChild" resultType="Integer" parameterType="String">
+        SELECT COUNT(*)
+          FROM TBL_BOARDREPLY
+         WHERE REPARENT=#{reparent} AND RENO!=#{reparent} AND REDELETEFLAG='N'
+    </select>
+
+    <update id="updateBoard8ReplyOrder4Delete" parameterType="com.webapp.abrc.domain.BoardReplyVO">
+        UPDATE TBL_BOARDREPLY TBR1
+         INNER JOIN TBL_BOARDREPLY TBR2 ON TBR2.BRDNO=TBR1.BRDNO AND TBR1.REORDER >TBR2.REORDER AND TBR1.REDELETEFLAG='N'
+           SET TBR1.REORDER = TBR1.REORDER - 1
+         WHERE TBR2.RENO=#{reno}
+    </update>
+
+    <update id="deleteBoard8Reply" parameterType="String">
+        UPDATE TBL_BOARDREPLY
+           SET REDELETEFLAG='Y'
+         WHERE RENO=#{reno}
+    </update>
 </mapper>

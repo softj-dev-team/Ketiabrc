@@ -95,28 +95,28 @@ public class BoardService {
     }
     
     /* =============================================================== */
-    public List<?> selectBoard8ReplyList(String param) {
-        return sqlSession.selectList("selectBoard8ReplyList", param);
+    public List<?> selectBoard8ReplyList(String params) {
+        return boardMapper.selectBoard8ReplyList(params);
     }
     
     /**
      * 댓글 저장.
      */
-    public void insertBoardReply(BoardReplyVO param) {
-        if (param.getReno() == null || "".equals(param.getReno())) {
-            if (param.getReparent() != null) {
-                BoardReplyVO replyInfo = sqlSession.selectOne("selectBoard8ReplyParent", param.getReparent());
-                param.setRedepth(replyInfo.getRedepth());
-                param.setReorder(replyInfo.getReorder() + 1);
-                sqlSession.selectOne("updateBoard8ReplyOrder", replyInfo);
+    public void insertBoardReply(BoardReplyVO params) {
+        if (params.getReno() == null || "".equals(params.getReno())) {
+            if (params.getReparent() != null) {
+                BoardReplyVO replyInfo = boardMapper.selectBoard8ReplyParent(params.getReparent());
+                params.setRedepth(replyInfo.getRedepth());
+                params.setReorder(replyInfo.getReorder() + 1);
+                boardMapper.updateBoard8ReplyOrder(replyInfo);
             } else {
-                Integer reorder = sqlSession.selectOne("selectBoard8ReplyMaxOrder", param.getBrdno());
-                param.setReorder(reorder);
+                Integer reorder = boardMapper.selectBoard8ReplyMaxOrder(params.getBrdno());
+                params.setReorder(reorder);
             }
             
-            sqlSession.insert("insertBoard8Reply", param);
+            boardMapper.insertBoard8Reply(params);
         } else {
-            sqlSession.insert("updateBoard8Reply", param);
+            boardMapper.updateBoard8Reply(params);
         }
     }   
 
@@ -124,19 +124,20 @@ public class BoardService {
      * 댓글 삭제.
      * 자식 댓글이 있으면 삭제 안됨.
      */
-    public boolean deleteBoard8Reply(String param) {
-        Integer cnt = sqlSession.selectOne("selectBoard8ReplyChild", param);
+    public boolean deleteBoard8Reply(String params) {
+        Integer cnt = boardMapper.selectBoard8ReplyChild(params);
         
         if ( cnt > 0) {
             return false;
         }
         
-        sqlSession.update("updateBoard8ReplyOrder4Delete", param);
+        boardMapper.updateBoard8ReplyOrder4Delete(params);
         
-        sqlSession.delete("deleteBoard8Reply", param);
+        boardMapper.deleteBoard8Reply(params);
         
         return true;
     }
+
     public BoardVO selectBoardMaxOne(String param) {
         return sqlSession.selectOne("selectBoardMaxOne", param);
     }

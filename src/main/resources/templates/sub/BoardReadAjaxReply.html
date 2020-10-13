@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+
+<div th:id="replyItem+${replyInfo.reno}" th:style="'margin-left:' + 40*${replyInfo.redepth} + 'px;'">
+    <div class="com-btn flexwrap">
+        <p class="com-id" th:text="${replyInfo.rewriter}"></p>
+        <div>
+            <span class="day-c" th:text="${replyInfo.redate}"></span>
+            <button type="button" class="red-t remove-btn" th:onclick="fn_replyDelete([[${replyInfo.reno}]])">삭제</button>
+            <button type="button" class="modi-btn" th:attr="reno=${replyInfo.reno}">수정</button>
+            <button type="button" class="re-com-btn" th:onclick="fn_replyReply([[${replyInfo.reno}]])">답글</button>
+        </div>
+    </div>
+    <p th:id="reply + ${replyInfo.reno}" class="com-r" th:text="${replyInfo.rememo}"></p>
+</div>
