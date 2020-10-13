@@ -6,6 +6,9 @@ $(".datepicker").datepicker({
 $('.catearr').click(function(){
    $(this).parent('li').toggleClass('on');
 });
+$('.eqCateLi > a').click(function(){
+   $(this).parent('li').toggleClass('on');
+});
 $('.catesub li a').click(function(e){
     e.preventDefault();
     $('.catesub li a').removeClass('on');

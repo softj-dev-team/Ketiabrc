@@ -65,7 +65,7 @@
 
 	<select id="getReservationDetail" resultMap="reservationMap" parameterType="hashmap">
 		SELECT
-			date_format(A.reg_date,'%Y-%m-%d %H:%i') reg_date,
+			date_format(A.reg_date,'1') reg_date,
 			A.*,B.*,
 			if((SELECT rs_cate_name FROM reservation_category WHERE rs_cate_id=B.rs_cate_upper_code) IS NULL, B.rs_cate_id, (SELECT rs_cate_id FROM reservation_category WHERE rs_cate_id=B.rs_cate_upper_code)) AS category1,
 			if((SELECT rs_cate_name FROM reservation_category WHERE rs_cate_id=B.rs_cate_upper_code) IS NULL, NULL, B.rs_cate_id) AS category2

@@ -6,6 +6,8 @@
         <li th:if="${session.loginId == null}"><a href="/login">
             로그인
         </a></li>
+        <li th:if="${session.loginId != null}" th:text="'사번 : ' + ${session.loginId}">
+        </li>
         <li th:if="${session.loginId != null}"><a href="/logout">
             로그아웃
         </a></li>

@@ -60,38 +60,53 @@
                 </th:block>
 <!--                onclick="location.href='/bulletin_board_t?bgno=${bgInfo.bgno}'"-->
             </div>
-            <!--<div class="comment mt20">
+            <div class="comment mt20">
                 <div class="com-t">
-                    <textarea name="" id="" cols="30" rows="10" placeholder="댓글달기"></textarea>
-                    <button type="button">작성</button>
+                    <form id="form1" name="form1" style="width:100%; display:inherit;">
+                        <input type="hidden" id="brdno1" name="brdno" th:value="${boardInfo.brdno}">
+                        <input type="hidden" id="rewriter1" name="rewriter" th:value="${session.loginId}">
+                        <textarea id="rememo1" name="rememo" cols="30" rows="10" placeholder="댓글달기"></textarea>
+                        <button type="button" onclick="fn_SafeFormSubmit()">작성</button>
+                    </form>
                 </div>
-                <div class="com-renderer">
-                    <div class="com-btn flexwrap">
-                        <p class="com-id">아이디</p>
+                <div class="com-renderer" th:each="replylist : ${replylist}">
+                    <div th:id="replyItem + ${replylist.reno}" th:style="'margin-left:' + 40*${replylist.redepth} + 'px;'">
+                    <div  class="com-btn flexwrap">
+                        <p class="com-id" th:text="${replylist.rewriter}"></p>
                         <div>
-                            <span class="day-c">2020-08-19 13:15</span>
-                            <button type="button" class="red-t remove-btn">삭제</button>
-                            <button type="button">수정</button>
-                            <button type="button" class="re-com-btn">답글</button>
+                            <span class="day-c" th:text="${replylist.redate}"></span>
+                            <th:block th:if="${session.loginId == replylist.user_id && session.loginId != null}">
+                            <button type="button" class="red-t remove-btn" th:onclick="fn_replyDelete([[${replylist.reno}]])">삭제</button>
+                            <button type="button" class="modi-btn" th:attr="reno=${replylist.reno}">수정</button>
+                            </th:block>
+                            <button type="button" class="re-com-btn" th:onclick="fn_replyReply([[${replylist.reno}]])">답글</button>
                         </div>
                     </div>
-                    <p class="com-r">댓글내용 댓글내용 댓글내용</p>
+                    <p th:id="reply + ${replylist.reno}" class="com-r" th:text="${replylist.rememo}"></p>
+                    </div>
 
                     <div class="com-rcom">
-                        <textarea name="" id="" cols="30" rows="10" placeholder="답글추가" class="autosize"></textarea>
-                        <div class="rcom-btn">
-                            <button type="button" class="re-com-rebtn">취소</button>
-                            <button type="button" class="btn-g">답글</button>
-                        </div>
+                        <form id="form3" name="form3" action="board9ReplySave" method="post">
+                            <textarea id="rememo3" name="rememo" cols="30" rows="10" placeholder="답글추가" class="autosize"></textarea>
+                            <input type="hidden" id="brdno3" name="brdno" th:value="${boardInfo.brdno}">
+                            <input type="hidden" id="reno3" name="reno">
+				            <input type="hidden" id="reparent3" name="reparent">
+                            <input type="hidden" id="rewriter3" name="rewriter" th:value="${session.loginId}">
+                            <div class="rcom-btn">
+                                <button type="button" class="re-com-rebtn">취소</button>
+                                <button type="button" class="btn-g" onclick="fn_replyReplySave()">답글</button>
+                            </div>
+                        </form>
                     </div>
-
+                </div>
+                <!--
                     <div class="com-ren-r">
                         <div class="com-btn flexwrap">
                             <p class="com-id">아이디</p>
                             <div>
                                 <span class="day-c">2020-08-19 13:15</span>
                                 <button type="button" class="red-t remove-btn">삭제</button>
-                                <button type="button">수정</button>
+                                <button type="button" class="modi-btn">수정</button>
                                 <button type="button" class="re-com-btn">답글</button>
                             </div>
                         </div>
@@ -101,41 +116,90 @@
                             <textarea name="" id="" cols="30" rows="10" placeholder="답글추가" class="autosize"></textarea>
                             <div class="rcom-btn">
                                 <button type="button" class="re-com-rebtn">취소</button>
-                                <button type="button" class="btn-g">답글</button>
+                                <button type="button" class="btn-g" onclick="fn_replyReplySave()">답글</button>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="com-renderer">
+                    <div class="com-renderer">
                     <div class="com-btn flexwrap">
                         <p class="com-id">아이디</p>
                         <div>
                             <span class="day-c">2020-08-19 13:15</span>
                             <button type="button" class="red-t remove-btn">삭제</button>
-                            <button type="button">수정</button>
+                            <button type="button" class="modi-btn">수정</button>
                             <button type="button" class="re-com-btn">답글</button>
                         </div>
                     </div>
                     <p class="com-r">댓글내용 댓글내용 댓글내용</p>
-                </div>
-            </div>-->
+                </div>-->
+            </div>
         </div>
     </div>
     <script src="../assets/js/common.js"></script>
-    <script type="text/javascript">
-       $("textarea.autosize").on('keydown keyup', function () {
-            $(this).height(1).height( $(this).prop('scrollHeight')-20 );	
+    <script type="text/javascript" th:src="'assets/js/'+${jsFileName}+'.js'"></script>
+    <script th:inline="javascript">
+        /*201007 댓글 수정 기능 추가*/
+
+        var updateReno = updateRememo = null;
+
+        $('.modi-btn').on('click', function(){
+            var reply = $(this).closest('.com-btn').next('.com-r');
+            var replyT = reply.text();
+            var brdno = [[${boardInfo.brdno}]];
+            var reno = $(this).attr("reno");
+            updateReno = reno;
+            if(reply.css('display') == 'none'){
+                $(this).text('수정');
+                reply.css('display', 'block');
+                reply.next('.re-modify').remove();
+            }else{
+                $(this).text('수정취소');
+                reply.css('display', 'none');
+                reply.after('<form id="form2" name="form2" action="board9ReplySave" method="post">' +
+                                    '<input type="hidden" id="brdno2" name="brdno" value='+ brdno +'>' +
+                                    '<input type="hidden" id="reno2" name="reno" value=' + reno + '>' +
+                                    '<div class="com-t re-modify"><textarea name="rememo" id="rememo2" cols="30" rows="10">'+ replyT+'</textarea><button type="button" class="btn-grey" onclick="fn_replyUpdateSave()">수정</button></div>' +
+                            '</form>');
+            }
         });
-        $(document).on('click','.remove-btn','.re-com-btn', function () {
-            $(this).parent().parent().parent().remove();
-        });
-        $('.re-com-btn').click(function(){
-                $(this).parent().parent().parent().children('.com-rcom').addClass('on');
-                $('.com-rcom textarea').focus();
+
+        function fn_replyUpdateSave(){
+            if ( ! chkInputValue("#rememo2", "글 내용을")) return;
+
+            var rememo2 = $("#rememo2").val();
+            var formData = $("#form2").serialize();
+            $.ajax({
+                url: "/boardReplySave",
+                type:"post",
+                data : formData,
+                success: function(result){
+                    if (result!=="") {
+                        $(".com-r").css('display', 'block');
+                        $("#reply"+updateReno).text(rememo2);
+                        $(".modi-btn").text('수정');
+                        alert("저장되었습니다.");
+                    } else{
+                        alert("서버에 오류가 있어서 저장되지 않았습니다.");
+                    }
+                }
             })
-        $('.re-com-rebtn').click(function(){
-            $(this).parent().parent().removeClass('on');
-        })
+        }
+
+        function fn_replyReply(reno){
+            if (updateReno) {
+                fn_replyUpdateCancel();
+            }
+
+            $("#reparent3").val(reno);
+            $("#rememo3").val("");
+            $("#replyDialog").appendTo($("#reply"+reno));
+            $("#rewriter3").focus();
+        }
+
+        function fn_replyUpdateCancel(){
+            $("#reply"+updateReno).text(updateRememo);
+            updateReno = updateRememo = null;
+        }
     </script>
 </th:block>
 </body>

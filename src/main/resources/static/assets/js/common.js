@@ -60,12 +60,16 @@ $("#cancle").click(function(){
 
 //삭제버튼
 function delBoard(brdno){
-	var formData = {
-			brdno: brdno,
-	}
-	postCallAjax('/api/deleteBoard', formData, function(data){
-	    location.href=data.redirectUrl;
-	});
+    if (confirm("게시글 삭제시 복구할 수 없습니다. 삭제하시겠습니까?") == true){
+        var formData = {
+                brdno: brdno,
+        }
+        postCallAjax('/api/deleteBoard', formData, function(data){
+            location.href=data.redirectUrl;
+        });
+    } else {
+        return;
+    }
 }
 
 /**

@@ -17,6 +17,7 @@ public class BoardVO extends SearchVO {
     private String brddeleteflag;
     private String user_id;
     private String brdhit;
+    private String reno;
 
     /* 첨부파일 */
     private List<MultipartFile> uploadfile;

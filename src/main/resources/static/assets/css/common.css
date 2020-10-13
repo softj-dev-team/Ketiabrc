@@ -158,10 +158,10 @@ button{
     line-height: 35px;
     padding:0 15px;
 }
-button.btn-grey{
-    background:#323d49;
-    color:#fff;
-    border:1px solid #323d49;
+button.btn-grey{/*201007 수정 ~ 164*/
+    background:#323d49!important;
+    color:#fff!important;
+    border:1px solid #323d49!important;
 }
 button.btn-mint{
     background:#2bc8ad;
@@ -1048,9 +1048,10 @@ button.btn-dblue{
     margin: 20px 0;
 }
 .com-btn button{
-    width: 50px;
+/*    width: 50px; 201007 삭제*/
     height: 30px;
     color: #3f5389;
+    padding:0 10px;/*201007 추가*/
 }
 .com-id {
     line-height: 30px;
