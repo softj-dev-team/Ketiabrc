@@ -20,7 +20,7 @@
                             <ul class="catesub">
                                 <th:block th:each="category2: ${category2List}">
                                 <li th:if="${category1.rs_cate_id == category2.rs_cate_upper_code}"  th:value="${category2.rs_cate_id}" th:attr="upper-id=${category2.rs_cate_upper_code}, category-name=${category2.rs_cate_name}">
-                                    <a href="" class="rs_cate_id" th:text="${category2.rs_cate_name}" th:value="${category2.rs_cate_id}" th:attr="rs-cate-id=${category2.rs_cate_id}"></a>
+                                    <a href="" class="rs_cate_id" th:text="${category2.rs_cate_name}" th:value="${category2.rs_cate_id}" th:attr="rs-max-quantity=${category2.rs_max_quantity}, rs-max-time=${category2.rs_max_time}"></a>
                                 </li>
                                 </th:block>
                             </ul>
@@ -38,6 +38,16 @@
                         <br>
                         <label for="rs_max_quantity">예약인원</label>
                         <input type="text" class="w150px" id="rs_max_quantity" name="rs_max_quantity">
+                        <br>
+                        <label for="rs_max_time">최대사용시간</label>
+                        <select class="w150px sel_time" name="rs_max_time" id="rs_max_time">
+                            <option value="0">선택하세요.</option>
+                            <th:block th:each="i: ${#numbers.sequence(1, 9)}">
+                                <th:block th:if="${i} < 10">
+                                    <option th:value="${i}" th:text="${i} + '시간'" ></option>
+                                </th:block>
+                            </th:block>
+                        </select>
                         <br>
                         <div class="d-hr"></div> 
                         <div class="flexEnd">

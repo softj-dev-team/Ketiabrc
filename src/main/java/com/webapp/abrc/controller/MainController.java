@@ -343,4 +343,12 @@ public class MainController {
         model.addAttribute("jsFileName","category");
         return "admin/category";
     }
+
+    //소모품관리리
+   @RequestMapping("/sheet")
+    public String sheet(@RequestParam HashMap<String, Object> params, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+
+        model.addAttribute("jsFileName","category");
+        return "sub/sheet";
+    }
 }

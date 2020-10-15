@@ -22,4 +22,5 @@ public interface UserMapper {
     int grantChange(Map<String, Object> params);
     int empSave(Map<String, Object> params);
     List<Map<String,Object>> empList(Map<String, Object> params);
+    int deleteUser(Map<String,Object> user);
 }

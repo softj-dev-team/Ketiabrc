@@ -108,7 +108,7 @@ hr.fc-divider {
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
-  font-size: 1em;
+  font-size: 14px;
   /* normalize cross-browser */
 }
 
@@ -649,19 +649,19 @@ from https://feathericons.com/ and built with IcoMoon
 .fc-icon-chevron-left:before {
   content: "";
   display: inline-block;
-  width: 40px;
+  width: 20px;
   height: 20px;
   color: #666;
-  background: url(../../../../img/calendar_arrow_L_navy.png) no-repeat center / contain;
+  background: url(../../../../img/arr-left-bk.png) no-repeat center / 30px;
 }
 
 .fc-icon-chevron-right:before {
   content: "";
   display: inline-block;
-  width: 40px;
+  width: 20px;
   height: 20px;
   color: #666;
-  background: url(../../../../img/calendar_arrow_R_navy.png) no-repeat center / contain;
+  background: url(../../../../img/arr-right-bk.png) no-repeat center / 30px;
 }
 
 .fc-icon-chevrons-left:before {
@@ -740,9 +740,9 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
   padding: 0.4em 0.65em;
   font-size: 1em;
   height: 40px;
-  width: 80px;
+  width: 60px;
   /* line-height: 1.5; */
-  /* border-radius: 0.25em; */
+   border-radius: 10px; 
 }
 .fc-center .fc-button {
   display: inline-block;
@@ -802,7 +802,7 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
 }
 .fc-button-primary:not(:disabled).fc-button-active {
   color: #fff;
-  background-color: #2BC8AD;
+  background-color: #788cbf;
   border-color: transparent;
 }
 
@@ -890,7 +890,7 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
 
 /* inner content */
 .fc-toolbar > * > :not(:first-child) {
-  margin-left: 0.75em;
+  margin-left: 15px;
 }
 
 .fc-toolbar h2 {

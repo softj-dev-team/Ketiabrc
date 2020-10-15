@@ -102,4 +102,8 @@
         ORDER BY no DESC
     </select>
 
+    <delete id="deleteUser" parameterType="hashmap">
+    	delete from user
+    	where usr_no = #{usr_no}
+    </delete>
 </mapper>

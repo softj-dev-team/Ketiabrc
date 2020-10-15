@@ -58,7 +58,10 @@
 <!--                            <td>member123@gmail.com</td>-->
                             <td th:text="${list.reg_date}"></td>
                             <td th:text="${list.grant_name}"></td>
-                            <td><button type="button" class="btn-wgray mem-set-btn" th:onclick="userGrantUp([[${list.usr_no}]])">권한설정</button></td>
+                            <td>
+                                <button type="button" class="btn-wgray mem-set-btn" th:onclick="userGrantUp([[${list.usr_no}]])">권한설정</button>
+                                <button type="button" class="btn-wgray" th:onclick="adminDrawUser([[${list.user_id}]])">회원탈퇴</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

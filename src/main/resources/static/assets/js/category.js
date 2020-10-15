@@ -14,7 +14,11 @@ $('.catesub li a').click(function(e){
     $('.catesub li a').removeClass('on');
     $(this).addClass('on');
     var eq = $(this).text();
+    var rs_max_quantity = $(this).attr("rs-max-quantity");
+    var rs_max_time = $(this).attr("rs-max-time");
     $(this).parents('.flexwrap').find('#eqname').val(eq);
+    $(this).parents('.flexwrap').find('#rs_max_quantity').val(rs_max_quantity);
+    $(this).parents('.flexwrap').find('#rs_max_time').val(rs_max_time);
 });
 
 $('.rs_cate_id').click(function(e){

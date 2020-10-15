@@ -32,6 +32,20 @@ function userGrantUp(usr_no){
     $('input[name=usr_no]').val(usr_no);
 }
 
+function adminDrawUser(user_id){
+    if(!confirm("회원탈퇴 후 복구 할 수 없습니다.")) {
+        return;
+    } else {
+        postCallAjax('/api/withdrawProc', {user_id:user_id}, function (data) {
+            if (data.msg == 'success') {
+                location.href = data.redirectUrl;
+            } else {
+                alert("ERROR");
+            }
+        });
+    }
+}
+
 //등급 변경
 $('#grantChange').on("click",function () {
     var formData = $('#grantForm').serialize();

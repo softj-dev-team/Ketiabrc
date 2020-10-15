@@ -54,6 +54,9 @@
             <div class="btn-box mt20">
                 <a href="#" id="cancle" class="btn-grey">목록</a>
 <!--                <a th:href="@{/bulletin_board(bgno=${bgInfo.bgno})}" class="btn-grey">목록</a>-->
+                <th:block th:if="${session.grant == 3}">
+                    <a href="#" class="btn-grey" th:onclick="delBoard([[${boardInfo.brdno}]])">삭제</a>
+                </th:block>
                 <th:block th:if="${session.loginId == boardInfo.user_id && session.loginId != null}">
                     <a href="#" class="btn-grey" th:onclick="delBoard([[${boardInfo.brdno}]])">삭제</a>
                     <button type="button" class="btn-blue" th:onclick="|location.href='@{/bulletin_board_t(brdno=${boardInfo.brdno})}'|">수정</button>

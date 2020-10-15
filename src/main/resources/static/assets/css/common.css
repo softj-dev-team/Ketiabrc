@@ -529,11 +529,11 @@ h1{
     font-size:16px;
     text-align: center;
 }
-.btn-eq2:hover{
+/*.btn-eq2:hover{
     background:#788cbf;
     border-color:#788cbf;
     color:#fff;
-}
+}*/
 .eqCate{
     width:100%;
     margin:20px 0;
@@ -588,7 +588,8 @@ h1{
 }
 /*left-datepicker*/
 .eqdp .ui-datepicker{
-    width:212px
+    width:212px;
+    margin-top:20px;/*200929 수정*/
 }
 .eqdp .ui-widget-content{
     border:none;
@@ -701,7 +702,7 @@ h1{
 }
 .eqinput label{
     display:inline-block;
-    width:70px;
+    width:100px;
 }
 .eqCate.ver3{
     margin-top:0;
@@ -748,6 +749,15 @@ h2.logo a{
 .loginBox button{
     width:calc(50% - 5px);
     border:1px solid;
+    float:left;
+    line-height: 50px;
+    height:50px;
+    font-size: 14px;
+}
+button#withdrawUser{
+    width:calc(100% - 5px);
+    border:1px solid;
+    margin-top: 20px;
     float:left;
     line-height: 50px;
     height:50px;
@@ -878,6 +888,20 @@ button.btn-dblue{
 }
 .bul-tb>table, .t-tb>table{/*200928 ~ 895*/
     width: 100%;
+}
+.bul-tb thead th{
+    height: 40px;
+    background: #f0f0f0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    color: #323d49;
+}
+.bul-tb tbody td:not(:nth-child(2)){
+    text-align: center;
+}
+.bul-tb tbody td{
+    height: 40px;
+    border-bottom: 1px solid #ccc;
 }
 .bulletin-t thead th{
     height: 40px;
@@ -1250,4 +1274,83 @@ button.btn-bgrey{
     width: 100%;
     background: url(../img/logo.png)no-repeat left / contain;
     margin-left: 40px;
+}
+/*200929 예약페이지 추가*/
+.fc-center{
+    display: flex;
+}
+.fc-right{
+    width:178px;
+}
+.fc-icon{
+    width:16px;
+    height:16px;
+}
+.fc-day-top{
+    line-height: 16px;
+    line-height: 16px;
+}
+/*rcpop*/
+.rcpop{
+    display:none;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index: 101;
+    background:#fff;
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.2);
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.2);
+}
+.rcpop.on{
+    display:block;
+}
+.rcpop ul{
+    width:100px;
+    padding:5px 0;
+}
+.rcpop ul li{
+    height:auto;
+    line-height:30px;
+    text-align: left;
+    padding:0;
+}
+.rcpop ul li a{
+    padding-left:10px;
+    display:block;
+    color:#666666
+}
+.rcpop ul li a:hover{
+    background:rgba(120, 140, 191, 0.27);
+    color:#444781
+}
+/*rcpop-2*/
+.rcpop .bor-b-g{
+    padding-bottom:5px;
+    margin-bottom:5px;
+    border-bottom: 1px solid #d0d0d0;
+}
+
+
+.rcpop.ver2 ul li .top-80{
+    top: 66px;
+}
+.rcpop.ver2 ul li .top-120{
+    top: 96px;
+}
+.rcpop.ver2 ul li .top-160{
+    top: 127px;
+}
+.rcpop.ver2 ul li ul li{
+    border-bottom: none !important;
+}
+.rcpop.ver2 ul li:hover ul{
+    display: block;
+    left: 100%;
+}
+
+/*카테고리 on 표시*/
+.catesub a.on{
+    color:#144bda;
 }

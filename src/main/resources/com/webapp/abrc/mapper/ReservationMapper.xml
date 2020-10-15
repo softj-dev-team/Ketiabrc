@@ -42,7 +42,7 @@
 	<select id="getReservationCount" parameterType="hashmap" resultType="int">
 		select ifnull(count(*),0)
 		from reservation A
-		where 1=1
+		where 1=1 and rs_deleteflag = 'N'
 		<if test="rs_cate_id != null and rs_cate_id != ''">AND rs_cate_id = #{rs_cate_id}</if>
 		<if test="rs_date != null and rs_date != ''">AND rs_date = #{rs_date}</if>
 		<if test="rs_start_time != null and rs_start_time != ''">AND rs_start_time = #{rs_start_time}</if>
@@ -58,7 +58,7 @@
 		from reservation A
 		left JOIN reservation_category B
 		ON A.rs_cate_id = B.rs_cate_id
-		where 1=1
+		where 1=1 AND rs_deleteflag='N'
 		<if test="rs_cate_id != null and rs_cate_id != ''">and A.rs_cate_id = #{rs_cate_id}</if>
 		order by A.rs_date desc
 	</select>
@@ -75,7 +75,7 @@
 		where rs_no=#{rs_no}
 	</select>
 
-	<update id="resUpate" parameterType="hashmap">
+	<update id="resUpdate" parameterType="hashmap">
 		update reservation set
 			user_name = #{user_name},
 			rs_date = #{rs_date},
@@ -86,4 +86,10 @@
 			rs_memo = #{rs_memo}
 		where user_id = #{user_id} AND rs_no = #{rs_no}
 	</update>
+
+	<delete id="resDel" parameterType="hashmap">
+		UPDATE reservation
+            SET rs_deleteflag='Y'
+        WHERE rs_no=#{rs_no}
+	</delete>
 </mapper>
