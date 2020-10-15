@@ -16,3 +16,17 @@ $('#pwChBtn').on("click",function () {
     });
 
 })
+
+$('#withdrawUser').on("click",function () {
+    if(!confirm("회원탈퇴 후 복구 할 수 없습니다.")) {
+        return;
+    } else {
+        postCallAjax('/api/withdrawProc', {}, function (data) {
+            if (data.msg == 'success') {
+                location.href = data.redirectUrl;
+            } else {
+                alert("ERROR");
+            }
+        });
+    }
+})

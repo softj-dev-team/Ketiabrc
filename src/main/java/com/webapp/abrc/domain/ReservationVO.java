@@ -13,4 +13,5 @@ public class ReservationVO {
     private String hp;
     private int rs_cate_id;
     private String rs_memo;
+    private String rs_deleteflag;
 }

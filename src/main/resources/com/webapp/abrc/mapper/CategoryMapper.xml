@@ -22,7 +22,8 @@
 
 	<update id="cateUpdate" parameterType="hashmap">
 		update reservation_category A set
-			rs_max_quantity = #{rs_max_quantity}
+			rs_max_quantity = #{rs_max_quantity},
+			rs_max_time = #{rs_max_time}
 		where A.rs_cate_id = #{rs_cate_id}
 	</update>
 </mapper>

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,13 +100,33 @@ public class RestapiService {
         }
     }
 
-    public void resUpate(Map<String,Object> params, Map<String,Object> result, HttpSession session) {
-        if(params.get("user_id") == null){
+    public void resUpdate(Map<String,Object> params, Map<String,Object> result, HttpSession session) {
+        Map<String, Object> reservtion = reservationMapper.getReservationDetail(params);
+        if(session.getAttribute("loginId") == null){
             result.put("msg", "LoginFail");
-        } else if(session.getAttribute("loginId").equals(params.get("user_id"))){
+        } else if(!session.getAttribute("loginId").equals(reservtion.get("user_id"))){
             result.put("msg", "idFail");
         } else {
-            reservationMapper.resUpate(params);
+            params.put("user_id", reservtion.get("user_id"));
+            reservationMapper.resUpdate(params);
+            result.put("msg", "success");
+        }
+    }
+
+    public void resDel(Map<String,Object> params, Map<String,Object> result, HttpSession session) {
+        Map<String, Object> reservtion = reservationMapper.getReservationDetail(params);
+
+        if(session.getAttribute("loginId") == null){
+            result.put("msg", "LoginFail");
+        } else if(!session.getAttribute("loginId").equals(reservtion.get("user_id"))){
+            result.put("msg", "idFail");
+        } else {
+            reservationMapper.resDel(params);
+            result.put("msg", "success");
+        }
+
+        if(session.getAttribute("loginId") != null && session.getAttribute("grant").equals(3)){
+            reservationMapper.resDel(params);
             result.put("msg", "success");
         }
     }
@@ -147,5 +168,10 @@ public class RestapiService {
         return userMapper.empList(params);
     }
 
+    public void deleteUser(Map<String, Object> user, Map<String, Object> result) {
+		userMapper.deleteUser(user);
 
+		result.put("redirectUrl", "/logout");
+        result.put("msg", "success");
+	}
 }

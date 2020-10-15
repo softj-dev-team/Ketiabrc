@@ -11,7 +11,9 @@
         <!-- nav end -->
         <div class="main-inner flexwrap">
             <div class="eqLeft">
-                <a href="/eq-res2" class="btn-eq2">장비 예약하기</a>
+                <th:block th:if="${not #strings.isEmpty(list[0].category2)}">
+                    <a href="#" class="btn-eq2" th:text="${list[0].category2}"></a>
+                </th:block>
                 <div class="datepicker eqdp">
                     <form name="form1" id="form1" method="get">
                         <input type="hidden" name="rs_cate_id" th:value="${categoryOne.rs_cate_id}">
@@ -27,7 +29,7 @@
                             <ul class="catesub">
                                 <th:block th:each="category2: ${category2List}">
                                 <li class="rs_max_quantity" th:if="${category1.rs_cate_id == category2.rs_cate_upper_code}"  th:value="${category2.rs_cate_id}" th:attr="upper-id=${category2.rs_cate_upper_code}, category-name=${category2.rs_cate_name}, rs-max-quantity=${category2.rs_max_quantity}">
-                                    <a th:href="@{/eq-res(rs_cate_id=${category2.rs_cate_id},rs_max_quantity=${category2.rs_max_quantity})}" th:text="${category2.rs_cate_name}" th:value="${category2.rs_cate_id}"></a>
+                                    <a th:href="@{/eq-res(rs_cate_id=${category2.rs_cate_id},rs_max_quantity=${category2.rs_max_quantity})}" th:text="${category2.rs_cate_name}" th:value="${category2.rs_cate_id}" th:attr="rs-max-time=${category2.rs_max_time}"></a>
                                 </li>
                                 </th:block>
                             </ul>
@@ -74,11 +76,11 @@
                         <input type="text" class="w100px" id="hp" name="hp" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
                         <br>
                         <label for="eqname">예약장비</label>
-                        <input type="text" class="w300px" id="eqname" name="eqname">
+                        <input type="text" class="w300px" id="eqname" name="eqname" placeholder="왼쪽 카테고리에서 선택해주세요." readonly>
                         <input type="hidden" name="rs_cate_id">
                         <br>
                         <label for="eqdate">예약날짜</label>
-                        <input type="text" class="w100px datepicker" id="eqdate" name="rs_date">
+                        <input type="text" class="w100px datepicker2" id="eqdate" name="rs_date">
                         <br>
                         <label for="rs_start_time">예약시간</label>
                         <select class="w100px sel_time" name="rs_start_time" id="rs_start_time">
@@ -119,12 +121,13 @@
                         <div class="flexEnd">
                             <button type="button" class="btn-grey mr10 cancelbtn">취소</button>
                             <button type="button" class="btn-blue" id="resUpdateBtn">수정하기</button>
+                            <button type="button" class="btn-blue" id="resBtn">예약하기</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     <script src="../assets/js/common.js"></script>
     <script src="../assets/plugins/malihuScrollbar/jquery.mCustomScrollbar.js"></script>
     <script type="text/javascript" th:src="'assets/js/'+${jsFileName}+'.js'"></script>
@@ -133,11 +136,25 @@
             monthNames: ['01','02','03','04','05','06','07','08','09','10','11','12'], // 월의 한글 형식.\
             monthNamesShort: [ '01','02','03','04','05','06','07','08','09','10','11','12' ],
             dateFormat : "yy-mm-dd",
+            showMonthAfterYear:true, //년도 먼저 나오고, 뒤에 월 표시
+            dayNamesMin: ['일','월','화','수','목','금','토'], //달력의 요일 부분 텍스트
+            dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'], //달력의 요일 부분 Tooltip 텍스트
+            numberOfMonths: [1,1], // 1행 2열로 표시
             onSelect: function(dateText, inst) {
                 var date = $(this).val();
                 document.form1.rs_date.value = date;
                 document.form1.submit();
             }
+        });
+
+        $(".datepicker2").datepicker({
+            monthNames: ['01','02','03','04','05','06','07','08','09','10','11','12'], // 월의 한글 형식.\
+            monthNamesShort: [ '01','02','03','04','05','06','07','08','09','10','11','12' ],
+            dateFormat : "yy-mm-dd",
+            showMonthAfterYear:true, //년도 먼저 나오고, 뒤에 월 표시
+            dayNamesMin: ['일','월','화','수','목','금','토'], //달력의 요일 부분 텍스트
+            dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'], //달력의 요일 부분 Tooltip 텍스트
+            numberOfMonths: [1,1] // 1행 2열로 표시
         });
 
         $(window).on("load",function(){
@@ -170,6 +187,10 @@
             today = getParameterByName("rs_date");
         }
 
+        $(document).ready(function(){
+            $('.datepicker2').datepicker('setDate', getParameterByName('rs_date'));
+        });
+
         var rs_max_quantity = getParameterByName("rs_max_quantity");
         var count_row = [];
 
@@ -188,7 +209,7 @@
             var obj2 = {
                 id: z+1,
                 resourceId: (String.fromCharCode([96+z+1])),
-                title: list[z].user_name,
+                title: list[z].user_name + ' [' + list[z].category2 + ']',
                 start: list[z].rs_date + 'T' +list[z].rs_start_time,
                 end: list[z].rs_date + 'T' + list[z].rs_end_time,
                 rs_no: list[z].rs_no,
@@ -203,9 +224,16 @@
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
             defaultView: 'resourceTimeGridDay',
             defaultDate: today,
+            minTime:'09:00:00', //표기 시간
+            maxTime:'18:30:00', //표기 시간
             initialView: 'resourceTimeGridDay',
             plugins: ['interaction', 'resourceDayGrid', 'resourceTimeGrid', 'dayGrid', 'timeGrid'],
-            header: false,
+            allDaySlot: false,//종일 이벤트 숨기기
+            header: {
+                left: 'resourceTimeGridDay,timeGridWeek,dayGridMonth',
+                center: 'prev title next',
+                right: false,
+            },
             views: {
                 resourceTimeGridDay: {
                     type: 'resourceTimeGridDay',
@@ -217,6 +245,15 @@
                     buttonText: 'timeGrid',
                     eventLimit: 3, // adjust to 6 only for timeGridWeek/timeGridDay
                 },
+                timeGridWeek: {
+                    type: 'timeGridWeek',
+                    buttonText: 'Week',
+                },
+                dayGridMonth: {
+                    type: 'dayGridMonth',
+                    buttonText: 'Month',
+                    eventLimit: true,
+                }
             },
             slotLabelFormat: [
                 // { month: 'numeric', year: 'numeric' }, // top level of text
@@ -242,39 +279,178 @@
             eventRender: function(arg){
                 arg.el.onclick = (function(){
                     $('#eqpop').addClass('on');
-                    postCallAjax('/api/getReservationDetail',{rs_no: arg.event.extendedProps.rs_no},function(data){
-                        var detail = data.detail;
-                        $("input[name=rs_no]").val(detail.rs_no);
-                        $("input[name=rs_date]").val(detail.rs_date);
-                        $("input[name=eqname]").val(detail.rs_cate_name);
-                        $("input[name=rs_cate_id]").val(detail.rs_cate_id);
-                        $("input[name=user_name]").val(detail.user_name);
-                        $("input[name=hp]").val(detail.hp);
-                        $("select[name=rs_start_time]").val(detail.rs_start_time);
-                        $("select[name=rs_end_time]").val(detail.rs_end_time);
-                        $("textarea[name=rs_memo]").val(detail.rs_memo);
-                    })
                 })
+            },
+            //새로운 날짜 집합이 렌더링되면 트리거됩니다.
+            datesRender: function(arg) {
+                //마우스 우클릭
+                arg.el.oncontextmenu = (function(e){ //20.06.25 수정
+                    callRightSmallNavEmptyDate(e, arg);
+                });
+            },
+            //이벤트를 랜더링시 적용할 대상 세팅
+            eventRender: function (arg) {
+                var tooltip = new Tooltip(arg.el, {
+                    title: arg.event.extendedProps.description,
+                    placement: 'right',
+                    trigger: 'hover',
+                    container: 'body',
+                    html: true,
+                });
+                arg.el.oncontextmenu = (function(e){//20.06.25 수정
+                    var rs_no = arg.event.extendedProps.rs_no;
+                    callRightSmallNav(e, rs_no);
+                });
             }
         });
         calendar.render();
+
+        // $("tr:nth-child(1) > td.fc-axis > span").text('00:00');
         });
-        $('.catearr').click(function(){
-           $(this).parent('li').toggleClass('on');
-        });
-        $('.eqCateLi > a').click(function(){
-           $(this).parent('li').toggleClass('on');
-        });
-        $('.ver2 .catesub li a').click(function(e){
+
+        //메뉴호출 예약 이벤트
+        function callRightSmallNav(e, rs_no){
+            var clientX= e.clientX;
+            var clientY= e.clientY;
+            $('.rcpop').remove();
+            $('.main-wrap').append('<div class="rcpop"><ul><li class="bor-b-g"><a href="#" class="editpop-btn">예약수정</a></li><li><a href="#" class="reserv-btn">예약취소</a></li></ul></div>');
+            $('.rcpop').css('position',"fixed");
+            $('.rcpop').css('display',"block");
+            var winWidth = $(window).width();//20.07.29 수정 436~467
+            var winHeight = $(window).height();
+            var posX = e.clientX;
+            var posY = e.clientY;
+            var menuWidth = $('.rcpop').width();
+            var menuHeight = $('.rcpop').height();
+
+            if(posX + menuWidth >= winWidth
+            && posY + menuHeight >= winHeight){
+              //Case 1: right-bottom overflow:
+              posLeft = posX - menuWidth + "px";
+              posTop = posY - menuHeight + "px";
+            }
+            else if(posX + menuWidth >= winWidth){
+              //Case 2: right overflow:
+              posLeft = posX - menuWidth + "px";
+              posTop = posY + "px";
+            }
+            else if(posY + menuHeight >= winHeight){
+              //Case 3: bottom overflow:
+              posLeft = posX + "px";
+              posTop = posY - menuHeight + "px";
+            }
+            else {
+              //Case 4: default values:
+              posLeft = posX + "px";
+              posTop = posY + "px";
+            }
+            $('.rcpop').css({
+               "left": posLeft,
+               "top": posTop
+            });
+            $(".editpop-btn").click(function(){
+                $('.rcpop').remove();
+                $("#eqpop").addClass('on');
+                postCallAjax('/api/getReservationDetail', {rs_no: rs_no}, function (data) {
+                    var detail = data.detail;
+                    $("input[name=rs_no]").val(detail.rs_no);
+                    $("input[name=rs_date]").val(detail.rs_date);
+                    $("input[name=eqname]").val(detail.rs_cate_name);
+                    $("input[name=rs_cate_id]").val(detail.rs_cate_id);
+                    $("input[name=user_name]").val(detail.user_name);
+                    $("input[name=hp]").val(detail.hp);
+                    $("select[name=rs_start_time]").val(detail.rs_start_time);
+                    $("select[name=rs_end_time]").val(detail.rs_end_time);
+                    $("textarea[name=rs_memo]").val(detail.rs_memo);
+                    $("#resUpdateBtn").show();
+                    $("#resBtn").hide();
+                })
+            });
+            $(".reserv-btn").click(function(){
+                if (!confirm("삭제하시겠습니까?")) {
+                    return;
+                }
+                postCallAjax('/api/resDel', {rs_no: rs_no}, function (data) {
+                    if(data.msg == 'success'){
+                        location.reload();
+                    } else if(data.msg == "LoginFail"){
+                        alert("로그인 후 삭제 가능합니다.");
+                    } else if(data.msg == "idFail"){
+                        alert("예약자 정보가 일치하지 않습니다.");
+                    } else {
+                        alert("ERROR");
+                    }
+                })
+            });
+             // console.log('callRightSmallNav',e);
             e.preventDefault();
-            $('.ver2 .catesub li a').removeClass('on');
-            $(this).addClass('on');
-            var eq = $(this).text();
-            $(this).parents('.flexwrap').find('#eqname').val(eq);
-        });
-        $('.cancelbtn').click(function(){
-            $(this).parents('#eqpop').removeClass('on')
-        })
+        }
+
+        //메뉴호출 빈셀 빈날짜
+        function callRightSmallNavEmptyDate(e,el){
+            if(e.target.classList.value==='fc-widget-content' || e.target.classList.value==='fc-highlight'){
+                var clientX= e.clientX;
+                var clientY= e.clientY;
+                //빈 시간 종료
+                $('#reservAddcurrentEnd').val(el.currentEnd);
+                //빈 시작 시작
+                $('#reservAddcurrentStart').val(el.currentStart);
+
+                //예약등록시 날짜 에 입력
+                $( "#reservAddDate" ).datepicker( "setDate", el.currentStart );
+
+                $('.rcpop').remove();
+                $('.main-wrap').append(' <div class="rcpop"><ul><li><a href="#" class="eqpop-btn">예약등록</a></li></ul></div>');
+                $('.rcpop').css('position',"fixed");
+                $('.rcpop').css('display',"block");
+                var winWidth = $(window).width();//20.07.29 수정 491~522
+                var winHeight = $(window).height();
+                var posX = e.clientX;
+                var posY = e.clientY;
+                var menuWidth = $('.rcpop').width();
+                var menuHeight = $('.rcpop').height();
+
+                if(posX + menuWidth >= winWidth
+                && posY + menuHeight >= winHeight){
+                  //Case 1: right-bottom overflow:
+                  posLeft = posX - menuWidth + "px";
+                  posTop = posY - menuHeight + "px";
+                }
+                else if(posX + menuWidth >= winWidth){
+                  //Case 2: right overflow:
+                  posLeft = posX - menuWidth + "px";
+                  posTop = posY + "px";
+                }
+                else if(posY + menuHeight >= winHeight){
+                  //Case 3: bottom overflow:
+                  posLeft = posX + "px";
+                  posTop = posY - menuHeight + "px";
+                }
+                else {
+                  //Case 4: default values:
+                  posLeft = posX + "px";
+                  posTop = posY + "px";
+                }
+                $('.rcpop').css({
+                   "left": posLeft,
+                   "top": posTop
+                });
+                $(".eqpop-btn").click(function(){
+                    $('.rcpop').remove();
+                    $("#eqpop").addClass('on');
+                    $("#eqpop input[name=rs_no]").val('');
+                    $("#eqpop input[name=eqname]").val('');
+                    $("#eqpop input[name=rs_cate_id]").val('');
+                    $("#eqpop input[name=hp]").val('');
+                    $("#eqpop select[name=rs_start_time]").val('0');
+                    $("#eqpop select[name=rs_end_time]").val('0');
+                    $("#eqpop textarea[name=rs_memo]").val('');
+                    $("#resBtn").show();
+                    $("#resUpdateBtn").hide();
+                });
+                e.preventDefault();
+            }
+        }
     </script>
 </th:block>
 </body>

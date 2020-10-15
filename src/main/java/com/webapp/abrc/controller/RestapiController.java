@@ -6,6 +6,7 @@ import com.webapp.abrc.domain.BoardVO;
 import com.webapp.abrc.domain.ReservationVO;
 import com.webapp.abrc.domain.UserVO;
 import com.webapp.abrc.mapper.ReservationMapper;
+import com.webapp.abrc.mapper.UserMapper;
 import com.webapp.abrc.service.BoardGroupService;
 import com.webapp.abrc.service.BoardService;
 import com.webapp.abrc.service.RestapiService;
@@ -30,6 +31,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static org.springframework.util.CollectionUtils.isEmpty;
+
 @RestController
 @RequestMapping("/api")
 public class RestapiController {
@@ -41,6 +44,8 @@ public class RestapiController {
     BoardService boardService;
     @Autowired
     ReservationMapper reservationMapper;
+    @Autowired
+    UserMapper userMapper;
     @Value("${fileUploadPath}")
 	private String fileUploadPath;
 
@@ -130,12 +135,21 @@ public class RestapiController {
 	}
 
     //예약 수정
-    @RequestMapping("/resUpate")
-    public Map<String, Object> resUpate(@RequestParam HashMap params, HttpServletRequest req, HttpServletResponse res, HttpSession session, ModelMap model){
+    @RequestMapping("/resUpdate")
+    public Map<String, Object> resUpdate(@RequestParam HashMap params, HttpServletRequest req, HttpServletResponse res, HttpSession session, ModelMap model){
         Map<String, Object> result = new HashMap<String, Object>();
 
-        params.put("user_id", session.getAttribute("loginId"));
-        restapiService.resUpate(params, result, session);
+        restapiService.resUpdate(params, result, session);
+
+        return result;
+    }
+
+    //예약 취소
+    @RequestMapping("/resDel")
+    public Map<String, Object> resDel(@RequestParam HashMap params, HttpServletRequest req, HttpServletResponse res, HttpSession session, ModelMap model){
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        restapiService.resDel(params, result, session);
 
         return result;
     }
@@ -198,5 +212,23 @@ public class RestapiController {
         }
 
         return resultMap;
+    }
+
+    //회원 탈퇴
+    @RequestMapping(value = "/withdrawProc", method = RequestMethod.POST, produces = "application/json")
+    public Map<String, Object>  withdrawProc(@RequestParam HashMap params, UserVO userVO, HttpSession session){
+    	Map<String, Object> result = new HashMap<String, Object>();
+
+    	if(!session.getAttribute("grant").equals(3)){
+            params.put("user_id",session.getAttribute("loginId"));
+        }
+        //로그인 확인
+        Map<String, Object> user = userMapper.userSelectOne(params);
+
+        if(!isEmpty(user)){
+            restapiService.deleteUser(user, result);
+        }
+
+    	return result;
     }
 }
