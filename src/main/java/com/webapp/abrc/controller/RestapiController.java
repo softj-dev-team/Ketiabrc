@@ -41,8 +41,8 @@ public class RestapiController {
     BoardService boardService;
     @Autowired
     ReservationMapper reservationMapper;
-    @Value("${downloadEditorPath}")
-	private String downloadEditorPath;
+    @Value("${fileUploadPath}")
+	private String fileUploadPath;
 
     //회원가입 처리
     @RequestMapping("/signupProc")
@@ -177,7 +177,7 @@ public class RestapiController {
 
         JsonObject jsonObject = new JsonObject();
 
-        String fileRoot = downloadEditorPath;	//저장될 외부 파일 경로
+        String fileRoot = fileUploadPath;	//저장될 외부 파일 경로
         String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
 
@@ -188,7 +188,7 @@ public class RestapiController {
         try {
             InputStream fileStream = multipartFile.getInputStream();
             FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
-            resultMap.put("url", siteUrl+"/editorUploads/"+savedFileName);
+            resultMap.put("url", siteUrl+"/download/"+savedFileName);
             resultMap.put("responseCode", "success");
 
         } catch (IOException e) {

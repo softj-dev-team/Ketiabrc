@@ -12,12 +12,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     //로 접속하면 C:/summernote_image/1234.jpg 파일을 불러온다.
     @Value("${downloadPath}")
     private String downloadPath;
-    @Value("${downloadEditorPath}")
-    private String downloadEditorPath;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(downloadPath + "/**")
+        registry.addResourceHandler("/download/**")
                 .addResourceLocations("file:///" + downloadPath);
     }
 }
