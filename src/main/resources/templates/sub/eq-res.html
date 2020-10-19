@@ -11,8 +11,8 @@
         <!-- nav end -->
         <div class="main-inner flexwrap">
             <div class="eqLeft">
-                <th:block th:if="${not #strings.isEmpty(list[0].category2)}">
-                    <a href="#" class="btn-eq2" th:text="${list[0].category2}"></a>
+                <th:block th:if="${not #strings.isEmpty(categoryOne.rs_cate_name)}">
+                    <a href="#" class="btn-eq2" th:text="${categoryOne.rs_cate_name}"></a>
                 </th:block>
                 <div class="datepicker eqdp">
                     <form name="form1" id="form1" method="get">
