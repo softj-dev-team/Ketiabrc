@@ -408,7 +408,7 @@ header.main-hd{
     position: relative;
     margin-bottom:30px;
 }
-h1{
+.h-logo{
     width:250px;
     position: absolute;
     left:0;
@@ -976,6 +976,7 @@ button.btn-dblue{
 .btn-box{
     display: flex;
     justify-content: flex-end;
+    margin-bottom:50px;
 }
 .btn-box .btn-blue {
     width: 80px;
@@ -1353,4 +1354,50 @@ button.btn-bgrey{
 /*카테고리 on 표시*/
 .catesub a.on{
     color:#144bda;
+}
+
+/* 20.10.21 추가 */
+/* 파일첨부 수정 */
+.up-file-box{
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+.file-up,.file-up-con li{
+    display: flex;
+    align-items: center;
+}
+.up-file-box input[type=checkbox]+label {
+    margin: 0 16px 0 0;
+    display: flex;
+    align-items: center;
+}
+.up-file-box input[type=checkbox]+label span{
+    display: flex;
+    align-items: center;
+    min-width: 500px;
+    width: auto;
+    margin-left: 30px;
+}
+.file-up{
+    background-color: #fbfbfb;
+    border-bottom: 1px solid #ccc;
+    padding: 5px 10px;
+}.file-up span{
+    color: #6d6d6d;
+}
+.file-up button{
+    border: 1px solid #da394d;
+    color: #da394d;
+    display: block;
+    height: 25px;
+    line-height: 25px;
+    margin: 0 0 0 auto;
+    background-color: #fff;
+}
+.file-up-con{
+    height: 120px;
+    overflow-y: scroll;
+}
+.file-up-con li{
+    padding: 5px 10px;
 }

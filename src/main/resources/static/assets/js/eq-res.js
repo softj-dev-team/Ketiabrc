@@ -38,6 +38,7 @@ $('.ver2 .catesub li a').click(function(e){
 $('.cancelbtn').click(function(){
     $(this).parents('#eqpop').removeClass('on');
     $(this).parents('.eqpop_insert').removeClass('on');
+    location.reload();
 })
 
 $('.catesub a').click(function(){
@@ -63,10 +64,18 @@ $('#resBtn').on("click",function () {
             } else if(data.msg == "grantFail"){
                 alert("예약 권한이 없습니다.");
             } else if(data.msg == "reCountFail"){
-                alert("예약초과");
+                alert("예약시간 중복");
             } else {
                 alert("ERROR");
             }
         });
     }
 })
+
+$('body').on('click', function(e){
+    var $tgPoint = $(e.target);
+    var $popArea = $tgPoint.parents().hasClass('rcpop');
+    if ( !$popArea ){
+        $('.rcpop').remove();
+    }
+});
