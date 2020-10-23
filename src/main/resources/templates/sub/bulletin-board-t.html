@@ -73,6 +73,16 @@
                                     <label for="uploadBtn" class="btn_file">파일선택</label>
                                     <input multiple="multiple" type="file" id="uploadBtn" name="uploadfile" class="uploadBtn">
                                 </div>
+                                <div class="up-file-box"> <!-- 201022.추가 -->
+                                    <div class="file-up">
+                                        <input type="checkbox" id="all-chk"><label for="all-chk"></label><span>파일명</span>
+                                        <button type="button" class="ch-remove">선택삭제</button>
+                                    </div>
+                                    <ul class="file-up-con">
+                                        <li file-value="1"><input type="checkbox" id="file-ch1" value="1"><label for="file-ch1"><span>파일1</span></label></li>
+                                        <li file-value="2"><input type="checkbox" id="file-ch2" value="2"><label for="file-ch2"><span>파일2</span></label></li>
+                                    </ul>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -114,6 +124,25 @@
                     }
                 }
             });
+        });
+        // 201021  추가
+        $(function(){
+            $('#all-chk').click(function(){
+                var chk = $(this).is(':checked');//.attr('checked');
+                if(chk) $('.file-up-con input').prop('checked',true);
+                else $('.file-up-con input').prop('checked',false);
+            });
+        });
+        $('.ch-remove').click(function(){
+            if(confirm("삭제하시겠습니까?")){
+                $(".file-up-con input[type=checkbox]:checked").each(function(){
+                    var tr_value =$(this).val();
+                    var tr=$("li[file-value='"+tr_value+"']");
+                    tr.remove();
+                });
+            }else{
+                return false;
+            }
         });
 
         //게시판 글쓰기

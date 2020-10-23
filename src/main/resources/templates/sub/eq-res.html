@@ -281,6 +281,9 @@
                     $('#eqpop').addClass('on');
                 })
             },
+            select: function(info) {
+                dateInput(info);
+            },
             //새로운 날짜 집합이 렌더링되면 트리거됩니다.
             datesRender: function(arg) {
                 //마우스 우클릭
@@ -307,6 +310,32 @@
 
         // $("tr:nth-child(1) > td.fc-axis > span").text('00:00');
         });
+
+        //예약폼 날짜, 시간 등록
+        function dateInput(info) {
+            var startT = info.startStr.substring(11,16);
+            var endT = info.endStr.substring(11,16);
+            var rs_date = info.startStr.substring(0,10);
+
+            //시작 시작
+            $('#eqpop select[name=rs_start_time]').val(startT);
+            //시간 종료
+            $('#eqpop select[name=rs_end_time]').val(endT);
+            //예약등록시 날짜에 입력
+            $('#eqpop #eqdate').datepicker("setDate", rs_date);
+
+        }
+
+        function getParam(sname) {
+            var params = location.search.substr(location.search.indexOf("?") + 1);
+            var sval = "";
+            params = params.split("&");
+            for (var i = 0; i < params.length; i++) {
+                temp = params[i].split("=");
+                if ([temp[0]] == sname) { sval = temp[1]; }
+            }
+            return sval;
+        }
 
         //메뉴호출 예약 이벤트
         function callRightSmallNav(e, rs_no){
@@ -349,7 +378,6 @@
                "top": posTop
             });
             $(".editpop-btn").click(function(){
-                $('.rcpop').remove();
                 $("#eqpop").addClass('on');
                 postCallAjax('/api/getReservationDetail', {rs_no: rs_no}, function (data) {
                     var detail = data.detail;
@@ -388,16 +416,9 @@
 
         //메뉴호출 빈셀 빈날짜
         function callRightSmallNavEmptyDate(e,el){
-            if(e.target.classList.value==='fc-widget-content' || e.target.classList.value==='fc-highlight'){
+            if(e.target.classList=='fc-widget-content' || e.target.classList=='fc-highlight'){
                 var clientX= e.clientX;
                 var clientY= e.clientY;
-                //빈 시간 종료
-                $('#reservAddcurrentEnd').val(el.currentEnd);
-                //빈 시작 시작
-                $('#reservAddcurrentStart').val(el.currentStart);
-
-                //예약등록시 날짜 에 입력
-                $( "#reservAddDate" ).datepicker( "setDate", el.currentStart );
 
                 $('.rcpop').remove();
                 $('.main-wrap').append(' <div class="rcpop"><ul><li><a href="#" class="eqpop-btn">예약등록</a></li></ul></div>');
@@ -436,18 +457,18 @@
                    "top": posTop
                 });
                 $(".eqpop-btn").click(function(){
-                    $('.rcpop').remove();
                     $("#eqpop").addClass('on');
                     $("#eqpop input[name=rs_no]").val('');
-                    $("#eqpop input[name=eqname]").val('');
-                    $("#eqpop input[name=rs_cate_id]").val('');
+                    $("#eqpop input[name=eqname]").val($('.btn-eq2').text());
+                    $("#eqpop input[name=rs_cate_id]").val(getParam("rs_cate_id"));
                     $("#eqpop input[name=hp]").val('');
-                    $("#eqpop select[name=rs_start_time]").val('0');
-                    $("#eqpop select[name=rs_end_time]").val('0');
+                    // $('#eqpop select[name=rs_start_time]').val('0');
+                    // $('#eqpop select[name=rs_end_time]').val('0');
                     $("#eqpop textarea[name=rs_memo]").val('');
                     $("#resBtn").show();
                     $("#resUpdateBtn").hide();
                 });
+
                 e.preventDefault();
             }
         }
