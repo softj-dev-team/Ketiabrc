@@ -420,20 +420,23 @@
             e.preventDefault();
         }
 
+        function getSplitArray(toString,typeString){
+            //시간이 00:00:00 형태로 넘어오니 : 문자열 기준으로 잘라서 배열에 저장한다
+            //저장된 값을 다시 불러와서 00:00분형로 바꿔준다
+            var resultArray = toString.split(typeString)
+            return resultArray[0]+":"+resultArray[1];
+        }
         //메뉴호출 빈셀 빈날짜
         function callRightSmallNavEmptyDate(e){
             //전역변수에따른 예약날짜 설정
             $(".datepicker2").datepicker("setDate",today);
-            //빈셀 선택 시간
-            selectTime =e.target.parentElement.getAttribute('data-time')
-            //시간이 00:00:00 형태로 넘어오니 : 문자열 기준으로 잘라서 배열에 저장한다
-            //저장된 값을 다시 불러와서 00:00분형로 바꿔준다
-            var splitTime = selectTime.split(":")
-            var inputStartTime = splitTime[0]+":"+splitTime[1];
+            //빈셀 선택
+            var selectStartTime =e.target.parentElement.getAttribute('data-time')
+            var selectEndTime =e.target.parentElement.nextElementSibling.getAttribute('data-time')
+
             //우선 30분단위로 입력해주자
-            var inputEndTime = splitTime[0]+":30";
-            $('#rs_start_time').val(inputStartTime);
-            $('#rs_end_time').val(inputEndTime);
+            $('#rs_start_time').val(getSplitArray(selectStartTime,":"));
+            $('#rs_end_time').val(getSplitArray(selectEndTime,":"));
             if(e.target.classList=='fc-widget-content' || e.target.classList=='fc-highlight'){
                 var clientX= e.clientX;
                 var clientY= e.clientY;
