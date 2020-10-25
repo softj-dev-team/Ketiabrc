@@ -79,3 +79,11 @@ $('body').on('click', function(e){
         $('.rcpop').remove();
     }
 });
+
+$(".btn-eq3").click(function(){
+    $('#eqpop').addClass('on');
+    $("#eqpop input[name=eqname]").val($('.btn-eq2').text());
+    $("#eqpop input[name=rs_cate_id]").val(getParam("rs_cate_id"));
+    $("#resBtn").show();
+    $("#resUpdateBtn").hide();
+});
