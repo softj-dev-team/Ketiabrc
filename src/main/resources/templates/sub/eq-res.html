@@ -12,7 +12,9 @@
         <div class="main-inner flexwrap">
             <div class="eqLeft">
                 <th:block th:if="${not #strings.isEmpty(categoryOne.rs_cate_name)}">
-                    <a href="#" class="btn-eq2" th:text="${categoryOne.rs_cate_name}"></a>
+                    <h3 th:class="pageTitle2">
+                    <i class="sq-dot"></i><span class="btn-eq2" th:text="${categoryOne.rs_cate_name}"></span>
+                    </h3>
                 </th:block>
                 <div class="datepicker eqdp">
                     <form name="form1" id="form1" method="get">
@@ -38,6 +40,7 @@
                 </div>
             </div>
             <div class="eqRight">
+                <a href="#" class="btn-eq3">장비 예약하기</a>
                 <div class="fullcalendar" id="calendar">
                 </div>
             </div>
