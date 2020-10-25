@@ -132,6 +132,24 @@
     <script src="../assets/plugins/malihuScrollbar/jquery.mCustomScrollbar.js"></script>
     <script type="text/javascript" th:src="'assets/js/'+${jsFileName}+'.js'"></script>
     <script th:inline="javascript">
+        //켈린터 전역변수 선언
+        var calendar;
+        //오늘날짜 를 구해서 전역변수 선언 한다 데이트피커입력값이 있다면 해달잘자로 변경한다
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if(dd<10) {
+            dd='0'+dd
+        }
+
+        if(mm<10) {
+            mm='0'+mm
+        }
+
+        today = yyyy+'-'+mm+'-'+dd;
+
 
         $(".datepicker2").datepicker({
             monthNames: ['01','02','03','04','05','06','07','08','09','10','11','12'], // 월의 한글 형식.\
@@ -215,6 +233,7 @@
                 initialView: 'resourceTimeGridDay',
                 plugins: ['interaction', 'resourceDayGrid', 'resourceTimeGrid', 'dayGrid', 'timeGrid'],
                 allDaySlot: false,//종일 이벤트 숨기기
+                slotLabelInterval:30,//slotDuration의 길이가 15 분 또는 30 분이더라도 헤더 레이블이 시간 표시에 나타납니다.
                 header: {
                     left: 'resourceTimeGridDay,timeGridWeek,dayGridMonth',
                     center: 'prev title next',
@@ -402,7 +421,19 @@
         }
 
         //메뉴호출 빈셀 빈날짜
-        function callRightSmallNavEmptyDate(e,el){
+        function callRightSmallNavEmptyDate(e){
+            //전역변수에따른 예약날짜 설정
+            $(".datepicker2").datepicker("setDate",today);
+            //빈셀 선택 시간
+            selectTime =e.target.parentElement.getAttribute('data-time')
+            //시간이 00:00:00 형태로 넘어오니 : 문자열 기준으로 잘라서 배열에 저장한다
+            //저장된 값을 다시 불러와서 00:00분형로 바꿔준다
+            var splitTime = selectTime.split(":")
+            var inputStartTime = splitTime[0]+":"+splitTime[1];
+            //우선 30분단위로 입력해주자
+            var inputEndTime = splitTime[0]+":30";
+            $('#rs_start_time').val(inputStartTime);
+            $('#rs_end_time').val(inputEndTime);
             if(e.target.classList=='fc-widget-content' || e.target.classList=='fc-highlight'){
                 var clientX= e.clientX;
                 var clientY= e.clientY;
@@ -473,6 +504,8 @@
                 calendar.changeView(
                     'resourceTimeGridDay', dateText
                 );
+                //데이트피커 선택시 날짜를 변경
+                today = dateText
             }
         });
     </script>
