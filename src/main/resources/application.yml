@@ -32,7 +32,7 @@ server:
         max-age: 24h
 
 
-#downloadPath: /home/ec2-user/uploads/fileupload/
-#fileUploadPath: /home/ec2-user/uploads/fileupload/
-downloadPath: D:\localWork\abrc\src\main\resources\uploads\
-fileUploadPath: D:\localWork\abrc\src\main\resources\uploads\
+downloadPath: /home/ec2-user/uploads/fileupload/
+fileUploadPath: /home/ec2-user/uploads/fileupload/
+#downloadPath: D:\localWork\abrc\src\main\resources\uploads\
+#fileUploadPath: D:\localWork\abrc\src\main\resources\uploads\
