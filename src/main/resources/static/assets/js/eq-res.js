@@ -58,7 +58,7 @@ $('#resBtn').on("click",function () {
     } else {
         postCallAjax('/api/resSave', formData, function(data){
             if(data.msg == 'success'){
-                location.href=data.redirectUrl;
+                location.reload();
             } else if(data.msg == "LoginFail"){
                 alert("로그인후 이용 가능합니다.");
             } else if(data.msg == "grantFail"){
