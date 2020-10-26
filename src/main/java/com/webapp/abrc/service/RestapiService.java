@@ -95,7 +95,7 @@ public class RestapiService {
         } else {
             reservationMapper.insertResSave(params);
 
-            result.put("redirectUrl", "/eq-res?rs_cate_id=" + params.get("rs_cate_id") +"&rs_max_quantity=" + categoryOne.get("rs_max_quantity"));
+//            result.put("redirectUrl", "/eq-res?rs_cate_id=" + params.get("rs_cate_id") +"&rs_max_quantity=" + categoryOne.get("rs_max_quantity"));
             result.put("msg", "success");
         }
     }

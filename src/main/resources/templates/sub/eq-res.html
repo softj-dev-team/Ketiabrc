@@ -191,7 +191,7 @@
         }
 
         $(document).ready(function(){
-            $('.datepicker2').datepicker('setDate', getParameterByName('rs_date'));
+            $('.datepicker').datepicker('setDate', getParameterByName('rs_date'));
         });
 
         var rs_max_quantity = getParameterByName("rs_max_quantity");
@@ -329,7 +329,7 @@
             //예약등록시 날짜에 입력
             $('#eqpop #eqdate').datepicker("setDate", rs_date);
 
-            var clientX= info.jsEvent.clientX;
+            /*var clientX= info.jsEvent.clientX;
             var clientY= info.jsEvent.clientY;
             console.log(clientX,clientY)
             $('.rcpop').remove();
@@ -381,7 +381,7 @@
                 $("#resUpdateBtn").hide();
             });
 
-            info.jsEvent.preventDefault();
+            info.jsEvent.preventDefault();*/
 
         }
 
