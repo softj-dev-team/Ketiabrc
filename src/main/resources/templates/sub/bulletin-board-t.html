@@ -79,8 +79,9 @@
                                         <button type="button" class="ch-remove">선택삭제</button>
                                     </div>
                                     <ul class="file-up-con">
-                                        <li file-value="1"><input type="checkbox" id="file-ch1" value="1"><label for="file-ch1"><span>파일1</span></label></li>
-                                        <li file-value="2"><input type="checkbox" id="file-ch2" value="2"><label for="file-ch2"><span>파일2</span></label></li>
+                                        <li file-value="1" th:each="listview: ${listview}"><input type="checkbox" id="file-ch1" th:value="${listview.fileno}"><label for="file-ch1"><span th:text="${listview.filename}"></span></label></li>
+<!--                                            <li file-value="1"><input type="checkbox" id="file-ch1" value="1"><label for="file-ch2"><span>파일2</span></label></li>-->
+<!--                                            <li file-value="2"><input type="checkbox" id="file-ch2" value="2"><label for="file-ch2"><span>파일2</span></label></li>-->
                                     </ul>
                                 </div>
                             </td>
