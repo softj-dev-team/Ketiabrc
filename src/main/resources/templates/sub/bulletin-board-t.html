@@ -73,17 +73,21 @@
                                     <label for="uploadBtn" class="btn_file">파일선택</label>
                                     <input multiple="multiple" type="file" id="uploadBtn" name="uploadfile" class="uploadBtn">
                                 </div>
+                                <th:block th:if="${listview.size() != 0}">
                                 <div class="up-file-box"> <!-- 201022.추가 -->
                                     <div class="file-up">
                                         <input type="checkbox" id="all-chk"><label for="all-chk"></label><span>파일명</span>
                                         <button type="button" class="ch-remove">선택삭제</button>
                                     </div>
                                     <ul class="file-up-con">
-                                        <li file-value="1" th:each="listview: ${listview}"><input type="checkbox" id="file-ch1" th:value="${listview.fileno}"><label for="file-ch1"><span th:text="${listview.filename}"></span></label></li>
+                                        <input type="hidden" name="table_name" value="TBL_BOARDFILE">
+                                        <input type="hidden" name="pk" value="fileno">
+                                        <li th:file-value="${listview.fileno}" th:each="listview: ${listview}"><input type="checkbox" th:id="file-ch + ${listview.fileno}" name="chk" th:value="${listview.fileno}"><label th:for="file-ch + ${listview.fileno}"><span th:text="${listview.filename}"></span></label></li>
 <!--                                            <li file-value="1"><input type="checkbox" id="file-ch1" value="1"><label for="file-ch2"><span>파일2</span></label></li>-->
 <!--                                            <li file-value="2"><input type="checkbox" id="file-ch2" value="2"><label for="file-ch2"><span>파일2</span></label></li>-->
                                     </ul>
                                 </div>
+                                </th:block>
                             </td>
                         </tr>
                     </tbody>
@@ -101,72 +105,7 @@
         </form>
     </div>
     <script th:src="@{/assets/js/common.js}"></script>
-    <script type="text/javascript">
-        //summernote
-        $(document).ready(function (){
-            $('#summernote').summernote({
-                toolbar:[
-                    ['style', ['style']],
-                    ['font', ['bold', 'underline', 'clear']],
-                    ['color', ['color']],
-                    ['fontsize', ['fontsize']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['view', ['fullscreen', 'codeview', 'help']]
-                ],
-                tabsize: 2,
-                height: 250,
-                lang: 'ko-KR', // default: 'en-US'
-                callbacks: {
-                    onImageUpload : function(files) {
-                        uploadSummernoteImageFile(files[0],this);
-                    }
-                }
-            });
-        });
-        // 201021  추가
-        $(function(){
-            $('#all-chk').click(function(){
-                var chk = $(this).is(':checked');//.attr('checked');
-                if(chk) $('.file-up-con input').prop('checked',true);
-                else $('.file-up-con input').prop('checked',false);
-            });
-        });
-        $('.ch-remove').click(function(){
-            if(confirm("삭제하시겠습니까?")){
-                $(".file-up-con input[type=checkbox]:checked").each(function(){
-                    var tr_value =$(this).val();
-                    var tr=$("li[file-value='"+tr_value+"']");
-                    tr.remove();
-                });
-            }else{
-                return false;
-            }
-        });
-
-        //게시판 글쓰기
-        function chkInputValue(id, msg){
-            if ( $.trim($(id).val()) == "") {
-                alert(msg+" "+ "입력해주세요.");
-                $(id).focus();
-                return false;
-            }
-            return true;
-        }
-
-        function fn_formSubmit(login){
-            if ( ! chkInputValue("#brdwriter", "작성자를")) return;
-            if ( ! chkInputValue("#brdtitle", "글 제목을")) return;
-            if ( ! chkInputValue(".brdmemo", "글 내용을")) return;
-            // if(!login){
-            //     if ( ! chkInputValue("#password", "비밀번호를")) return;
-            // }
-
-            $("#boardForm").submit();
-        }
-    </script>
+    <script type="text/javascript" th:src="'assets/js/'+${jsFileName}+'.js'"></script>
 </th:block>
 </body>
 </html>

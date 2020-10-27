@@ -1,9 +1,6 @@
 package com.webapp.abrc.mapper;
 
-import com.webapp.abrc.domain.BoardReplyVO;
-import com.webapp.abrc.domain.BoardVO;
-import com.webapp.abrc.domain.FileVO;
-import com.webapp.abrc.domain.SearchVO;
+import com.webapp.abrc.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -33,4 +30,5 @@ public interface BoardMapper {
 	int selectBoard8ReplyChild(String params);
 	int updateBoard8ReplyOrder4Delete(String params);
 	int deleteBoard8Reply(String params);
+	int deletelist(CommonVO commonVO);
 }

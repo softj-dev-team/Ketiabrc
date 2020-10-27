@@ -80,6 +80,15 @@
         WHERE BRDNO=#{brdno}
     </delete>
 
+    <delete id="deletelist" parameterType="com.webapp.abrc.domain.CommonVO">
+        <![CDATA[
+        delete from ${table_name} where ${pk} in
+        ]]>
+        <foreach collection="chk" item="item" open="(" separator="," close=")">
+             #{item}
+        </foreach>
+    </delete>
+
     <insert id="insertBoard8File" parameterType="com.webapp.abrc.domain.FileVO" >
         INSERT INTO TBL_BOARDFILE (brdno, filename, realname, filesize)
         VALUES (#{parentPK}, #{filename}, #{realname}, #{filesize})

@@ -1,9 +1,6 @@
 package com.webapp.abrc.service;
 
-import com.webapp.abrc.domain.BoardVO;
-import com.webapp.abrc.domain.FileVO;
-import com.webapp.abrc.domain.SearchVO;
-import com.webapp.abrc.domain.UserVO;
+import com.webapp.abrc.domain.*;
 import com.webapp.abrc.mapper.BoardMapper;
 import com.webapp.abrc.mapper.CategoryMapper;
 import com.webapp.abrc.mapper.ReservationMapper;
@@ -79,6 +76,17 @@ public class RestapiService {
         boardMapper.deleteBoard(params);
 
 		result.put("msg", "success");
+	}
+
+	public void deletelist(Map<String,Object> params, Map<String,Object> result, CommonVO commonVO) {
+        if (commonVO.getPk().equals(null) || commonVO.getPk().equals("")) {
+            result.put("msg", "pkName");
+        } else if (commonVO.getTable_name().equals(null) || commonVO.getTable_name().equals("")) {
+            result.put("msg", "table");
+        } else {
+            boardMapper.deletelist(commonVO);
+		    result.put("msg", "success");
+        }
 	}
 
 	public void insertResSave(Map<String,Object> params, Map<String,Object> result) {
