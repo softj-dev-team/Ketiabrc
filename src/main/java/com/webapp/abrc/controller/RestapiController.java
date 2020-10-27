@@ -1,10 +1,7 @@
 package com.webapp.abrc.controller;
 
 import com.google.gson.JsonObject;
-import com.webapp.abrc.domain.BoardGroupVO;
-import com.webapp.abrc.domain.BoardVO;
-import com.webapp.abrc.domain.ReservationVO;
-import com.webapp.abrc.domain.UserVO;
+import com.webapp.abrc.domain.*;
 import com.webapp.abrc.mapper.ReservationMapper;
 import com.webapp.abrc.mapper.UserMapper;
 import com.webapp.abrc.service.BoardGroupService;
@@ -112,6 +109,15 @@ public class RestapiController {
         result.put("redirectUrl", "/bulletin_board?bgno=" + boardInfo.getBgno());
 		return result;
 	}
+
+    @RequestMapping("/ListDelete")
+    public Map<String, Object> ListDelete(@RequestParam HashMap<String,Object> params, HttpSession session, CommonVO commonVO, HttpServletRequest request){
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        restapiService.deletelist(params, result, commonVO);
+
+        return result;
+    }
 
 	//예약 저장
     @RequestMapping("/resSave")
