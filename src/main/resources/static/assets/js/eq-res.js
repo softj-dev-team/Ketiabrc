@@ -64,7 +64,7 @@ $('#resBtn').on("click",function () {
             } else if(data.msg == "grantFail"){
                 alert("예약 권한이 없습니다.");
             } else if(data.msg == "reCountFail"){
-                alert("예약시간 중복");
+                alert("예약이 초과되었습니다. 예약시간을 확인해주세요.");
             } else {
                 alert("ERROR");
             }

@@ -93,10 +93,22 @@ public class RestapiService {
         int reservationCount = reservationMapper.getReservationCount(params);
         Map<String, Object> categoryOne = categoryMapper.getCategoryOne(params);
         Map<String, Object> user = userMapper.userSelectOne(params);
+        int reservationListCount2 = reservationMapper.reservationListCount(params);
+
+        int reservationListCount = 0;
+        for(int i=1; i<= (int) categoryOne.get("rs_max_quantity"); i++){
+            params.put("i", i);
+            reservationListCount = reservationMapper.reservationListCount(params);
+            if(reservationListCount == 0){
+                params.put("resource_id", i);
+                break;
+            }
+        }
+
 
         if(params.get("user_id") == null){
             result.put("msg", "LoginFail");
-        } else if((Integer) categoryOne.get("rs_max_quantity") <= reservationCount){
+        } else if((Integer) categoryOne.get("rs_max_quantity") <= reservationListCount2){
             result.put("msg", "reCountFail");
         } else if(categoryOne.get("rs_cate_upper_code").equals(5) && !user.get("user_grant").equals(2)){
             result.put("msg", "grantFail");

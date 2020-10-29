@@ -203,7 +203,8 @@
 
         for(var i=1; i <= rs_max_quantity; i++){
             var obj = {
-                id : (String.fromCharCode([96+i])),
+                // id : (String.fromCharCode([96+i])),
+                id : i,
                 title : i
             }
             count_row.push(obj);
@@ -212,8 +213,8 @@
         for(var z=0; z < list.length; z++){
             var obj2 = {
                 id: z+1,
-                resourceId: (String.fromCharCode([96+z+1])),
-                // resourceId: list[z].resource_id,
+                // resourceId: (String.fromCharCode([96+z+1])),
+                resourceId: list[z].resource_id,
                 title: list[z].user_name + ' [' + list[z].category2 + ']',
                 start: list[z].rs_date + 'T' +list[z].rs_start_time,
                 end: list[z].rs_date + 'T' + list[z].rs_end_time,
@@ -319,7 +320,6 @@
 
         //예약폼 날짜, 시간 등록
         function dateInput(info) {
-
             var startT = info.startStr.substring(11,16);
             var endT = info.endStr.substring(11,16);
             var rs_date = info.startStr.substring(0,10);
