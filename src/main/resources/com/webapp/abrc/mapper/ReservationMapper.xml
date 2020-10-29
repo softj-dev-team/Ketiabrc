@@ -26,7 +26,8 @@
 			rs_end_time,
 			hp,
 			rs_cate_id,
-			rs_memo
+			rs_memo,
+			resource_id
 		) VALUES (
 			#{user_id},
 			#{user_name},
@@ -35,7 +36,8 @@
 			#{rs_end_time},
 			#{hp},
 			#{rs_cate_id},
-			#{rs_memo}
+			#{rs_memo},
+			#{resource_id}
 		)
     </insert>
 
@@ -49,6 +51,17 @@
 		<if test="rs_end_time != null and rs_end_time != ''">AND rs_end_time = #{rs_end_time}</if>
 	</select>
 
+	<select id="reservationListCount" parameterType="hashmap" resultType="int">
+		select
+       		count (*)
+		from reservation
+		where 1=1
+		AND rs_cate_id = #{rs_cate_id}
+		AND resource_id = #{i}
+		and(date_format(concat(rs_date,' ',rs_start_time,':00'),'%y-%m-%d %h:%i:%s') BETWEEN date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %h:%i:%s') and date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %h:%i:%s')
+    	or date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %h:%i:%s') BETWEEN date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %h:%i:01') and date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %h:%i:%s'))
+	</select>
+
 	<select id="getReservations" resultMap="reservationMap" parameterType="hashmap">
 		SELECT
 			DATE_FORMAT(A.reg_date,'%Y-%m-%d') reg_date,
@@ -60,6 +73,7 @@
 		ON A.rs_cate_id = B.rs_cate_id
 		where 1=1 AND rs_deleteflag='N'
 		<if test="rs_cate_id != null and rs_cate_id != ''">and A.rs_cate_id = #{rs_cate_id}</if>
+		<if test="rs_date != null and rs_date != ''">and A.rs_date = #{rs_date}</if>
 		order by A.rs_date desc
 	</select>
 
