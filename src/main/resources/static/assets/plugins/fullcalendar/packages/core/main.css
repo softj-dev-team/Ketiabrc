@@ -875,10 +875,24 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
 /* Toolbar
 --------------------------------------------------------------------------------------------------*/
 .fc-toolbar {
+/*201027 ~
   display: flex;
   justify-content: space-between;
   align-items: center;
+*/
+    width:100%;
 }
+
+.fc-toolbar::after{
+    content: '';
+    clear:both;
+    display:table;
+}
+
+.fc-left, .fc-center, .fc-right{
+    width:33%;
+    float:left;
+}/* ~ 201027*/
 
 .fc-toolbar.fc-header-toolbar {
   margin-bottom: 1.5em;

@@ -9,7 +9,7 @@
         <!-- nav start -->
         <th:block th:replace="frame/nav"></th:block>
         <!-- nav end -->
-        <div class="main-inner flexwrap">
+        <div class="main-inner clearfix">
             <div class="eqLeft">
                 <th:block th:if="${not #strings.isEmpty(categoryOne.rs_cate_name)}">
                     <h3 th:class="pageTitle2">
@@ -203,7 +203,8 @@
 
         for(var i=1; i <= rs_max_quantity; i++){
             var obj = {
-                id : (String.fromCharCode([96+i])), title : i
+                id : (String.fromCharCode([96+i])),
+                title : i
             }
             count_row.push(obj);
         }
@@ -212,6 +213,7 @@
             var obj2 = {
                 id: z+1,
                 resourceId: (String.fromCharCode([96+z+1])),
+                // resourceId: list[z].resource_id,
                 title: list[z].user_name + ' [' + list[z].category2 + ']',
                 start: list[z].rs_date + 'T' +list[z].rs_start_time,
                 end: list[z].rs_date + 'T' + list[z].rs_end_time,

@@ -1043,7 +1043,7 @@ Docs & License: https://fullcalendar.io/scheduler
                     html = this.renderResourceAndDayRows(props.resources, props.dates);
                 }
             }
-            this.thead.innerHTML = html;
+            $(this.thead).html(html); //this.thead.innerHTML = html; 20.10.27 수정
             this.processResourceEls(props.resources);
         };
         ResourceDayHeader.prototype.destroy = function () {

@@ -74,9 +74,9 @@
                 </div>
                 <div class="com-renderer" th:each="replylist : ${replylist}">
                     <div th:id="replyItem + ${replylist.reno}" th:style="'margin-left:' + 40*${replylist.redepth} + 'px;'">
-                    <div  class="com-btn flexwrap">
+                    <div class="com-btn"><!--201028 수정-->
                         <p class="com-id" th:text="${replylist.rewriter}"></p>
-                        <div>
+                        <div class="float-R"><!--201028 수정-->
                             <span class="day-c" th:text="${replylist.redate}"></span>
                             <th:block th:if="${session.loginId == replylist.user_id && session.loginId != null}">
                             <button type="button" class="red-t remove-btn" th:onclick="fn_replyDelete([[${replylist.reno}]])">삭제</button>

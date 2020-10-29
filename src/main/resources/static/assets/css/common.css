@@ -481,6 +481,7 @@ header.main-hd{
 .main-navi .navsub a{
     color:#636363;
     width:100%;
+    height: 50px;/*201028 추가*/
     line-height: 50px;
     display:block;
 }
@@ -518,6 +519,8 @@ header.main-hd{
 /*main*/
 /*eq-res*/
 .eqLeft{
+    float:left; /*201027 추가*/
+    width: 212px; /*201027 추가*/
     margin-right:20px;
 }
 .eqLeft h3{
@@ -563,8 +566,10 @@ header.main-hd{
     background:#fafafa;
 }
 .eqRight{
-    position: relative;
-    flex:1 1 85%;
+    position: relative;/*김영은 20201025 추가*/
+/*    flex:1 1 85%; 201027 주석*/
+    float:left;/*201027 추가*/
+    width: calc(100% - 232px);/*201027 추가*/
 }
 .eqCate{
     padding:15px;
@@ -762,6 +767,7 @@ h2.logo a{
 }
 .loginBox input{
     width:100%;
+    height: 40px;/*201028 추가*/
     line-height: 40px;
     height: 40px;
     margin-bottom:10px;
@@ -859,18 +865,20 @@ button#withdrawUser{
     max-width:1200px;
     margin:0 auto;
 }
-.sc-box{
-    display: flex;
-    justify-content: flex-end;
+.sc-box{/* 201028 수정 추가*/
+    overflow: hidden;
     margin: 20px 0;
+    float: right;
 }
 .sc-box form {
-    display: flex;
+    float: left;
+    overflow: hidden;
 }
 .sc-box form input {
     width: 300px;
     height: 35px;
-    border:1px solid #ccc
+    border:1px solid #ccc;
+    float: left;
 }
 .sc-box form select{
     width: 100px;
@@ -890,6 +898,7 @@ button#withdrawUser{
     border-left: none;
     background: #f0f0f0;
     color: #333;
+    float: left;
 }
 .sc-box a {
     display: block;
@@ -901,7 +910,8 @@ button#withdrawUser{
     text-align: center;
     line-height: 35px;
     margin-left: 10px;
-}
+    float: left;
+}/* ~*/
 button.btn-dblue{
     background: #3f5389;
     color: #fff;
@@ -996,15 +1006,16 @@ button.btn-dblue{
     height: 30px;
     padding-left: 10px;
 }
-.btn-box{
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom:50px;
+.btn-box{/*201028 수정 ~ */
+    float: right;
+    margin-bottom: 50px;
+    overflow: hidden;
 }
 .btn-box .btn-blue {
     width: 80px;
     height: 35px;
     margin-left: 10px;
+    float: left;
 }
 .btn-box a {
     display: block;
@@ -1016,9 +1027,10 @@ button.btn-dblue{
     text-align: center;
     line-height: 35px;
     margin-left: 10px;
+    float: left;
 }
 .fileBox{
-    display: flex;
+    overflow: hidden;
 }
 .fileBox .fileName{
     width:350px;
@@ -1027,9 +1039,11 @@ button.btn-dblue{
     background: #fff;
     border: 1px solid #ccc;
     text-align: left;
+    float: left;
 }
 .fileBox label{
-    display: inline-block;
+    display: block;
+    float: left;
     background: #f0f0f0;
     border: 1px solid #ccc;
     width: 70px;
@@ -1048,7 +1062,7 @@ button.btn-dblue{
     overflow: hidden;
     clip: rect(0,0,0,0);
     border: 0;
-}
+}/* ~ 201028*/
 .input1{
     width: 100%;
 }
@@ -1301,8 +1315,16 @@ button.btn-bgrey{
 }
 /*200929 예약페이지 추가*/
 .fc-center{
-    display: flex;
+/*    display: flex; 201027 ~ */
+    float:left;
+    text-align: center;
 }
+.fc-center>button, .fc-center>h2{
+    display:inline-block;
+}
+.fc-center>h2{
+    width:160px;
+}/* ~ 201027*/
 .fc-right{
     width:178px;
 }
@@ -1423,4 +1445,18 @@ button.btn-bgrey{
 }
 .file-up-con li{
     padding: 5px 10px;
+}
+
+/* 201028 추가 */
+.float-R {
+    float: right;
+}
+#eqpop .eqCate, #eqpop .eqinput{
+    float:left;
+}
+#eqpop .eqCate{
+    width:150px;
+}
+#eqpop .eqinput{
+    width:calc(100% - 170px)
 }
