@@ -56,10 +56,23 @@
        		count (*)
 		from reservation
 		where 1=1
+		AND rs_deleteflag = 'N'
 		AND rs_cate_id = #{rs_cate_id}
 		AND resource_id = #{i}
-		and(date_format(concat(rs_date,' ',rs_start_time,':00'),'%y-%m-%d %h:%i:%s') BETWEEN date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %h:%i:%s') and date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %h:%i:%s')
-    	or date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %h:%i:%s') BETWEEN date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %h:%i:01') and date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %h:%i:%s'))
+		<![CDATA[
+		AND (
+			(date_format(concat(rs_date,' ',rs_start_time,':00'),'%y-%m-%d %H:%i:%s') <= date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %H:%i:%s')
+    			and date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %H:%i:%s') >= date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %H:%i:%s'))
+    		or (date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %H:%i:%s') != date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %H:%i:%s')
+    			and date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %H:%i:%s') <= date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %H:%i:%s'))
+			)
+		AND(
+			date_format(concat(rs_date,' ',rs_start_time,':00'),'%y-%m-%d %H:%i:%s') BETWEEN  date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %H:%i:%s') and date_format(concat(#{rs_date},' ',#{rs_end_time},':00') ,'%y-%m-%d %H:%i:%s')
+			or date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %H:%i:%s')  BETWEEN date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %H:%i:01') and date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %H:%i:%s')
+			or date_format(concat(#{rs_date},' ',#{rs_start_time},':00') ,'%y-%m-%d %H:%i:%s')  BETWEEN  date_format(concat(rs_date,' ',rs_start_time,':00'),'%y-%m-%d %H:%i:%s') and date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %H:%i:%s')
+			or date_format(concat(#{rs_date},' ',#{rs_end_time},':00') ,'%y-%m-%d %H:%i:%s')  BETWEEN  date_format(concat(rs_date,' ',rs_start_time,':00'),'%y-%m-%d %H:%i:01') and date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %H:%i:%s')
+        )
+        ]]>
 	</select>
 
 	<select id="getReservations" resultMap="reservationMap" parameterType="hashmap">
@@ -97,12 +110,14 @@
 			rs_end_time = #{rs_end_time},
 			hp = #{hp},
 			rs_cate_id = #{rs_cate_id},
-			rs_memo = #{rs_memo}
+			rs_memo = #{rs_memo},
+			resource_id = #{resource_id},
+			rs_deleteflag='N'
 		where user_id = #{user_id} AND rs_no = #{rs_no}
 	</update>
 
 	<delete id="resDel" parameterType="hashmap">
-		UPDATE reservation
+		Update reservation
             SET rs_deleteflag='Y'
         WHERE rs_no=#{rs_no}
 	</delete>

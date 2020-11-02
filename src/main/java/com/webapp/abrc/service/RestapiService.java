@@ -90,16 +90,15 @@ public class RestapiService {
 	}
 
 	public void insertResSave(Map<String,Object> params, Map<String,Object> result) {
-        int reservationCount = reservationMapper.getReservationCount(params);
+//        int reservationCount = reservationMapper.getReservationCount(params);
         Map<String, Object> categoryOne = categoryMapper.getCategoryOne(params);
         Map<String, Object> user = userMapper.userSelectOne(params);
-        int reservationListCount2 = reservationMapper.reservationListCount(params);
 
         int reservationListCount = 0;
         for(int i=1; i<= (int) categoryOne.get("rs_max_quantity"); i++){
             params.put("i", i);
             reservationListCount = reservationMapper.reservationListCount(params);
-            if(reservationListCount == 0){
+             if(reservationListCount == 0){
                 params.put("resource_id", i);
                 break;
             }
@@ -108,7 +107,9 @@ public class RestapiService {
 
         if(params.get("user_id") == null){
             result.put("msg", "LoginFail");
-        } else if((Integer) categoryOne.get("rs_max_quantity") <= reservationListCount2){
+        } else if(params.get("rs_start_time").equals("0") || params.get("rs_end_time").equals("0")){
+            result.put("msg", "timeError");
+        } else if(params.get("resource_id") == null){
             result.put("msg", "reCountFail");
         } else if(categoryOne.get("rs_cate_upper_code").equals(5) && !user.get("user_grant").equals(2)){
             result.put("msg", "grantFail");
@@ -122,10 +123,30 @@ public class RestapiService {
 
     public void resUpdate(Map<String,Object> params, Map<String,Object> result, HttpSession session) {
         Map<String, Object> reservtion = reservationMapper.getReservationDetail(params);
+        Map<String, Object> categoryOne = categoryMapper.getCategoryOne(params);
+
         if(session.getAttribute("loginId") == null){
             result.put("msg", "LoginFail");
         } else if(!session.getAttribute("loginId").equals(reservtion.get("user_id"))){
             result.put("msg", "idFail");
+        } else {
+            reservationMapper.resDel(params);
+        }
+
+        int reservationListCount = 0;
+        for(int i=1; i<= (int) categoryOne.get("rs_max_quantity"); i++){
+            params.put("i", i);
+            reservationListCount = reservationMapper.reservationListCount(params);
+            if(reservationListCount == 0){
+                params.put("resource_id", i);
+                break;
+            }
+        }
+
+        if(params.get("rs_start_time").equals("0") || params.get("rs_end_time").equals("0")){
+            result.put("msg", "timeError");
+        } else if(params.get("resource_id") == null){
+            result.put("msg", "reCountFail");
         } else {
             params.put("user_id", reservtion.get("user_id"));
             reservationMapper.resUpdate(params);
