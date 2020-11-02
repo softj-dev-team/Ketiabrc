@@ -376,12 +376,13 @@ input[type=radio]:checked+label::after{
 }
 
 .sq-dot{
-    display:inline-block;
-    width:5px;
-    height:5px;
-    margin-right:10px;
-    margin-bottom:3px;
-    background:#3f5389;
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin-right: 10px;
+    margin-bottom: 3px;
+    background: #3f5389;
+    margin-top: 12px;
 }
 
 table input{
@@ -501,12 +502,13 @@ header.main-hd{
     color:#3f5389
 }
 .pageTitle2{
-    width:100%;
-    height:80px;
-    line-height: 80px;
-    padding-left:10px;
-    font-size:20px;
-    color:#3f5389
+    margin-top: 20px;
+    line-height: normal;
+    width: 100%;
+    padding-left: 10px;
+    font-size: 20px;
+    color: #3f5389;
+    overflow: hidden;
 }
 /*header, navi*/
 /*main*/
@@ -736,7 +738,8 @@ header.main-hd{
     margin-top:0;
 }
 .btn-eq2{
-    width:100%;
+    width: calc(100% - 18px);
+    float: right;
 }
 /*eq-res*/
 /*login*/
