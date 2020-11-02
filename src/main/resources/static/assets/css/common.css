@@ -1331,7 +1331,7 @@ button.btn-bgrey{
     display:inline-block;
 }
 .fc-center>h2{
-    width:160px;
+    width:200px;
 }/* ~ 201027*/
 .fc-right{
     width:178px;
@@ -1467,4 +1467,10 @@ button.btn-bgrey{
 }
 #eqpop .eqinput{
     width:calc(100% - 170px)
+}
+
+.sel_type{
+    float: left;
+    height: 35px;
+    line-height: 35px;
 }
