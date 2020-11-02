@@ -73,6 +73,7 @@
                                     <label for="uploadBtn" class="btn_file">파일선택</label>
                                     <input multiple="multiple" type="file" id="uploadBtn" name="uploadfile" class="uploadBtn">
                                 </div>
+                                <th:block th:if="${not #strings.isEmpty(listview)}">
                                 <th:block th:if="${listview.size() != 0}">
                                 <div class="up-file-box"> <!-- 201022.추가 -->
                                     <div class="file-up">
@@ -87,6 +88,7 @@
 <!--                                            <li file-value="2"><input type="checkbox" id="file-ch2" value="2"><label for="file-ch2"><span>파일2</span></label></li>-->
                                     </ul>
                                 </div>
+                                </th:block>
                                 </th:block>
                             </td>
                         </tr>
