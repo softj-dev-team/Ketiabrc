@@ -1085,19 +1085,22 @@ button.btn-dblue{
     border: 1px solid #333;
     padding: 5px 3px;
 }
-.comment {
+.comment {/*201028 수정 ~ */
+    width: 100%;
+    overflow: hidden;
     margin-bottom: 60px;
 }
 .com-t {
-    display: flex;
+    overflow: hidden;
     background: #f7f7f7;
     padding: 10px;
 }
 .com-t textarea{
-    width: 90%;
+    width: calc(90% - 10px);
     height: 80px;
     padding: 5px;
     resize: none;
+    float: left;
 }
 .com-t button{
     width: 10%;
@@ -1105,17 +1108,19 @@ button.btn-dblue{
     background: #3f5389;
     color: #fff;
     margin-left: 10px;
+    float: left;
 }
 .com-renderer {
     margin: 20px 0;
 }
+.com-btn{overflow: hidden;}
 .com-btn button{
-/*    width: 50px; 201007 삭제*/
     height: 30px;
     color: #3f5389;
-    padding:0 10px;/*201007 추가*/
+    padding:0 10px;
 }
 .com-id {
+    float: left;
     line-height: 30px;
     padding-left: 10px;
 }
@@ -1127,7 +1132,7 @@ button.btn-dblue{
     padding-left: 10px;
     min-height: 50px;
     background: #f5f5f5;
-}
+}/* ~ 201028*/
 .day-c {
     color: #636363;
 }

@@ -15,6 +15,10 @@ $('#resUpdateBtn').on("click",function () {
             alert("로그인 후 수정 가능합니다.");
         } else if(data.msg == "idFail"){
             alert("예약자 정보가 일치하지 않습니다.");
+        } else if(data.msg == "timeError"){
+            alert("예약 시간을 선택해주세요.");
+        } else if(data.msg == "reCountFail"){
+            alert("예약이 초과되었습니다. 예약시간을 확인해주세요.");
         } else {
             alert("ERROR");
         }
@@ -63,6 +67,8 @@ $('#resBtn').on("click",function () {
                 alert("로그인후 이용 가능합니다.");
             } else if(data.msg == "grantFail"){
                 alert("예약 권한이 없습니다.");
+            } else if(data.msg == "timeError"){
+                alert("예약 시간을 선택해주세요.");
             } else if(data.msg == "reCountFail"){
                 alert("예약이 초과되었습니다. 예약시간을 확인해주세요.");
             } else {
