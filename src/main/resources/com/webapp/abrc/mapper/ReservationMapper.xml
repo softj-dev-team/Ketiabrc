@@ -65,7 +65,12 @@
     			and date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %H:%i:%s') >= date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %H:%i:%s'))
     		or (date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %H:%i:%s') != date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %H:%i:%s')
     			and date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %H:%i:%s') <= date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %H:%i:%s'))
-			)
+			or (date_format(concat(rs_date,' ',rs_start_time,':00'),'%y-%m-%d %H:%i:%s') >= date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %H:%i:%s')
+        		and date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %H:%i:%s') <= date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %H:%i:%s'))
+			or (date_format(concat(rs_date,' ',rs_start_time,':00'),'%y-%m-%d %H:%i:%s') >= date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %H:%i:%s')
+        		and date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %H:%i:%s') >= date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %H:%i:%s')
+    			and date_format(concat(rs_date,' ',rs_start_time,':00'),'%y-%m-%d %H:%i:%s') != date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %H:%i:%s'))
+    		)
 		AND(
 			date_format(concat(rs_date,' ',rs_start_time,':00'),'%y-%m-%d %H:%i:%s') BETWEEN  date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %H:%i:%s') and date_format(concat(#{rs_date},' ',#{rs_end_time},':00') ,'%y-%m-%d %H:%i:%s')
 			or date_format(concat(rs_date,' ',rs_end_time,':00'),'%y-%m-%d %H:%i:%s')  BETWEEN date_format(concat(#{rs_date},' ',#{rs_start_time},':00'),'%y-%m-%d %H:%i:01') and date_format(concat(#{rs_date},' ',#{rs_end_time},':00'),'%y-%m-%d %H:%i:%s')
