@@ -3,17 +3,22 @@ $('#pwChBtn').on("click",function () {
     var password_cf = $('#password_cf').val();
     var formData = $('#pwChform').serialize();
 
-    if(password != password_cf){
+    if(password == ""){
+        alert("비밀번호를 입력해주세요.")
+    } else if(password_cf == ""){
+        alert("비밀번호를 입력해주세요.")
+    } else if(password != password_cf){
         alert("비밀번호가 일치하지 않습니다.");
+    } else {
+        postCallAjax('/api/pwChProc', formData, function(data){
+            if(data.msg == 'success'){
+                location.href=data.redirectUrl;
+            } else {
+                alert("ERROR");
+            }
+        });
     }
 
-    postCallAjax('/api/pwChProc', formData, function(data){
-        if(data.msg == 'success'){
-            location.href=data.redirectUrl;
-        } else {
-            alert("ERROR");
-        }
-    });
 
 })
 
