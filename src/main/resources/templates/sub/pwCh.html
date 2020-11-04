@@ -16,7 +16,7 @@
                     <label for="phone">연락처</label>
                     <input type="phone" id="phone" name="phone" placeholder="- 없이 숫자만 입력하세요" oninput="this.value = this.value.replace(/[^0-9]/g, '');" th:value="${user.phone}">
                     </th:block>
-                    <th:block th:if="${#strings.isEmpty(user.email) || not #strings.isEmpty(user.phone)}">
+                    <th:block th:unless="${not #strings.isEmpty(user.email) || not #strings.isEmpty(user.phone)}">
                     <label for="email">이메일</label>
                     <input type="text" placeholder="이메일" id="email" name="email">
                     <label for="phone">연락처</label>
