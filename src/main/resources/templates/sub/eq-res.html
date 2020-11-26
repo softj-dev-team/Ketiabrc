@@ -20,6 +20,7 @@
                     <form name="form1" id="form1" method="get">
                         <input type="hidden" name="rs_cate_id" th:value="${categoryOne.rs_cate_id}">
                         <input type="hidden" name="rs_max_quantity" th:value="${categoryOne.rs_max_quantity}">
+                        <input type="hidden" name="rs_max_time" th:value="${categoryOne.rs_max_time}">
                         <input type="hidden" name="rs_date">
                     </form>
                 </div>
@@ -31,7 +32,7 @@
                             <ul class="catesub">
                                 <th:block th:each="category2: ${category2List}">
                                 <li class="rs_max_quantity" th:if="${category1.rs_cate_id == category2.rs_cate_upper_code}"  th:value="${category2.rs_cate_id}" th:attr="upper-id=${category2.rs_cate_upper_code}, category-name=${category2.rs_cate_name}, rs-max-quantity=${category2.rs_max_quantity}">
-                                    <a th:href="@{/eq-res(rs_cate_id=${category2.rs_cate_id},rs_max_quantity=${category2.rs_max_quantity})}" th:text="${category2.rs_cate_name}" th:value="${category2.rs_cate_id}" th:attr="rs-max-time=${category2.rs_max_time}"></a>
+                                    <a th:href="@{/eq-res(rs_cate_id=${category2.rs_cate_id},rs_max_quantity=${category2.rs_max_quantity},rs_max_time=${category2.rs_max_time})}" th:text="${category2.rs_cate_name}" th:value="${category2.rs_cate_id}" th:attr="rs-max-time=${category2.rs_max_time}"></a>
                                 </li>
                                 </th:block>
                             </ul>
@@ -57,7 +58,7 @@
                             <ul class="catesub">
                                 <th:block th:each="category2: ${category2List}">
                                 <li th:if="${category1.rs_cate_id == category2.rs_cate_upper_code}"  th:value="${category2.rs_cate_id}" th:attr="upper-id=${category2.rs_cate_upper_code}, category-name=${category2.rs_cate_name}">
-                                    <a href="" class="rs_cate_id" th:text="${category2.rs_cate_name}" th:value="${category2.rs_cate_id}" th:attr="rs-cate-id=${category2.rs_cate_id}"></a>
+                                    <a href="" class="rs_cate_id" th:text="${category2.rs_cate_name}" th:value="${category2.rs_cate_id}" th:attr="rs-cate-id=${category2.rs_cate_id}, rs-max-time=${category2.rs_max_time}"></a>
                                 </li>
                                 </th:block>
                             </ul>
@@ -81,6 +82,7 @@
                         <label for="eqname">예약장비</label>
                         <input type="text" class="w300px" id="eqname" name="eqname" placeholder="왼쪽 카테고리에서 선택해주세요." readonly>
                         <input type="hidden" name="rs_cate_id">
+                        <input type="hidden" name="rs_max_time">
                         <br>
                         <label for="eqdate">예약날짜</label>
                         <input type="text" class="w100px datepicker2" id="eqdate" name="rs_date">
@@ -522,6 +524,7 @@
                     $("#eqpop input[name=rs_no]").val('');
                     $("#eqpop input[name=eqname]").val($('.btn-eq2').text());
                     $("#eqpop input[name=rs_cate_id]").val(getParam("rs_cate_id"));
+                    $("#eqpop input[name=rs_max_time]").val(getParam("rs_max_time"));
                     $("#eqpop input[name=hp]").val('');
                     // $('#eqpop select[name=rs_start_time]').val('0');
                     // $('#eqpop select[name=rs_end_time]').val('0');

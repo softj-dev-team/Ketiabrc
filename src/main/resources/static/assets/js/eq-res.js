@@ -1,7 +1,10 @@
 $('.rs_cate_id').click(function(e){
     e.preventDefault();
     var eq_v = $(this).attr('value');
+    var rs_max_time = $(this).attr('rs-max-time');
+
     $(this).parents('.flexwrap').find('input[name=rs_cate_id]').val(eq_v);
+    $(this).parents('.flexwrap').find('input[name=rs_max_time]').val(rs_max_time);
 });
 
 
@@ -52,9 +55,20 @@ $('.catesub a').click(function(){
 
 $('#resBtn').on("click",function () {
     var formData = $('#resUpdateForm').serialize();
-    var rs_start_time = $('select[name=rs_start_time]').val().substring(0,2);
-    var rs_end_time = $('select[name=rs_end_time]').val().substring(0,2);
-    var rs_max_time = $('.catesub a').attr("rs-max-time");
+    //시작 시간
+    var rs_start_time = $('select[name=rs_start_time]').val().substring(0,2) * 60;
+    //종료 시간
+    var rs_end_time = $('select[name=rs_end_time]').val().substring(0,2) * 60;
+    //시작 분 계산
+    var rs_start_time2 = $('select[name=rs_start_time]').val().substring(3,5);
+    var rs_end_time2 = $('select[name=rs_end_time]').val().substring(3,5);
+    if(rs_start_time2 == '30'){
+        rs_start_time += 30;
+    }
+    if(rs_end_time2 == '30'){
+        rs_end_time += 30;
+    }
+    var rs_max_time = $('input[name=rs_max_time]').val() * 60;
     var result = rs_end_time - rs_start_time;
 
     if(rs_max_time < result){
