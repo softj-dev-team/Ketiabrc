@@ -49,9 +49,10 @@ $('.canclebtn').click(function(){
     $('select').each(function(){
        $(this).find('option:first').attr('selected','true');
     });
-    $('input').each(function(){
+    /*$('input').each(function(){
        $(this).val('');
-    });
+    });*/
+    $(':text:not([id=user_name]):not([id=hp])').val('');
 })
 
 $('.catesub a').click(function(){
