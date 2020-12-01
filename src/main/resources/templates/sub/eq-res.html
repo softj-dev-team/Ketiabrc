@@ -21,7 +21,6 @@
                         <input type="hidden" name="rs_cate_id" th:value="${categoryOne.rs_cate_id}">
                         <input type="hidden" name="rs_max_quantity" th:value="${categoryOne.rs_max_quantity}">
                         <input type="hidden" name="rs_max_time" th:value="${categoryOne.rs_max_time}">
-                        <input type="hidden" name="rs_date">
                     </form>
                 </div>
                 <div class="eqCate">
@@ -124,7 +123,7 @@
                         <textarea class="w100" name="rs_memo" id="rs_memo"></textarea>
                         <input type="hidden" name="rs_no">
                         <div class="flexEnd">
-                            <button type="button" class="btn-grey mr10 cancelbtn">취소</button>
+                            <button type="button" class="btn-grey mr10 canclebtn">취소</button>
                             <button type="button" class="btn-blue" id="resUpdateBtn">수정하기</button>
                             <button type="button" class="btn-blue" id="resBtn">예약하기</button>
                         </div>
@@ -137,6 +136,19 @@
     <script src="../assets/plugins/malihuScrollbar/jquery.mCustomScrollbar.js"></script>
     <script type="text/javascript" th:src="'assets/js/'+${jsFileName}+'.js'"></script>
     <script th:inline="javascript">
+        var calendar;
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+            dd='0'+dd
+        }
+        if(mm<10) {
+            mm='0'+mm
+        }
+        today = yyyy+'-'+mm+'-'+dd;
+
         $(".datepicker").datepicker({
             monthNames: ['01','02','03','04','05','06','07','08','09','10','11','12'], // 월의 한글 형식.\
             monthNamesShort: [ '01','02','03','04','05','06','07','08','09','10','11','12' ],
@@ -146,11 +158,16 @@
             dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'], //달력의 요일 부분 Tooltip 텍스트
             numberOfMonths: [1,1], // 1행 2열로 표시
             onSelect: function(dateText, inst) {
-                var date = $(this).val();
-                document.form1.rs_date.value = date;
-                document.form1.submit();
+                $('.datepicker').datepicker('setDate',dateText);
+
+                calendar.changeView('resourceTimeGridDay', dateText);
+
+                if(dateText != null && dateText){
+                    today = dateText;
+                }
             }
         });
+
 
         $(".datepicker2").datepicker({
             monthNames: ['01','02','03','04','05','06','07','08','09','10','11','12'], // 월의 한글 형식.\
@@ -175,26 +192,6 @@
                 results = regex.exec(location.search);
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
-
-        var calendar;
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth()+1; //January is 0!
-        var yyyy = today.getFullYear();
-        if(dd<10) {
-            dd='0'+dd
-        }
-        if(mm<10) {
-            mm='0'+mm
-        }
-        today = yyyy+'-'+mm+'-'+dd;
-        if(getParameterByName("rs_date") != null && getParameterByName("rs_date") != ''){
-            today = getParameterByName("rs_date");
-        }
-
-        $(document).ready(function(){
-            $('.datepicker').datepicker('setDate', getParameterByName('rs_date'));
-        });
 
         var rs_max_quantity = getParameterByName("rs_max_quantity");
         var count_row = [];
@@ -227,7 +224,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
+            calendar = new FullCalendar.Calendar(calendarEl, {
                 locale: 'ko',
                 schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
                 defaultView: 'resourceTimeGridDay',
@@ -237,6 +234,7 @@
                 initialView: 'resourceTimeGridDay',
                 plugins: ['interaction', 'resourceDayGrid', 'resourceTimeGrid', 'dayGrid', 'timeGrid'],
                 allDaySlot: false,//종일 이벤트 숨기기
+                slotLabelInterval:30,//slotDuration의 길이가 15 분 또는 30 분이더라도 헤더 레이블이 시간 표시에 나타납니다.
                 header: {
                     left: 'resourceTimeGridDay,timeGridWeek,dayGridMonth',
                     center: 'prev title next',
@@ -246,7 +244,7 @@
                     resourceTimeGridDay: {
                         type: 'resourceTimeGridDay',
                         buttonText: 'day',
-                        eventLimit: 3 // adjust to 6 only for timeGridWeek/timeGridDay
+                        eventLimit: 3 // adjust to 6 only for timeGridWeek/timeGridDay,
                     },
                     timeGrid: {
                         type: 'timeGrid',
@@ -294,6 +292,9 @@
                 },
                 //새로운 날짜 집합이 렌더링되면 트리거됩니다.
                 datesRender: function(arg) {
+                    var date = calendar.getDate();
+                    $('.datepicker').datepicker('setDate',getFormatDate(new Date(date)));
+
                     //마우스 우클릭
                     arg.el.oncontextmenu = (function(e){ //20.06.25 수정
                         callRightSmallNavEmptyDate(e, arg);
@@ -315,9 +316,6 @@
                 }
             });
             calendar.render();
-
-            // $("tr:nth-child(1) > td.fc-axis > span").text('00:00');
-
         });
 
         //예약폼 날짜, 시간 등록
@@ -331,7 +329,7 @@
             //시간 종료
             $('#eqpop select[name=rs_end_time]').val(endT);
             //예약등록시 날짜에 입력
-            $('#eqpop #eqdate').datepicker("setDate", rs_date);
+            $('#eqpop #eqdate').datepicker("setDate", today);
 
             /*var clientX= info.jsEvent.clientX;
             var clientY= info.jsEvent.clientY;
@@ -536,24 +534,6 @@
                 e.preventDefault();
             }
         }
-        //10.25 김지훈
-        // $(".datepicker").datepicker({
-        //     monthNames: ['01','02','03','04','05','06','07','08','09','10','11','12'], // 월의 한글 형식.\
-        //     monthNamesShort: [ '01','02','03','04','05','06','07','08','09','10','11','12' ],
-        //     dateFormat : "yy-mm-dd",
-        //     showMonthAfterYear:true, //년도 먼저 나오고, 뒤에 월 표시
-        //     dayNamesMin: ['일','월','화','수','목','금','토'], //달력의 요일 부분 텍스트
-        //     dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'], //달력의 요일 부분 Tooltip 텍스트
-        //     numberOfMonths: [1,1], // 1행 2열로 표시
-        //     onSelect: function(dateText, inst) {
-        //         //datepicker 에서 선택한 날짜를 캘린더 에 전달 해당 날짜 timeGride 로 이동
-        //         calendar.changeView(
-        //             'resourceTimeGridDay', dateText
-        //         );
-        //         //데이트피커 선택시 날짜를 변경
-        //         today = dateText
-        //     }
-        // });
     </script>
 </th:block>
 </body>

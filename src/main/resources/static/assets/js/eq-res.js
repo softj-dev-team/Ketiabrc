@@ -42,10 +42,16 @@ $('.ver2 .catesub li a').click(function(e){
     var eq = $(this).text();
     $(this).parents('.flexwrap').find('#eqname').val(eq);
 });
-$('.cancelbtn').click(function(){
+$('.canclebtn').click(function(){
     $(this).parents('#eqpop').removeClass('on');
     $(this).parents('.eqpop_insert').removeClass('on');
-    location.reload();
+    // location.reload();
+    $('select').each(function(){
+       $(this).find('option:first').attr('selected','true');
+    });
+    $('input').each(function(){
+       $(this).val('');
+    });
 })
 
 $('.catesub a').click(function(){
