@@ -75,8 +75,14 @@
                         <input type="text" class="w100px" id="user_name" name="user_name" th:value="${user.user_name}">
                         </th:block>
                         <br>
+                        <th:block th:if="${session.loginId == null}">
                         <label for="hp">연락처</label>
                         <input type="text" class="w100px" id="hp" name="hp" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+                        </th:block>
+                        <th:block th:if="${session.loginId != null}">
+                        <label for="hp">연락처</label>
+                        <input type="text" class="w100px" id="hp" name="hp" th:value="${user.phone}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+                        </th:block>
                         <br>
                         <label for="eqname">예약장비</label>
                         <input type="text" class="w300px" id="eqname" name="eqname" placeholder="왼쪽 카테고리에서 선택해주세요." readonly>
@@ -523,7 +529,6 @@
                     $("#eqpop input[name=eqname]").val($('.btn-eq2').text());
                     $("#eqpop input[name=rs_cate_id]").val(getParam("rs_cate_id"));
                     $("#eqpop input[name=rs_max_time]").val(getParam("rs_max_time"));
-                    $("#eqpop input[name=hp]").val('');
                     // $('#eqpop select[name=rs_start_time]').val('0');
                     // $('#eqpop select[name=rs_end_time]').val('0');
                     $("#eqpop textarea[name=rs_memo]").val('');
