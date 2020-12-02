@@ -10,22 +10,41 @@ $('.rs_cate_id').click(function(e){
 
 $('#resUpdateBtn').on("click",function () {
     var formData = $('#resUpdateForm').serialize();
+    //시작 시간
+    var rs_start_time = $('select[name=rs_start_time]').val().substring(0,2) * 60;
+    //종료 시간
+    var rs_end_time = $('select[name=rs_end_time]').val().substring(0,2) * 60;
+    //시작 분 계산
+    var rs_start_time2 = $('select[name=rs_start_time]').val().substring(3,5);
+    var rs_end_time2 = $('select[name=rs_end_time]').val().substring(3,5);
+    if(rs_start_time2 == '30'){
+        rs_start_time += 30;
+    }
+    if(rs_end_time2 == '30'){
+        rs_end_time += 30;
+    }
+    var rs_max_time = $('input[name=rs_max_time]').val() * 60;
+    var result = rs_end_time - rs_start_time;
 
-    postCallAjax('/api/resUpdate', formData, function(data){
-        if(data.msg == 'success'){
-            location.reload();
-        } else if(data.msg == "LoginFail"){
-            alert("로그인 후 수정 가능합니다.");
-        } else if(data.msg == "idFail"){
-            alert("예약자 정보가 일치하지 않습니다.");
-        } else if(data.msg == "timeError"){
-            alert("예약 시간을 선택해주세요.");
-        } else if(data.msg == "reCountFail"){
-            alert("예약이 초과되었습니다. 예약시간을 확인해주세요.");
-        } else {
-            alert("ERROR");
-        }
-    });
+    if(rs_max_time < result){
+        alert("예약 최대시간을 초과했습니다.");
+    } else {
+        postCallAjax('/api/resUpdate', formData, function(data){
+            if(data.msg == 'success'){
+                location.reload();
+            } else if(data.msg == "LoginFail"){
+                alert("로그인 후 수정 가능합니다.");
+            } else if(data.msg == "idFail"){
+                alert("예약자 정보가 일치하지 않습니다.");
+            } else if(data.msg == "timeError"){
+                alert("예약 시간을 선택해주세요.");
+            } else if(data.msg == "reCountFail"){
+                alert("예약이 초과되었습니다. 예약시간을 확인해주세요.");
+            } else {
+                alert("ERROR");
+            }
+        });
+    }
 })
 
 
